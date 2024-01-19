@@ -180,6 +180,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -193,6 +194,15 @@
     <Compile Include="Models\SI_SOAS.cs" />
     <Compile Include="Models\SI_PROSOA.cs" />
     <Compile Include="Models\SI_MAPPAGES.cs" />
+    <Compile Include="Models\SI_FINANCEMENT.cs" />
+    <Compile Include="Models\SI_ACTIVITE.cs" />
+    <Compile Include="Models\SI_CATEGORIE.cs" />
+    <Compile Include="Models\SI_CONVENTION.cs" />
+    <Compile Include="Models\SI_ENGAGEMENT.cs" />
+    <Compile Include="Models\SI_MINISTERE.cs" />
+    <Compile Include="Models\SI_MISSION.cs" />
+    <Compile Include="Models\SI_PROCEDURE.cs" />
+    <Compile Include="Models\SI_PROGRAMME.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2067,17 +2077,24 @@
     <Content Include="Assets\img\df.png" />
     <Content Include="Assets\img\logo-soft.png" />
     <Content Include="Assets\img\logoMellis.png" />
+    <Content Include="Assets\js\Mis.js" />
+    <Content Include="Assets\js\Min.js" />
+    <Content Include="Assets\js\Act.js" />
+    <Content Include="Assets\js\Prog.js" />
+    <Content Include="Assets\js\Proc.js" />
+    <Content Include="Assets\js\Enga.js" />
+    <Content Include="Assets\js\Cat.js" />
+    <Content Include="Assets\js\Conv.js" />
     <Content Include="Assets\js\Historiques.js" />
     <Content Include="Assets\js\bddTom.js" />
     <Content Include="Assets\js\Accueil.js" />
     <Content Include="Assets\js\ParamMDP.js" />
-    <Content Include="Assets\js\Ftp.js" />
+    <Content Include="Assets\js\Finan.js" />
     <Content Include="Assets\js\MappagUserDetails.js" />
     <Content Include="Assets\js\MappagUser.js" />
     <Content Include="Assets\js\Login.js" />
     <Content Include="Assets\js\DroitUser.js" />
     <Content Include="Assets\js\DroitDetails.js" />
-    <Content Include="Assets\js\DetailCrypto.js" />
     <Content Include="Assets\js\Projet.js" />
     <Content Include="Assets\js\PROSOA.js" />
     <Content Include="Assets\js\RoleDetails.js" />
@@ -2085,7 +2102,6 @@
     <Content Include="Assets\js\script.js" />
     <Content Include="Assets\js\Droit.js" />
     <Content Include="Assets\js\MaPS.js" />
-    <Content Include="Assets\js\Crypto.js" />
     <Content Include="Assets\js\SOA.js" />
     <Content Include="Assets\js\User.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.js" />
@@ -2228,6 +2244,15 @@
     <Content Include="Views\SuperAdmin\SuperAdminSOA.cshtml" />
     <Content Include="Views\SuperAdmin\PROSOAList.cshtml" />
     <Content Include="Views\SuperAdmin\SuperAdminPROSOA.cshtml" />
+    <Content Include="Views\Parametre\FinanCreate.cshtml" />
+    <Content Include="Views\Parametre\ConvCreate.cshtml" />
+    <Content Include="Views\Parametre\CatCreate.cshtml" />
+    <Content Include="Views\Parametre\EngaCreate.cshtml" />
+    <Content Include="Views\Parametre\ProcCreate.cshtml" />
+    <Content Include="Views\Parametre\MinCreate.cshtml" />
+    <Content Include="Views\Parametre\MisCreate.cshtml" />
+    <Content Include="Views\Parametre\ProgCreate.cshtml" />
+    <Content Include="Views\Parametre\ActCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
