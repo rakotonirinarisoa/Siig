@@ -466,5 +466,106 @@ namespace apptab.Controllers
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
             }
         }
-    }
+        //DELETE SOA
+        [HttpPost]
+		public JsonResult DeleteSOA(SI_USERS suser, string SOAid)
+		{
+			var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+			if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+			try
+			{
+				int IDSOA = int.Parse(SOAid);
+				var SOA = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA);
+                var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDSOA).Select(F_ProjetSoa=> F_ProjetSoa.IDSOA).ToList();
+				if (SOA != null )
+				{
+					db.SI_SOAS.Remove(SOA);
+                    if (ProjSoa != null)
+                    {
+                        foreach (var p in ProjSoa)
+                        {
+							var F_del = db.SI_PROSOA.Where(F_remSoa => F_remSoa.IDSOA == p).FirstOrDefault();
+                            db.SI_PROSOA.Remove(F_del);
+						}
+                        
+                    }
+					db.SaveChanges();
+					return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression SOA avec succès. " }, settings));
+				}
+				else
+				{
+					return Json(JsonConvert.SerializeObject(new { type = "error", msg = "message" }, settings));
+				}
+			}
+			catch (Exception e)
+			{
+				return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+			}
+		}
+        [HttpGet]
+		public ActionResult SuperAdminDetailFSOA(SI_USERS suser,string SOAid)
+		{
+			return View();
+		}
+		[HttpPost]
+		public ActionResult DetailsFSOA(SI_USERS suser, string SOAID)
+		{
+			var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+			if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+			try
+			{
+				int IDSOA = int.Parse(SOAID);
+				var soa = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA);
+
+				if (soa != null)
+				{
+                    var soas = new
+                    {
+                        soa = soa.SOA
+					};
+
+					return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Liste des SOA", data =  soas.soa }, settings));
+				}
+				else
+				{
+					return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur de connexion" }, settings));
+				}
+			}
+			catch (Exception e)
+			{
+				return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+			}
+		}
+        public ActionResult UpdatFSOA(SI_USERS suser, string SOAID,string SOAID_2)
+        {
+			var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+			if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+			try
+			{
+				int IDSOA = int.Parse(SOAID);
+				var SOAEXIST = db.SI_SOAS.Where(soaid =>soaid.ID == IDSOA).FirstOrDefault();
+				var SOAupdate = db.SI_SOAS.FirstOrDefault(soaid => soaid.ID == IDSOA);
+				if (SOAEXIST != null)
+				{
+                    SOAupdate.SOA = SOAID_2;
+
+					//var eeee = db.GetValidationErrors();
+					db.SaveChanges();
+
+					return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement SOA avec succès. ", data = SOAID_2 }, settings));
+				}
+				else
+				{
+					return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Le mappage existe déjà. " }, settings));
+				}
+			}
+			catch (Exception e)
+			{
+				return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+			}
+		}
+	}
 }

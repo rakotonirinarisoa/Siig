@@ -49,6 +49,12 @@ function GetListSociete() {
                 code += `
                     <tr data-societeId="${v.ID}" class="text-nowrap last-hover">
                         <td>${v.SOA}</td>
+                        <td class="elerfr">
+                            <div onclick="DetailSOA('${v.ID}')"><i class="fa fa-pen-alt text-warning"></i></div>
+                        </td>
+                        <td class="elerfr">
+                            <div onclick="deleteSoa('${v.ID}')"><i class="fa fa-trash text-danger"></i></div>
+                        </td>
                     </tr>
                 `;
             });
@@ -104,3 +110,42 @@ $(`[data-action="AddnewSociete"]`).click(function () {
         },
     });
 });
+function deleteSoa(id) {
+    alert("eto");
+    if (!confirm("Etes-vous sûr de vouloir supprimer le mappage du PROJET ?")) return;
+    let formData = new FormData();
+
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDPROJET);
+
+    formData.append("SOAid", id);
+
+    $.ajax({
+        type: "POST",
+        url: urlOrigin + '/SuperAdmin/DeleteSOA',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+
+            $(`[data-societeId="${id}"]`).remove();
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+}
+function DetailSOA(id) {
+    window.location = urlOrigin + "/SuperAdmin/SuperAdminDetailFSOA?SOAID=" + id;
+}
+//SuperAdminDetailFSOA

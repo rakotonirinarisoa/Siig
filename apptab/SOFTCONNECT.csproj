@@ -2077,6 +2077,7 @@
     <Content Include="Assets\img\df.png" />
     <Content Include="Assets\img\logo-soft.png" />
     <Content Include="Assets\img\logoMellis.png" />
+    <Content Include="Assets\js\DetailsFSoaUpdate.js" />
     <Content Include="Assets\js\Mis.js" />
     <Content Include="Assets\js\Min.js" />
     <Content Include="Assets\js\Act.js" />
@@ -2253,6 +2254,7 @@
     <Content Include="Views\Parametre\MisCreate.cshtml" />
     <Content Include="Views\Parametre\ProgCreate.cshtml" />
     <Content Include="Views\Parametre\ActCreate.cshtml" />
+    <Content Include="Views\SuperAdmin\SuperAdminDetailFSOA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
