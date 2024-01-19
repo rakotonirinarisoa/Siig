@@ -2179,6 +2179,7 @@
     <Content Include="Assets\admlte\plugins\summernote\summernote.js.map" />
     <Content Include="Assets\admlte\plugins\summernote\summernote.min.js.map" />
     <Content Include="Assets\admlte\plugins\toastr\toastr.js.map" />
+    <Content Include=".editorconfig" />
     <None Include="deploy" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

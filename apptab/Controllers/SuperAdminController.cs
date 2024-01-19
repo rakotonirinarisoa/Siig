@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
-using System.Runtime;
-using System.Web;
 using System.Web.Mvc;
 
 namespace apptab.Controllers

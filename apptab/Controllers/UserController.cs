@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using apptab;
-using Microsoft.Build.Framework;
 using Newtonsoft.Json;
-using System.Runtime;
-using System.Security.Cryptography;
 using System.Web.UI.WebControls;
 
 namespace SOFTCONNECT.Controllers

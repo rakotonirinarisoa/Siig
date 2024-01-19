@@ -263,3 +263,5 @@ __pycache__/
 appsettings.json
 private.key
 app.config
+
+packages
