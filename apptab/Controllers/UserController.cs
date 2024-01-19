@@ -42,11 +42,11 @@ namespace SOFTCONNECT.Controllers
 				{
 					var users = db.SI_USERS.Select(a => new
 					{
-						LOGIN = a.LOGIN,
-						PWD = a.PWD,
+                        a.LOGIN,
+                        a.PWD,
 						ROLE = a.ROLE.ToString(), //db.OPA_ROLES.Where(x => x.ID == a.ROLE).FirstOrDefault().INTITULES,
-						ID = a.ID,
-                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET).FirstOrDefault().PROJET
+                        a.ID,
+                        db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET).FirstOrDefault().PROJET
 					}).ToList();
 					return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
 				}
@@ -54,11 +54,11 @@ namespace SOFTCONNECT.Controllers
 				{
 					var users = db.SI_USERS.Where(x => x.ROLE != Role.SAdministrateur && x.IDPROJET == exist.IDPROJET).Select(a => new
 					{
-						LOGIN = a.LOGIN,
-						PWD = a.PWD,
+                        a.LOGIN,
+                        a.PWD,
 						ROLE = a.ROLE.ToString(), //db.OPA_ROLES.Where(x => x.ID == a.ROLE).FirstOrDefault().INTITULES,
-						ID = a.ID,
-                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET).FirstOrDefault().PROJET
+                        a.ID,
+                        db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET).FirstOrDefault().PROJET
 					}).ToList();
 					return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
 				}
@@ -266,7 +266,7 @@ namespace SOFTCONNECT.Controllers
 
 				if (String.IsNullOrEmpty(test.IDPROJET.ToString())) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas rattaché à une société. " }, settings));
 
-                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", Data = new { ROLE = test.ROLE, IDPROJET = test.IDPROJET } }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", Data = new { test.ROLE, test.IDPROJET } }, settings));
             }
             catch (Exception ex)
             {

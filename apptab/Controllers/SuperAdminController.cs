@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace apptab.Controllers
 {
@@ -26,18 +28,14 @@ namespace apptab.Controllers
             return View();
         }
 
-        public JsonResult FillTable(SI_USERS suser)
+        public async Task<JsonResult> FillTable(SI_USERS suser)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD) != null;
             if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
-                var societe = db.SI_PROJETS.Select(a => new
-                {
-                    PROJET = a.PROJET,
-                    ID = a.ID
-                }).ToList();
+                var societe = await db.SI_PROJETS.Where(x => x.DeletionDate == null).ToListAsync();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = societe }, settings));
             }
@@ -107,8 +105,8 @@ namespace apptab.Controllers
             {
                 var societe = db.SI_SOAS.Select(a => new
                 {
-                    SOA = a.SOA,
-                    ID = a.ID
+                    a.SOA,
+                    a.ID
                 }).ToList();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = societe }, settings));
@@ -166,9 +164,9 @@ namespace apptab.Controllers
             {
                 var societe = db.SI_PROSOA.Select(a => new
                 {
-                    PROJET = db.SI_PROJETS.FirstOrDefault(x => x.ID == a.IDPROJET).PROJET,
-                    SOA = db.SI_SOAS.FirstOrDefault(x => x.ID == a.IDSOA).SOA,
-                    ID = a.ID
+                    db.SI_PROJETS.FirstOrDefault(x => x.ID == a.IDPROJET).PROJET,
+                    db.SI_SOAS.FirstOrDefault(x => x.ID == a.IDSOA).SOA,
+                    a.ID
                 }).ToList();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = societe }, settings));
@@ -221,8 +219,8 @@ namespace apptab.Controllers
         {
             var user = db.SI_PROJETS.Select(a => new
             {
-                PROJET = a.PROJET,
-                ID = a.ID
+                a.PROJET,
+                a.ID
             }).ToList();
 
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = user }, settings));
@@ -234,8 +232,8 @@ namespace apptab.Controllers
         {
             var user = db.SI_SOAS.Select(a => new
             {
-                SOA = a.SOA,
-                ID = a.ID
+                a.SOA,
+                a.ID
             }).ToList();
 
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = user }, settings));
@@ -257,10 +255,10 @@ namespace apptab.Controllers
             {
                 var mapp = db.SI_MAPPAGES.Select(a => new
                 {
-                    PROJET = db.SI_PROJETS.FirstOrDefault(x => x.ID == a.IDPROJET).PROJET,
-                    INSTANCE = a.INSTANCE,
-                    DBASE = a.DBASE,
-                    ID = a.ID
+                    db.SI_PROJETS.FirstOrDefault(x => x.ID == a.IDPROJET).PROJET,
+                    a.INSTANCE,
+                    a.DBASE,
+                    a.ID
                 }).ToList();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = mapp }, settings));
@@ -328,7 +326,7 @@ namespace apptab.Controllers
                         id = map.ID
                     };
 
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = new { PROJET = mapp.soc, INSTANCE = mapp.inst, AUTH = mapp.auth, CONNEXION = mapp.conn, MDP = mapp.mdp, BASED = mapp.baseD, id = mapp.id } }, settings));
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = new { PROJET = mapp.soc, INSTANCE = mapp.inst, AUTH = mapp.auth, CONNEXION = mapp.conn, MDP = mapp.mdp, BASED = mapp.baseD, mapp.id } }, settings));
                 }
                 else
                 {
