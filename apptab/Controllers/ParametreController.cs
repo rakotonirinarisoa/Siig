@@ -1,0 +1,669 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+
+namespace apptab.Controllers
+{
+    public class ParametreController : Controller
+    {
+        private readonly SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+
+        JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
+
+        //Financement//
+        public ActionResult FinanCreate()
+        {
+            ViewBag.Controller = "Paramétrage Financement";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsFinan(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_FINANCEMENT.FirstOrDefault(a => a.IDPROJET == crpt);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer un nouveau financement. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateFinan(SI_USERS suser, SI_FINANCEMENT param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_FINANCEMENT.FirstOrDefault(a => a.IDPROJET == IdS);
+
+                if (SExist != null)
+                {
+                    SExist.FINANCEMENT = param.FINANCEMENT;
+
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_FINANCEMENT()
+                    {
+                        FINANCEMENT = param.FINANCEMENT,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_FINANCEMENT.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Convention//
+        public ActionResult ConvCreate()
+        {
+            ViewBag.Controller = "Paramétrage Convention";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsConv(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_CONVENTION.FirstOrDefault(a => a.IDPROJET == crpt);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer une nouvelle convention. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateConv(SI_USERS suser, SI_CONVENTION param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_CONVENTION.FirstOrDefault(a => a.IDPROJET == IdS);
+
+                if (SExist != null)
+                {
+                    SExist.CONVENTION = param.CONVENTION;
+
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_CONVENTION()
+                    {
+                        CONVENTION = param.CONVENTION,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_CONVENTION.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Categorie//
+        public ActionResult CatCreate()
+        {
+            ViewBag.Controller = "Paramétrage Catégorie";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsCat(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_CATEGORIE.FirstOrDefault(a => a.IDPROJET == crpt);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer une nouvelle catégorie. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCat(SI_USERS suser, SI_CATEGORIE param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_CATEGORIE.FirstOrDefault(a => a.IDPROJET == IdS);
+
+                if (SExist != null)
+                {
+                    SExist.CATEGORIE = param.CATEGORIE;
+
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_CATEGORIE()
+                    {
+                        CATEGORIE = param.CATEGORIE,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_CATEGORIE.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Engagement//
+        public ActionResult EngaCreate()
+        {
+            ViewBag.Controller = "Paramétrage Engagement";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsEnga(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_ENGAGEMENT.FirstOrDefault(a => a.IDPROJET == crpt);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer un nouvel engagement. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateEnga(SI_USERS suser, SI_ENGAGEMENT param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_ENGAGEMENT.FirstOrDefault(a => a.IDPROJET == IdS);
+
+                if (SExist != null)
+                {
+                    SExist.ENGAGEMENT = param.ENGAGEMENT;
+
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_ENGAGEMENT()
+                    {
+                        ENGAGEMENT = param.ENGAGEMENT,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_ENGAGEMENT.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Procédure//
+        public ActionResult ProcCreate()
+        {
+            ViewBag.Controller = "Paramétrage Procédure";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsProc(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_PROCEDURE.FirstOrDefault(a => a.IDPROJET == crpt);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer un nouveau procédure. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateProc(SI_USERS suser, SI_PROCEDURE param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_PROCEDURE.FirstOrDefault(a => a.IDPROJET == IdS);
+
+                if (SExist != null)
+                {
+                    SExist.PROCEDURE = param.PROCEDURE;
+
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_PROCEDURE()
+                    {
+                        PROCEDURE = param.PROCEDURE,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_PROCEDURE.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Ministère//
+        public ActionResult MinCreate()
+        {
+            ViewBag.Controller = "Paramétrage Ministère";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsMin(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_MINISTERE.FirstOrDefault(a => a.IDPROJET == crpt);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer un nouveau ministère. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateMin(SI_USERS suser, SI_MINISTERE param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_MINISTERE.FirstOrDefault(a => a.IDPROJET == IdS);
+
+                if (SExist != null)
+                {
+                    SExist.MINISTERE = param.MINISTERE;
+
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_MINISTERE()
+                    {
+                        MINISTERE = param.MINISTERE,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_MINISTERE.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Mission//
+        public ActionResult MisCreate()
+        {
+            ViewBag.Controller = "Paramétrage Mission";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsMis(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_MISSION.FirstOrDefault(a => a.IDPROJET == crpt);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer une nouvelle mission. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateMis(SI_USERS suser, SI_MISSION param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_MISSION.FirstOrDefault(a => a.IDPROJET == IdS);
+
+                if (SExist != null)
+                {
+                    SExist.MISSION = param.MISSION;
+
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_MISSION()
+                    {
+                        MISSION = param.MISSION,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_MISSION.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Programme//
+        public ActionResult ProgCreate()
+        {
+            ViewBag.Controller = "Paramétrage Programme";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsProg(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_PROGRAMME.FirstOrDefault(a => a.IDPROJET == crpt);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer un nouveau programme. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateProg(SI_USERS suser, SI_PROGRAMME param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_PROGRAMME.FirstOrDefault(a => a.IDPROJET == IdS);
+
+                if (SExist != null)
+                {
+                    SExist.PROGRAMME = param.PROGRAMME;
+
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_PROGRAMME()
+                    {
+                        PROGRAMME = param.PROGRAMME,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_PROGRAMME.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Activité//
+        public ActionResult ActCreate()
+        {
+            ViewBag.Controller = "Paramétrage Activité";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsAct(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_ACTIVITE.FirstOrDefault(a => a.IDPROJET == crpt);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer une nouvelle activité. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateAct(SI_USERS suser, SI_ACTIVITE param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_ACTIVITE.FirstOrDefault(a => a.IDPROJET == IdS);
+
+                if (SExist != null)
+                {
+                    SExist.ACTIVITE = param.ACTIVITE;
+
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_ACTIVITE()
+                    {
+                        ACTIVITE = param.ACTIVITE,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_ACTIVITE.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+    }
+}

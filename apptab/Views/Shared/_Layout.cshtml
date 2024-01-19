@@ -125,7 +125,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="../SuperAdmin/SOAList" class="nav-link">
-                                            <i class="nav-icon nav-icon fas fa-file-alt"></i>
+                                            <i class="nav-icon fas fa-id-card-alt" s></i>
                                             <p>
                                                 Gestion des SOA
                                             </p>
@@ -158,82 +158,74 @@
                                 </a>
                                 <ul style="list-style-type: none; display:block" class="nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                     <li class="nav-item">
-                                        <a href="../SuperAdmin/ProjetList" class="nav-link">
-                                            <i class="nav-icon fas fa-id-card"></i>
+                                        <a href="../Parametre/FinanCreate" class="nav-link">
+                                            <i class="nav-icon fa fa-credit-card"></i>
                                             <p>
-                                                Financements
+                                                Financement
                                             </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../SuperAdmin/SOAList" class="nav-link">
-                                            <i class="nav-icon nav-icon fas fa-file-alt"></i>
+                                        <a href="../Parametre/ConvCreate" class="nav-link">
+                                            <i class="nav-icon fas fa-handshake"></i>
                                             <p>
-                                                Conventions
+                                                Convention
                                             </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../SuperAdmin/PROSOAList" class="nav-link">
-                                            <i class="nav-icon nav-icon fas fa-link"></i>
+                                        <a href="../Parametre/CatCreate" class="nav-link">
+                                            <i class="nav-icon fas fa-th"></i>
                                             <p>
-                                                Catégories
+                                                Catégorie
                                             </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../SuperAdmin/SuperAdminMaPList" class="nav-link">
-                                            <i class="nav-icon fas fa-user-cog"></i>
+                                        <a href="../Parametre/EngaCreate" class="nav-link">
+                                            <i class="nav-icon fas fa-book-reader"></i>
                                             <p>
                                                 Types d’engagement
                                             </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../SuperAdmin/SuperAdminMaPList" class="nav-link">
-                                            <i class="nav-icon fas fa-cogs"></i>
+                                        <a href="../Parametre/ProcCreate" class="nav-link">
+                                            <i class="nav-icon fas fa-book-open"></i>
                                             <p>
                                                 Types de procédure
                                             </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../SuperAdmin/SuperAdminMaPList" class="nav-link">
-                                            <i class="nav-icon fas fa-cogs"></i>
+                                        <a href="../Parametre/MinCreate" class="nav-link">
+                                            <i class="nav-icon fas fa-folder"></i>
                                             <p>
-                                                Types de procédure
+                                                Ministère
                                             </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../SuperAdmin/SuperAdminMaPList" class="nav-link">
-                                            <i class="nav-icon fas fa-cogs"></i>
+                                        <a href="../Parametre/MisCreate" class="nav-link">
+                                            <i class="nav-icon fas fa-folder-minus"></i>
                                             <p>
-                                                Ministères
+                                                Mission
                                             </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../SuperAdmin/SuperAdminMaPList" class="nav-link">
-                                            <i class="nav-icon fas fa-cogs"></i>
+                                        <a href="../Parametre/ProgCreate" class="nav-link">
+                                            <i class="nav-icon fas fa-calendar-minus"></i>
                                             <p>
-                                                Missions
+                                                Programme
                                             </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../SuperAdmin/SuperAdminMaPList" class="nav-link">
-                                            <i class="nav-icon fas fa-cogs"></i>
+                                        <a href="../Parametre/ActCreate" class="nav-link">
+                                            <i class="nav-icon fas fa-bookmark"></i>
                                             <p>
-                                                Programmes
-                                            </p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="../SuperAdmin/SuperAdminMaPList" class="nav-link">
-                                            <i class="nav-icon fas fa-cogs"></i>
-                                            <p>
-                                                Activités
+                                                Activité
                                             </p>
                                         </a>
                                     </li>
@@ -252,15 +244,38 @@
                                 </p>
                             </a>
                         </li>
+                    </ul>
+
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block">
                         <li class="nav-flat" data-io><hr /></li>
-                        <!--Fin Administrateur-->
-                        <li class="nav-item">
-                            <a href="../DBaseTOM/DBaseTOMCreate" class="nav-link">
-                                <i class="nav-icon fas fa-database"></i>
+                        <li class="nav-item" data-io>
+                            <a href="../User/List" class="nav-link">
+                                <i class="nav-icon fas fa-tasks"></i>
                                 <p>
-                                    Base de données
+                                    Traitements
                                 </p>
                             </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block" id="menu-accordeon">
+                        <li class="nav-item SuperAd" data-io>
+                            <a class="nav-link">
+                                <i class="nav-icon fas fa-file"></i>
+                                <p>
+                                    Etats
+                                </p>
+                            </a>
+                            <ul style="list-style-type: none; display:block" class="nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <li class="nav-item">
+                                    <a href="../Etat/InfoProCreate" class="nav-link">
+                                        <i class="nav-icon fas fa-file-alt"></i>
+                                        <p>
+                                            Informations PROJET
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
 
