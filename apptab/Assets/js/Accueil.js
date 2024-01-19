@@ -66,9 +66,7 @@ function GetListCompG() {
             let code = ``;
             let codeAuxi = ``;
             ListCompteG = Datas.data;
-
-
-
+            
             $.each(ListCompteG, function (k, v) {
                 code += `
                     <option value="${v.COGE}">${v.COGE}</option>
