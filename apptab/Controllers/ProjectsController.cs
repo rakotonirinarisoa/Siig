@@ -10,22 +10,30 @@ namespace apptab.Controllers
 {
     public class ProjectsController : Controller
     {
-        private readonly SOFTCONNECTSIIG db;
-        private readonly JsonSerializerSettings settings;
+        private readonly SOFTCONNECTSIIG _db;
+        private readonly JsonSerializerSettings _settings;
 
         public ProjectsController()
         {
-            db = new SOFTCONNECTSIIG();
-            settings = new JsonSerializerSettings
+            _db = new SOFTCONNECTSIIG();
+            _settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
         }
 
-        public ActionResult Details(string id)
+        public async Task<ActionResult> Details(int id)
         {
+            var project = await _db.SI_PROJETS.Where(x => x.ID == id).FirstOrDefaultAsync();
+
+            if (project == null)
+            {
+                throw new Exception("404");
+            }
+
             ViewData["Id"] = id;
+            ViewData["Title"] = project.PROJET;
 
             return View();
         }
@@ -34,38 +42,50 @@ namespace apptab.Controllers
         [HttpPost]
         public async Task<JsonResult> Update(ProjectToUpdate projectToUpdate)
         {
-            var res = await db.SI_PROJETS.FirstOrDefaultAsync(project => project.ID == projectToUpdate.Id);
+            var user = await _db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == projectToUpdate.Login && a.PWD == projectToUpdate.Password);
+
+            if (user == null)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion!" }, _settings));
+            }
+
+            var res = await _db.SI_PROJETS.FirstOrDefaultAsync(project => project.ID == projectToUpdate.Id);
 
             if (res != null)
             {
                 res.PROJET = projectToUpdate.Title;
 
-                await db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
 
-                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Modification avec succès." }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Modification avec succès." }, _settings));
             }
 
-            return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Projet non trouvé!" }, settings));
+            return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Projet non trouvé!" }, _settings));
         }
 
         [Route("/projects/delete")]
         [HttpPost]
         public async Task<JsonResult> Delete(ProjectToDelete projectToDelete)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == projectToDelete.Login && a.PWD == projectToDelete.Password);
+            var user = await _db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == projectToDelete.Login && a.PWD == projectToDelete.Password);
 
-            var res = await db.SI_PROJETS.FirstOrDefaultAsync(project => project.ID == projectToDelete.Id);
+            if (user == null)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion!" }, _settings));
+            }
+
+            var res = await _db.SI_PROJETS.FirstOrDefaultAsync(project => project.ID == projectToDelete.Id);
 
             if (res != null)
             {
-                res.DeletionDate = DateTime.Now;
+                res.DELETIONDATE = DateTime.Now;
 
-                await db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
 
-                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression avec succès." }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression avec succès." }, _settings));
             }
 
-            return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Projet non trouvé!" }, settings));
+            return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Projet non trouvé!" }, _settings));
         }
     }
 }

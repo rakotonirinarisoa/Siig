@@ -25,6 +25,7 @@ namespace apptab.Controllers
         public ActionResult ProjetList()
         {
             ViewBag.Controller = "Liste des PROJETS";
+
             return View();
         }
 
@@ -35,7 +36,7 @@ namespace apptab.Controllers
 
             try
             {
-                var societe = await db.SI_PROJETS.Where(x => x.DeletionDate == null).ToListAsync();
+                var societe = await db.SI_PROJETS.Where(x => x.DELETIONDATE == null).ToListAsync();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = societe }, settings));
             }
@@ -52,12 +53,14 @@ namespace apptab.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddSociete(SI_USERS suser, SI_PROJETS societe, SI_USERS user)
+        public async Task<JsonResult> AddSociete(SI_USERS suser, SI_PROJETS societe, SI_USERS user)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD) != null;
+            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD) != null;
+
             if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
-            var societeExist = db.SI_PROJETS.FirstOrDefault(a => a.PROJET == societe.PROJET);
+            var societeExist = await db.SI_PROJETS.FirstOrDefaultAsync(a => a.PROJET == societe.PROJET && a.DELETIONDATE == null);
+
             if (societeExist == null)
             {
                 var newSociete = new SI_PROJETS()

@@ -9,6 +9,6 @@
 
         [StringLength(50)]
         public string PROJET { get; set; }
-        public DateTime? DeletionDate { get; set; }
+        public DateTime? DELETIONDATE { get; set; }
     }
 }
