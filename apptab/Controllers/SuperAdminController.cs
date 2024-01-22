@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
-using System.Runtime;
-using System.Web;
 using System.Web.Mvc;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace apptab.Controllers
 {
@@ -25,22 +25,18 @@ namespace apptab.Controllers
         public ActionResult ProjetList()
         {
             ViewBag.Controller = "Liste des PROJETS";
+
             return View();
         }
 
-        public JsonResult FillTable(SI_USERS suser)
+        public async Task<JsonResult> FillTable(SI_USERS suser)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null) != null;
             if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
-                var societe = db.SI_PROJETS.Select(a => new
-                {
-                    PROJET = a.PROJET,
-                    ID = a.ID,
-                    DELETIONDATE = a.DELETIONDATE
-                }).Where(a => a.DELETIONDATE == null).ToList();
+                var societe = await db.SI_PROJETS.Where(x => x.DELETIONDATE == null).ToListAsync();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = societe }, settings));
             }
@@ -57,12 +53,14 @@ namespace apptab.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddSociete(SI_USERS suser, SI_PROJETS societe, SI_USERS user)
+        public async Task<JsonResult> AddSociete(SI_USERS suser, SI_PROJETS societe, SI_USERS user)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null) != null;
+            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD) != null;
+
             if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
-            var societeExist = db.SI_PROJETS.FirstOrDefault(a => a.PROJET == societe.PROJET && a.DELETIONDATE == null);
+            var societeExist = await db.SI_PROJETS.FirstOrDefaultAsync(a => a.PROJET == societe.PROJET && a.DELETIONDATE == null);
+
             if (societeExist == null)
             {
                 var newSociete = new SI_PROJETS()
@@ -308,10 +306,10 @@ namespace apptab.Controllers
             {
                 var mapp = db.SI_MAPPAGES.Select(a => new
                 {
-                    PROJET = db.SI_PROJETS.FirstOrDefault(x => x.ID == a.IDPROJET).PROJET,
-                    INSTANCE = a.INSTANCE,
-                    DBASE = a.DBASE,
-                    ID = a.ID
+                    db.SI_PROJETS.FirstOrDefault(x => x.ID == a.IDPROJET).PROJET,
+                    a.INSTANCE,
+                    a.DBASE,
+                    a.ID
                 }).ToList();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = mapp }, settings));
@@ -379,7 +377,7 @@ namespace apptab.Controllers
                         id = map.ID
                     };
 
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = new { PROJET = mapp.soc, INSTANCE = mapp.inst, AUTH = mapp.auth, CONNEXION = mapp.conn, MDP = mapp.mdp, BASED = mapp.baseD, id = mapp.id } }, settings));
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = new { PROJET = mapp.soc, INSTANCE = mapp.inst, AUTH = mapp.auth, CONNEXION = mapp.conn, MDP = mapp.mdp, BASED = mapp.baseD, mapp.id } }, settings));
                 }
                 else
                 {

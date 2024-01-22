@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using apptab;
-using Microsoft.Build.Framework;
 using Newtonsoft.Json;
-using System.Runtime;
-using System.Security.Cryptography;
 using System.Web.UI.WebControls;
 
 namespace SOFTCONNECT.Controllers
@@ -48,11 +42,16 @@ namespace SOFTCONNECT.Controllers
 				{
 					var users = db.SI_USERS.Select(a => new
 					{
-						LOGIN = a.LOGIN,
-						PWD = a.PWD,
+                        a.LOGIN,
+                        a.PWD,
 						ROLE = a.ROLE.ToString(), //db.OPA_ROLES.Where(x => x.ID == a.ROLE).FirstOrDefault().INTITULES,
+<<<<<<< HEAD
 						ID = a.ID,
                         PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET
+=======
+                        a.ID,
+                        db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET).FirstOrDefault().PROJET
+>>>>>>> 4125ae2d4be38c88afefd42bbf507c1316e38fbf
 					}).ToList();
 					return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
 				}
@@ -60,11 +59,16 @@ namespace SOFTCONNECT.Controllers
 				{
 					var users = db.SI_USERS.Where(x => x.ROLE != Role.SAdministrateur && x.IDPROJET == exist.IDPROJET && x.DELETIONDATE == null).Select(a => new
 					{
-						LOGIN = a.LOGIN,
-						PWD = a.PWD,
+                        a.LOGIN,
+                        a.PWD,
 						ROLE = a.ROLE.ToString(), //db.OPA_ROLES.Where(x => x.ID == a.ROLE).FirstOrDefault().INTITULES,
+<<<<<<< HEAD
 						ID = a.ID,
                         PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET
+=======
+                        a.ID,
+                        db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET).FirstOrDefault().PROJET
+>>>>>>> 4125ae2d4be38c88afefd42bbf507c1316e38fbf
 					}).ToList();
 					return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
 				}
@@ -272,7 +276,7 @@ namespace SOFTCONNECT.Controllers
 
 				if (String.IsNullOrEmpty(test.IDPROJET.ToString())) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas rattaché à un projet actif. " }, settings));
 
-                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", Data = new { ROLE = test.ROLE, IDPROJET = test.IDPROJET } }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", Data = new { test.ROLE, test.IDPROJET } }, settings));
             }
             catch (Exception ex)
             {
