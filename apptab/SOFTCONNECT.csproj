@@ -2097,6 +2097,7 @@
     <Content Include="Assets\js\DroitUser.js" />
     <Content Include="Assets\js\DroitDetails.js" />
     <Content Include="Assets\js\Projet.js" />
+    <Content Include="Assets\js\DetailsFPROSOA.js" />
     <Content Include="Assets\js\PROSOA.js" />
     <Content Include="Assets\js\RoleDetails.js" />
     <Content Include="Assets\js\Role.js" />
@@ -2255,6 +2256,7 @@
     <Content Include="Views\Parametre\ProgCreate.cshtml" />
     <Content Include="Views\Parametre\ActCreate.cshtml" />
     <Content Include="Views\SuperAdmin\SuperAdminDetailFSOA.cshtml" />
+    <Content Include="Views\SuperAdmin\SuperAdminDetailFPROSOA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

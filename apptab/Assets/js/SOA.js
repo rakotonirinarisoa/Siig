@@ -111,7 +111,7 @@ $(`[data-action="AddnewSociete"]`).click(function () {
     });
 });
 function deleteSoa(id) {
-    alert("eto");
+    //alert("eto");
     if (!confirm("Etes-vous sûr de vouloir supprimer le mappage du PROJET ?")) return;
     let formData = new FormData();
 

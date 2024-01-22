@@ -7,15 +7,15 @@ $(document).ready(() => {
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
-
-    GetListSociete();
-    GetListProjet();
-    GetListSOA();
+  
+    //GetListSociete();
+    GetListProjet(getUrlParameter("PROSOAID"));
+    GetListFPROSOA(getUrlParameter("PROSOAID"));
 });
 
 let urlOrigin = "https://localhost:44334";
 //let urlOrigin = "http://softwell.cloud/OPAVI";
-function GetListProjet() {
+function GetListProjet(id) {
     let formData = new FormData();
 
     formData.append("suser.LOGIN", User.LOGIN);
@@ -23,6 +23,7 @@ function GetListProjet() {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
+    formData.append("IDPROSOA", id);
 
     $.ajax({
         type: "POST",
@@ -33,7 +34,7 @@ function GetListProjet() {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
+            //console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -52,6 +53,11 @@ function GetListProjet() {
                     <option value="${v.ID}">${v.PROJET}</option>
                 `;
             });
+            $.each(Datas.datas, function (k, v) {
+                code += `
+                    <option value="${v.ID}">${v.PROJET}</option>
+                `;
+            });
             $(`[data-id="proj-list"]`).append(code);
 
         },
@@ -62,13 +68,15 @@ function GetListProjet() {
     })
 }
 
-function GetListSOA() {
+function GetListFPROSOA(id) {
     let formData = new FormData();
 
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
+
+    formData.append("IDPROSOA", id);
 
     $.ajax({
         type: "POST",
@@ -94,6 +102,11 @@ function GetListSOA() {
             $(`[data-id="soa-list"]`).text("");
             var code = ``;
             $.each(Datas.data, function (k, v) {
+                code += `
+                    <option value="${v.ID}">${v.SOA}</option>
+                `;
+            });
+            $.each(Datas.datas, function (k, v) {
                 code += `
                     <option value="${v.ID}">${v.SOA}</option>
                 `;
@@ -196,7 +209,7 @@ function GetListSociete() {
                         <td>${v.PROJET}</td>
                         <td>${v.SOA}</td>
                         <td class="elerfr">
-                            <div onclick="DetailPROSOA('${v.ID}')"><i class="fa fa-pen-alt text-warning"></i></div>
+                            <div onclick="DetailFPROSOA('${v.ID}')"><i class="fa fa-pen-alt text-warning"></i></div>
                         </td>
                         <td class="elerfr">
                             <div onclick="deletePROSOA('${v.ID}')"><i class="fa fa-trash text-danger"></i></div>
@@ -213,7 +226,7 @@ function GetListSociete() {
         }
     });
 }
-function DetailPROSOA(id) {
+function DetailFPROSOA(id) {
     window.location = urlOrigin + "/SuperAdmin/SuperAdminDetailFPROSOA?PROSOAID=" + id;
 }
 function deletePROSOA(id) {
@@ -254,7 +267,7 @@ function deletePROSOA(id) {
 //UpdateFPROSOA
 $(`[data-action="UpdateFPROSOA"]`).click(function () {
     let formData = new FormData();
-
+    let idprosoauP =getUrlParameter("PROSOAID");
     let socP = $("#Proj").val();
     if (!socP) {
         alert("Veuillez renseigner le projet. ");
@@ -274,6 +287,7 @@ $(`[data-action="UpdateFPROSOA"]`).click(function () {
 
     formData.append("societe.PROJET", $(`#Proj`).val());
     formData.append("societe.SOA", $(`#Soa`).val());
+    formData.append("idprosoaUp", idprosoauP);
 
     $.ajax({
         type: "POST",
