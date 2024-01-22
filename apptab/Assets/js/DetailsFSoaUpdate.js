@@ -69,7 +69,6 @@ $(`[data-action="UpdateFSOAJS"]`).click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-
     formData.append("SOAID", getUrlParameter("SOAID"));
     formData.append("SOAID_2", $('#Soa').val());
 
