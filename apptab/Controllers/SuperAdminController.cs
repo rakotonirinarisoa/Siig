@@ -516,7 +516,7 @@ namespace apptab.Controllers
         }
         //DELETE SOA
         [HttpPost]
-        public JsonResult DeleteSOA(SI_USERS suser, string SOAid)
+        public JsonResult DeleteFSOA(SI_USERS suser, string SOAid)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
@@ -525,7 +525,7 @@ namespace apptab.Controllers
             {
                 int IDSOA = int.Parse(SOAid);
                 var SOA = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA);
-                var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDSOA).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
+                var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDSOA && F_ProjetSoa.DELETIONDATE==null).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
                 if (SOA != null)
                 {
                     //db.SI_SOAS.Remove(SOA);
@@ -567,7 +567,7 @@ namespace apptab.Controllers
             try
             {
                 int IDSOA = int.Parse(SOAID);
-                var soa = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA);
+                var soa = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA && a.DELETIONDATE == null);
 
                 if (soa != null)
                 {
@@ -596,7 +596,7 @@ namespace apptab.Controllers
             try
             {
                 int IDSOA = int.Parse(SOAID);
-                var SOAEXIST = db.SI_SOAS.Where(soaid => soaid.ID == IDSOA).FirstOrDefault();
+                var SOAEXIST = db.SI_SOAS.Where(soaid => soaid.ID == IDSOA && soaid.DELETIONDATE == null).FirstOrDefault();
                 //var SOAupdate = db.SI_SOAS.FirstOrDefault(soaid => soaid.ID == IDSOA);
                 if (SOAEXIST != null)
                 {
@@ -628,7 +628,7 @@ namespace apptab.Controllers
             try
             {
                 int IDPROSOA = int.Parse(PROSOAID);
-                var PROSOA = db.SI_PROSOA.Where(prosoa => prosoa.ID == IDPROSOA).FirstOrDefault();
+                var PROSOA = db.SI_PROSOA.Where(prosoa => prosoa.ID == IDPROSOA && prosoa.DELETIONDATE == null).FirstOrDefault();
                 //var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDPROSOA).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
                 if (PROSOA != null)
                 {
@@ -679,7 +679,7 @@ namespace apptab.Controllers
                     //DELETIONDATE = null,
                 };
                 db.SI_PROSOA.Add(newProsoa);
-               
+
                 db.SaveChanges();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = societe }, settings));
