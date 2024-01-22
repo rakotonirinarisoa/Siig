@@ -7,8 +7,9 @@ $(document).ready(() => {
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
-    GetUsers();
+    
     GetListProjet();
+    GetUsers();
 });
 
 let urlOrigin = "https://localhost:44334";
@@ -41,7 +42,7 @@ function GetUsers() {
                 return;
             }
 
-            $("#proj").val(Datas.data.PROJ);
+            //$("#proj").val(Datas.data.PROJ);
             $("#soa").val(Datas.data.SOA);
             $("#fina").val(Datas.data.FIN);
             $("#convention").val(Datas.data.CONV);
@@ -53,6 +54,7 @@ function GetUsers() {
             $("#prog").val(Datas.data.PROG);
             $("#act").val(Datas.data.ACT);
 
+            $("#proj").val(`${Datas.data.PROJ}`);
         },
         error: function () {
             alert("Problème de connexion. ");
