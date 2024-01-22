@@ -182,8 +182,11 @@
     <Compile Include="Controllers\EtatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Data\Entities\ProjectToDelete.cs" />
+    <Compile Include="Data\Entities\ProjectToUpdate.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2078,6 +2081,11 @@
     <Content Include="Assets\img\df.png" />
     <Content Include="Assets\img\logo-soft.png" />
     <Content Include="Assets\img\logoMellis.png" />
+    <Content Include="Assets\js\Crypto.js" />
+    <Content Include="Assets\js\DetailCrypto.js" />
+    <Content Include="Assets\js\DetailsFPROSOA.js" />
+    <Content Include="Assets\js\DetailsFSoaUpdate.js" />
+    <Content Include="Assets\js\Ftp.js" />
     <Content Include="Assets\js\Info.js" />
     <Content Include="Assets\js\Mis.js" />
     <Content Include="Assets\js\Min.js" />
