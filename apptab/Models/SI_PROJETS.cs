@@ -1,10 +1,7 @@
-namespace apptab
+﻿namespace apptab
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class SI_PROJETS
     {
@@ -12,8 +9,11 @@ namespace apptab
 
         [StringLength(50)]
         public string PROJET { get; set; }
+<<<<<<< HEAD
 
         [Column(TypeName = "smalldatetime")]
+=======
+>>>>>>> 4125ae2d4be38c88afefd42bbf507c1316e38fbf
         public DateTime? DELETIONDATE { get; set; }
     }
 }
