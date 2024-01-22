@@ -69,5 +69,19 @@ namespace apptab.Controllers
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
             }
         }
+
+        //GET ALL PROJET//
+        [HttpPost]
+        public ActionResult GetAllPROJET(SI_USERS suser)
+        {
+            var user = db.SI_PROJETS.Select(a => new
+            {
+                PROJET = a.PROJET,
+                ID = a.ID,
+                DELETIONDATE = a.DELETIONDATE,
+            }).Where(a => a.DELETIONDATE == null).ToList();
+
+            return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = user }, settings));
+        }
     }
 }
