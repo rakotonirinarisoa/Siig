@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class SI_PROJETS
     {
@@ -9,11 +10,8 @@
 
         [StringLength(50)]
         public string PROJET { get; set; }
-<<<<<<< HEAD
 
         [Column(TypeName = "smalldatetime")]
-=======
->>>>>>> 4125ae2d4be38c88afefd42bbf507c1316e38fbf
         public DateTime? DELETIONDATE { get; set; }
     }
 }
