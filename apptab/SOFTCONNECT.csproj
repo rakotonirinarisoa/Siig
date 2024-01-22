@@ -182,11 +182,8 @@
     <Compile Include="Controllers\EtatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
-    <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Data\Entities\ProjectToDelete.cs" />
-    <Compile Include="Data\Entities\ProjectToUpdate.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
