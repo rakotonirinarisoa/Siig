@@ -528,13 +528,15 @@ namespace apptab.Controllers
                 var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDSOA).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
                 if (SOA != null)
                 {
-                    db.SI_SOAS.Remove(SOA);
+                    //db.SI_SOAS.Remove(SOA);
+                    SOA.DELETIONDATE = DateTime.Now;
                     if (ProjSoa != null)
                     {
                         foreach (var p in ProjSoa)
                         {
                             var F_del = db.SI_PROSOA.Where(F_remSoa => F_remSoa.IDSOA == p).FirstOrDefault();
-                            db.SI_PROSOA.Remove(F_del);
+                            F_del.DELETIONDATE= DateTime.Now;
+                            //db.SI_PROSOA.Remove(F_del);
                         }
 
                     }
@@ -595,11 +597,14 @@ namespace apptab.Controllers
             {
                 int IDSOA = int.Parse(SOAID);
                 var SOAEXIST = db.SI_SOAS.Where(soaid => soaid.ID == IDSOA).FirstOrDefault();
-                var SOAupdate = db.SI_SOAS.FirstOrDefault(soaid => soaid.ID == IDSOA);
+                //var SOAupdate = db.SI_SOAS.FirstOrDefault(soaid => soaid.ID == IDSOA);
                 if (SOAEXIST != null)
                 {
-                    SOAupdate.SOA = SOAID_2;
-
+                    SOAEXIST.DELETIONDATE = DateTime.Now;
+                    // SOAupdate.SOA = SOAID_2;
+                    db.SI_SOAS.Add(new SI_SOAS{
+                        SOA = SOAID_2
+                    });
                     //var eeee = db.GetValidationErrors();
                     db.SaveChanges();
 
@@ -650,18 +655,31 @@ namespace apptab.Controllers
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD) != null;
             if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
             int idUp = int.Parse(idprosoaUp);
-            var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.PROJET).ID;
-            var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.SOA).ID;
+            var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.PROJET && a.DELETIONDATE == null).ID;
+            var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.SOA && a.DELETIONDATE == null).ID;
 
-            var societeExist = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.IDSOA == Soa);
+            var CorrespondanceExist = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.IDSOA == Soa && a.DELETIONDATE == null);
+            var CorrespondanceSOA = db.SI_PROSOA.FirstOrDefault(a => a.IDSOA == Soa && a.DELETIONDATE == null);
+            var CorrespondancePROJET = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.DELETIONDATE == null);
 
-            if (societeExist == null)
+            if (CorrespondanceExist == null)
             {
-
-                var upCorrespondance = db.SI_PROSOA.Where(x => x.ID == idUp).FirstOrDefault();
-                upCorrespondance.IDPROJET = Projet;
-                upCorrespondance.IDSOA = Soa;
-                //var eeee = db.GetValidationErrors();
+                if (CorrespondanceSOA != null)
+                {
+                    CorrespondanceSOA.DELETIONDATE = DateTime.Now;
+                }
+                if (CorrespondancePROJET != null)
+                {
+                    CorrespondancePROJET.DELETIONDATE = DateTime.Now;
+                }
+                var newProsoa = new SI_PROSOA()
+                {
+                    IDPROJET = Projet,
+                    IDSOA = Soa,
+                    //DELETIONDATE = null,
+                };
+                db.SI_PROSOA.Add(newProsoa);
+               
                 db.SaveChanges();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = societe }, settings));
