@@ -2256,6 +2256,9 @@
     <Content Include="Views\Parametre\ProgCreate.cshtml" />
     <Content Include="Views\Parametre\ActCreate.cshtml" />
     <Content Include="Views\Etat\InfoProCreate.cshtml" />
+    <Content Include="Views\Projects\Details.cshtml" />
+    <Content Include="Views\SuperAdmin\SuperAdminDetailFPROSOA.cshtml" />
+    <Content Include="Views\SuperAdmin\SuperAdminDetailFSOA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
