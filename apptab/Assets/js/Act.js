@@ -41,6 +41,7 @@ function GetUsers() {
             }
 
             $("#Para").val(Datas.data.ACTIVITE);
+            $("#Code").val(Datas.data.CODE);
 
         },
         error: function () {
@@ -51,7 +52,8 @@ function GetUsers() {
 
 $(`[data-action="UpdateUser"]`).click(function () {
     let user = $("#Para").val();
-    if (!user) {
+    let code = $("#Code").val();
+    if (!user || !code) {
         alert("Veuillez renseigner l'information sur l'activité. ");
         return;
     }
@@ -64,6 +66,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("suser.IDPROJET", User.IDPROJET);
 
     formData.append("param.ACTIVITE", $(`#Para`).val());
+    formData.append("param.CODE", $(`#Code`).val());
 
     $.ajax({
         type: "POST",

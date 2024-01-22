@@ -25,5 +25,8 @@ namespace apptab
         public string DBASE { get; set; }
 
         public int? IDPROJET { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DELETIONDATE { get; set; }
     }
 }
