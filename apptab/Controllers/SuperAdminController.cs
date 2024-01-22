@@ -207,7 +207,7 @@ namespace apptab.Controllers
                 {
                     IDPROJET = Projet,
                     IDSOA = Soa,
-                    DELETIONDATE = societeExist.DELETIONDATE,
+                    //DELETIONDATE = null,
                 };
                 db.SI_PROSOA.Add(newSociete);
                 //var eeee = db.GetValidationErrors();
