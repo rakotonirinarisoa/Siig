@@ -55,7 +55,7 @@ namespace apptab.Controllers
         [HttpPost]
         public async Task<JsonResult> AddSociete(SI_USERS suser, SI_PROJETS societe, SI_USERS user)
         {
-            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD) != null;
+            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null) != null;
 
             if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
@@ -221,7 +221,7 @@ namespace apptab.Controllers
 
         //GET ALL PROJET//
         [HttpPost]
-        public ActionResult GetAllPROJET(SI_USERS suser, string IDPROSOA)
+        public ActionResult GetAllPROJET(SI_USERS susergit , string IDPROSOA)
         {
             if (IDPROSOA != null)
             {
