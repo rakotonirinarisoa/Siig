@@ -265,3 +265,5 @@ private.key
 app.config
 
 packages
+
+Web.config
