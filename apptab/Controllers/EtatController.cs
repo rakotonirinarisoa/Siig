@@ -56,8 +56,25 @@ namespace apptab.Controllers
 
                 if (info != null)
                 {
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = new { FIN = info.fina, CONV = info.convention, CAT = info.catego, 
-                    ENG = info.enga, PROC = info.proc, MIN = info.min, MIS = info.mis, PROG = info.prog, ACT = info.act, PROJ = info.proj, SOA = info.soa } }, settings));
+                    return Json(JsonConvert.SerializeObject(new
+                    {
+                        type = "success",
+                        msg = "message",
+                        data = new
+                        {
+                            FIN = info.fina,
+                            CONV = info.convention,
+                            CAT = info.catego,
+                            ENG = info.enga,
+                            PROC = info.proc,
+                            MIN = info.min,
+                            MIS = info.mis,
+                            PROG = info.prog,
+                            ACT = info.act,
+                            PROJ = info.proj,
+                            SOA = info.soa
+                        }
+                    }, settings));
                 }
                 else
                 {
