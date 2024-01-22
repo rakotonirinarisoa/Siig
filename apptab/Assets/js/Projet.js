@@ -45,10 +45,18 @@ function GetListSociete() {
             $(`[data-id="ubody"]`).text("");
 
             var code = ``;
+
             $.each(Datas.data, function (k, v) {
                 code += `
-                    <tr data-societeId="${v.ID}" class="text-nowrap last-hover">
+                    <tr data-project-id="${v.ID}" class="text-nowrap last-hover">
                         <td>${v.PROJET}</td>
+
+                         <td class="elerfr">
+                            <div onclick="updateProject('${v.ID}')"><i class="fa fa-pen-alt text-warning"></i></div>
+                        </td>
+                        <td class="elerfr">
+                            <div onclick="deleteProject('${v.ID}')"><i class="fa fa-trash text-danger"></i></div>
+                        </td>
                     </tr>
                 `;
             });
@@ -118,3 +126,38 @@ $(`[data-action="AddnewSociete"]`).click(function () {
         },
     });
 });
+
+function updateProject(id) {
+    window.location = urlOrigin + "/Projects/Details?id=" + id;
+}
+
+function deleteProject(id) {
+    if (!confirm("Etes-vous sûr de vouloir supprimer ce projet ?")) return;
+
+    const formData = new FormData();
+
+    formData.append("login", User.LOGIN);
+    formData.append("password", User.PWD);
+    formData.append("id", id);
+
+    $.ajax({
+        type: 'POST',
+        url: urlOrigin + '/projects/delete',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+
+            $(`[data-project-id="${id}"]`).remove();
+        }
+    });
+}
