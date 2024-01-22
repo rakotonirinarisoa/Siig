@@ -227,22 +227,15 @@ namespace apptab.Controllers
         {
             if (IDPROSOA != null)
             {
-<<<<<<< HEAD
 				int? PROSOAID = int.Parse(IDPROSOA);
-				var idPro = db.SI_PROSOA.Where(a => a.ID == PROSOAID).Select(a => a.IDPROJET).FirstOrDefault();
-=======
-                PROJET = a.PROJET,
-                ID = a.ID,
-                DELETIONDATE = a.DELETIONDATE,
-            }).Where(a => a.DELETIONDATE == null).ToList();
->>>>>>> Rinah
-
-				var FProfet = db.SI_PROJETS.Where(a => a.ID != idPro).Select(a => new
+				var idPro = db.SI_PROSOA.Where(a => a.ID == PROSOAID && a.DELETIONDATE == null).Select(a => a.IDPROJET).FirstOrDefault();
+				var FProfet = db.SI_PROJETS.Where(a => a.ID != idPro && a.DELETIONDATE == null).Select(a => new
 				{
 					PROJET = a.PROJET,
 					ID = a.ID
+					
 				}).ToList();
-                var FprojetFirst = db.SI_PROJETS.Where(a=>a.ID == idPro).Select(a => new
+                var FprojetFirst = db.SI_PROJETS.Where(a=>a.ID == idPro && a.DELETIONDATE == null).Select(a => new
 				{
 					PROJET = a.PROJET,
 					ID = a.ID
@@ -250,13 +243,14 @@ namespace apptab.Controllers
 				return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = FprojetFirst,datas = FProfet }, settings));
 			}
             else {
-				var user = db.SI_PROJETS.Select(a => new
+				var user = db.SI_PROJETS
+                    .Where(a=>a.DELETIONDATE == null).Select(a => new
 				{
 					PROJET = a.PROJET,
 					ID = a.ID
 				}).ToList();
 
-				return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = user }, settings));
+				return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = user , datas =""}, settings));
 			}
             
         }
@@ -267,26 +261,21 @@ namespace apptab.Controllers
         {
 			if (IDPROSOA != null)
             {
-<<<<<<< HEAD
 				int? PROSOAID = int.Parse(IDPROSOA);
 				var idsoa = db.SI_PROSOA.Where(a => a.ID == PROSOAID).Select(a => a.IDSOA).FirstOrDefault();
-				var SOA = db.SI_SOAS.Where(x => x.ID != idsoa).Select(a => new
+				var SOA = db.SI_SOAS.Where(x => x.ID != idsoa && x.DELETIONDATE == null).Select(a => new
 				{
 					SOA = a.SOA,
-					ID = a.ID
+					ID = a.ID,
+					DELETIONDATE = a.DELETIONDATE
 				}).ToList();
 				
-                var soa1 = db.SI_SOAS.Where(x => x.ID == idsoa).Select(x => new
+                var soa1 = db.SI_SOAS.Where(x => x.ID == idsoa && x.DELETIONDATE == null).Select(x => new
                 {
                     SOA = x.SOA,
-                    ID =x.ID
-                }).ToList();
-=======
-                SOA = a.SOA,
-                ID = a.ID,
-                DELETIONDATE = a.DELETIONDATE
-            }).Where(a => a.DELETIONDATE == null).ToList();
->>>>>>> Rinah
+                    ID =x.ID,
+					DELETIONDATE = x.DELETIONDATE
+				}).ToList();
 
                 List<SI_SOAS>SOAf = new List<SI_SOAS>();
 				return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = soa1, datas = SOA }, settings));
