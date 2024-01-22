@@ -179,6 +179,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EtatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
@@ -2077,7 +2078,7 @@
     <Content Include="Assets\img\df.png" />
     <Content Include="Assets\img\logo-soft.png" />
     <Content Include="Assets\img\logoMellis.png" />
-    <Content Include="Assets\js\DetailsFSoaUpdate.js" />
+    <Content Include="Assets\js\Info.js" />
     <Content Include="Assets\js\Mis.js" />
     <Content Include="Assets\js\Min.js" />
     <Content Include="Assets\js\Act.js" />
@@ -2097,7 +2098,6 @@
     <Content Include="Assets\js\DroitUser.js" />
     <Content Include="Assets\js\DroitDetails.js" />
     <Content Include="Assets\js\Projet.js" />
-    <Content Include="Assets\js\DetailsFPROSOA.js" />
     <Content Include="Assets\js\PROSOA.js" />
     <Content Include="Assets\js\RoleDetails.js" />
     <Content Include="Assets\js\Role.js" />
@@ -2255,8 +2255,7 @@
     <Content Include="Views\Parametre\MisCreate.cshtml" />
     <Content Include="Views\Parametre\ProgCreate.cshtml" />
     <Content Include="Views\Parametre\ActCreate.cshtml" />
-    <Content Include="Views\SuperAdmin\SuperAdminDetailFSOA.cshtml" />
-    <Content Include="Views\SuperAdmin\SuperAdminDetailFPROSOA.cshtml" />
+    <Content Include="Views\Etat\InfoProCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
