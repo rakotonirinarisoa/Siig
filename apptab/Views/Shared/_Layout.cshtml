@@ -125,7 +125,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="../SuperAdmin/SOAList" class="nav-link">
-                                            <i class="nav-icon nav-icon fas fa-file-alt"></i>
+                                            <i class="nav-icon fas fa-id-card-alt" s></i>
                                             <p>
                                                 Gestion des SOA
                                             </p>
@@ -167,7 +167,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="../Parametre/ConvCreate" class="nav-link">
-                                            <i class="nav-icon fas fa-file"></i>
+                                            <i class="nav-icon fas fa-handshake"></i>
                                             <p>
                                                 Convention
                                             </p>
@@ -244,7 +244,39 @@
                                 </p>
                             </a>
                         </li>
+                    </ul>
+
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block">
                         <li class="nav-flat" data-io><hr /></li>
+                        <li class="nav-item" data-io>
+                            <a href="../User/List" class="nav-link">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>
+                                    Traitements
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block" id="menu-accordeon">
+                        <li class="nav-item SuperAd" data-io>
+                            <a class="nav-link">
+                                <i class="nav-icon fas fa-file"></i>
+                                <p>
+                                    Etats
+                                </p>
+                            </a>
+                            <ul style="list-style-type: none; display:block" class="nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <li class="nav-item">
+                                    <a href="../Etat/InfoProCreate" class="nav-link">
+                                        <i class="nav-icon fas fa-file-alt"></i>
+                                        <p>
+                                            Informations PROJET
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
 
                     <img src="~/Assets/img/logo-soft.png" alt="AdminLTE Logo" class="brand-image elevation-0 imageHoverLogo" style="opacity: .7; bottom: 0; position: absolute; width: 60%; padding-bottom: 15%;">

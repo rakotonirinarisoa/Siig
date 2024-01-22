@@ -12,5 +12,8 @@ namespace apptab
 
         [StringLength(50)]
         public string SOA { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DELETIONDATE { get; set; }
     }
 }

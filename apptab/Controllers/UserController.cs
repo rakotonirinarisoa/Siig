@@ -36,13 +36,13 @@ namespace SOFTCONNECT.Controllers
         [HttpPost]
 		public JsonResult FillTable(SI_USERS suser)
 		{
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null);
             ViewBag.Role = exist.ROLE;
 			if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
 			try
 			{
-				var test = db.SI_USERS.Where(x => x.ROLE == exist.ROLE && x.IDPROJET == exist.IDPROJET).FirstOrDefault();
+				var test = db.SI_USERS.Where(x => x.ROLE == exist.ROLE && x.IDPROJET == exist.IDPROJET && x.DELETIONDATE == null).FirstOrDefault();
                 //var test = db.SI_USERS.Where(x => x.ROLE == suser.ROLE && x.IDPROJET == suser.IDPROJET).FirstOrDefault();
                 if (test.ROLE == Role.SAdministrateur)
 				{
@@ -52,19 +52,19 @@ namespace SOFTCONNECT.Controllers
 						PWD = a.PWD,
 						ROLE = a.ROLE.ToString(), //db.OPA_ROLES.Where(x => x.ID == a.ROLE).FirstOrDefault().INTITULES,
 						ID = a.ID,
-                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET).FirstOrDefault().PROJET
+                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET
 					}).ToList();
 					return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
 				}
 				else
 				{
-					var users = db.SI_USERS.Where(x => x.ROLE != Role.SAdministrateur && x.IDPROJET == exist.IDPROJET).Select(a => new
+					var users = db.SI_USERS.Where(x => x.ROLE != Role.SAdministrateur && x.IDPROJET == exist.IDPROJET && x.DELETIONDATE == null).Select(a => new
 					{
 						LOGIN = a.LOGIN,
 						PWD = a.PWD,
 						ROLE = a.ROLE.ToString(), //db.OPA_ROLES.Where(x => x.ID == a.ROLE).FirstOrDefault().INTITULES,
 						ID = a.ID,
-                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET).FirstOrDefault().PROJET
+                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET
 					}).ToList();
 					return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
 				}
@@ -101,12 +101,12 @@ namespace SOFTCONNECT.Controllers
         [HttpPost]
         public JsonResult AddUser(SI_USERS suser, SI_USERS user)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
-                var userExist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == user.LOGIN/* && a.IDPROJET == exist.IDPROJET*/);
+                var userExist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == user.LOGIN && a.DELETIONDATE == null/* && a.IDPROJET == exist.IDPROJET*/);
                 if (userExist == null)
                 {
                     var newUser = new SI_USERS()
@@ -117,7 +117,7 @@ namespace SOFTCONNECT.Controllers
                         ROLE = user.ROLE,
                     };
                     db.SI_USERS.Add(newUser);
-                    //var eeee = db.GetValidationErrors();
+
                     db.SaveChanges();
 
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = user }, settings));
@@ -136,13 +136,13 @@ namespace SOFTCONNECT.Controllers
         [HttpPost]
         public JsonResult UpdateUser(SI_USERS suser, SI_USERS user, string UserId)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
                 int userId = int.Parse(UserId);
-                var userExist = db.SI_USERS.FirstOrDefault(a => a.ID == userId);
+                var userExist = db.SI_USERS.FirstOrDefault(a => a.ID == userId && a.DELETIONDATE == null);
                 if (userExist != null)
                 {
                     userExist.LOGIN = user.LOGIN;
@@ -172,13 +172,13 @@ namespace SOFTCONNECT.Controllers
         [HttpPost]
         public ActionResult Param(SI_USERS suser)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
                 int crpt = exist.ID;
-                var crpto = db.SI_USERS.FirstOrDefault(a => a.ID == crpt);
+                var crpto = db.SI_USERS.FirstOrDefault(a => a.ID == crpt && a.DELETIONDATE == null);
                 if (crpto != null)
                 {
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
@@ -197,13 +197,13 @@ namespace SOFTCONNECT.Controllers
         [HttpPost]
         public JsonResult UpdateMDP(SI_USERS suser, SI_USERS user/*, string MDPA*/)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
                 int crpt = exist.ID;
-                var SExist = db.SI_USERS.FirstOrDefault(a => a.ID == crpt);
+                var SExist = db.SI_USERS.FirstOrDefault(a => a.ID == crpt && a.DELETIONDATE == null);
                 if (SExist != null)
                 {
                     if(SExist.PWD != user.LOGIN)
@@ -231,13 +231,13 @@ namespace SOFTCONNECT.Controllers
         [HttpPost]
         public ActionResult DetailsUser(SI_USERS suser, string UserId)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
                 int useID = int.Parse(UserId);
-                var user = db.SI_USERS.FirstOrDefault(a => a.ID == useID);
+                var user = db.SI_USERS.FirstOrDefault(a => a.ID == useID && a.DELETIONDATE == null);
 				
 				if (user != null)
                 {
@@ -264,13 +264,13 @@ namespace SOFTCONNECT.Controllers
         {
             try
             {
-                var test = db.SI_USERS.FirstOrDefault(x => x.LOGIN == Users.LOGIN && x.PWD == Users.PWD);
+                var test = db.SI_USERS.FirstOrDefault(x => x.LOGIN == Users.LOGIN && x.PWD == Users.PWD && x.DELETIONDATE == null);
                 if (test == null) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vérifiez vos identifiants. " }, settings));
 
                 Session["userSession"] = test;
 
 
-				if (String.IsNullOrEmpty(test.IDPROJET.ToString())) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas rattaché à une société. " }, settings));
+				if (String.IsNullOrEmpty(test.IDPROJET.ToString())) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas rattaché à un projet actif. " }, settings));
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", Data = new { ROLE = test.ROLE, IDPROJET = test.IDPROJET } }, settings));
             }
@@ -283,16 +283,16 @@ namespace SOFTCONNECT.Controllers
         [HttpPost]
         public JsonResult DeleteUser(SI_USERS suser, string UserId)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
                 int useID = int.Parse(UserId);
-                var user = db.SI_USERS.FirstOrDefault(a => a.ID == useID);
+                var user = db.SI_USERS.FirstOrDefault(a => a.ID == useID && a.DELETIONDATE == null);
                 if (user != null)
                 {
-                    db.SI_USERS.Remove(user);
+                    user.DELETIONDATE = DateTime.Now;
                     db.SaveChanges();
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression avec succès. " }, settings));
                 }
@@ -310,7 +310,7 @@ namespace SOFTCONNECT.Controllers
 		[HttpPost]
 		public JsonResult GetUR(SI_USERS suser)
 		{
-			var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+			var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
 			if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
 			return Json(JsonConvert.SerializeObject(new { type = "login", msg ="" , data = exist.ROLE != Role.SAdministrateur }, settings));
