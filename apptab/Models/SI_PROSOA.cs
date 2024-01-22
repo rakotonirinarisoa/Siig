@@ -13,5 +13,8 @@ namespace apptab
         public int? IDPROJET { get; set; }
 
         public int? IDSOA { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DELETIONDATE { get; set; }
     }
 }

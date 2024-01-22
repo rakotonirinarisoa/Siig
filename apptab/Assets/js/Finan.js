@@ -41,7 +41,7 @@ function GetUsers() {
             }
 
             $("#Para").val(Datas.data.FINANCEMENT);
-
+            $("#Code").val(Datas.data.CODE);
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -51,7 +51,8 @@ function GetUsers() {
 
 $(`[data-action="UpdateUser"]`).click(function () {
     let user = $("#Para").val();
-    if (!user) {
+    let code = $("#Code").val();
+    if (!user || !code) {
         alert("Veuillez renseigner l'information sur le financement. ");
         return;
     }
@@ -64,6 +65,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("suser.IDPROJET", User.IDPROJET);
 
     formData.append("param.FINANCEMENT", $(`#Para`).val());
+    formData.append("param.CODE", $(`#Code`).val());
 
     $.ajax({
         type: "POST",

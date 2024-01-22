@@ -14,5 +14,11 @@ namespace apptab
         public string FINANCEMENT { get; set; }
 
         public int? IDPROJET { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DELETIONDATE { get; set; }
+
+        [StringLength(50)]
+        public string CODE { get; set; }
     }
 }

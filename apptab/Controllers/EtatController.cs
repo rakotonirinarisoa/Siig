@@ -29,7 +29,7 @@ namespace apptab.Controllers
         [HttpPost]
         public ActionResult DetailsInfoPro(SI_USERS suser)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
@@ -37,20 +37,20 @@ namespace apptab.Controllers
                 int crpt = exist.IDPROJET.Value;
                 var info = new
                 {
-                    fina = db.SI_FINANCEMENT.FirstOrDefault(a => a.IDPROJET == crpt).FINANCEMENT,
-                    convention = db.SI_CONVENTION.FirstOrDefault(a => a.IDPROJET == crpt).CONVENTION,
-                    catego = db.SI_CATEGORIE.FirstOrDefault(a => a.IDPROJET == crpt).CATEGORIE,
-                    enga = db.SI_ENGAGEMENT.FirstOrDefault(a => a.IDPROJET == crpt).ENGAGEMENT,
-                    proc = db.SI_PROCEDURE.FirstOrDefault(a => a.IDPROJET == crpt).PROCEDURE,
-                    min = db.SI_MINISTERE.FirstOrDefault(a => a.IDPROJET == crpt).MINISTERE,
-                    mis = db.SI_MISSION.FirstOrDefault(a => a.IDPROJET == crpt).MISSION,
-                    prog = db.SI_PROGRAMME.FirstOrDefault(a => a.IDPROJET == crpt).PROGRAMME,
-                    act = db.SI_ACTIVITE.FirstOrDefault(a => a.IDPROJET == crpt).ACTIVITE,
-                    proj = db.SI_PROJETS.FirstOrDefault(a => a.ID == crpt).PROJET,
+                    fina = db.SI_FINANCEMENT.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null).FINANCEMENT,
+                    convention = db.SI_CONVENTION.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null).CONVENTION,
+                    catego = db.SI_CATEGORIE.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null).CATEGORIE,
+                    enga = db.SI_ENGAGEMENT.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null).ENGAGEMENT,
+                    proc = db.SI_PROCEDURE.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null).PROCEDURE,
+                    min = db.SI_MINISTERE.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null).MINISTERE,
+                    mis = db.SI_MISSION.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null).MISSION,
+                    prog = db.SI_PROGRAMME.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null).PROGRAMME,
+                    act = db.SI_ACTIVITE.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null).ACTIVITE,
+                    proj = db.SI_PROJETS.FirstOrDefault(a => a.ID == crpt && a.DELETIONDATE == null).PROJET,
                     //soa = db.SI_SOAS.Join(db.SI_PROSOA).FirstOrDefault(a => a.ID == crpt).SOAS,
                     soa = (from soa in db.SI_SOAS
                            join pro in db.SI_PROSOA on soa.ID equals pro.IDSOA
-                           where pro.IDPROJET == crpt
+                           where pro.IDPROJET == crpt && pro.DELETIONDATE == null && soa.DELETIONDATE == null
                            select soa.SOA).FirstOrDefault()
                 };
 
