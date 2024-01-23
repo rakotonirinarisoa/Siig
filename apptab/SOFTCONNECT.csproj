@@ -182,8 +182,12 @@
     <Compile Include="Controllers\EtatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
+    <Compile Include="Controllers\TraitementController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Data\Entities\ProjectToDelete.cs" />
+    <Compile Include="Data\Entities\ProjectToUpdate.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -204,6 +208,7 @@
     <Compile Include="Models\SI_MISSION.cs" />
     <Compile Include="Models\SI_PROCEDURE.cs" />
     <Compile Include="Models\SI_PROGRAMME.cs" />
+    <Compile Include="Models\SI_MAIL.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2074,11 +2079,18 @@
     <Content Include="Assets\admlte\plugins\uplot\uPlot.iife.js" />
     <Content Include="Assets\admlte\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Assets\admlte\plugins\uplot\uPlot.min.css" />
+    <Content Include="Assets\css\new_project.styles.css" />
     <Content Include="Assets\img\bg.jpg" />
     <Content Include="Assets\img\df.png" />
     <Content Include="Assets\img\logo-soft.png" />
     <Content Include="Assets\img\logoMellis.png" />
+    <Content Include="Assets\js\Crypto.js" />
+    <Content Include="Assets\js\DetailCrypto.js" />
     <Content Include="Assets\js\DetailsFPROSOA.js" />
+    <Content Include="Assets\js\DetailsFSoaUpdate.js" />
+    <Content Include="Assets\js\Mail.js" />
+    <Content Include="Assets\js\Ftp.js" />
+    <Content Include="Assets\js\Traitmandat.js" />
     <Content Include="Assets\js\Info.js" />
     <Content Include="Assets\js\Mis.js" />
     <Content Include="Assets\js\Min.js" />
@@ -2257,8 +2269,11 @@
     <Content Include="Views\Parametre\ProgCreate.cshtml" />
     <Content Include="Views\Parametre\ActCreate.cshtml" />
     <Content Include="Views\Etat\InfoProCreate.cshtml" />
+    <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\SuperAdmin\SuperAdminDetailFPROSOA.cshtml" />
     <Content Include="Views\SuperAdmin\SuperAdminDetailFSOA.cshtml" />
+    <Content Include="Views\Traitement\TraitementPROJET.cshtml" />
+    <Content Include="Views\SuperAdmin\MailCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
