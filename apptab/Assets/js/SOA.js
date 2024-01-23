@@ -124,7 +124,7 @@ function deleteSoa(id) {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/DeleteSOA',
+        url: urlOrigin + '/SuperAdmin/DeleteFSOA',
         data: formData,
         cache: false,
         contentType: false,

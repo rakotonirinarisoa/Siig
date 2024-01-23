@@ -53,7 +53,12 @@ namespace apptab.Controllers
 
             if (res != null)
             {
-                res.PROJET = projectToUpdate.Title;
+                res.DELETIONDATE = DateTime.Now;
+
+                _db.SI_PROJETS.Add(new SI_PROJETS
+                {
+                    PROJET = projectToUpdate.Title
+                });
 
                 await _db.SaveChangesAsync();
 

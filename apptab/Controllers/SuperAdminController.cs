@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Text.RegularExpressions;
 
 namespace apptab.Controllers
 {
@@ -516,7 +517,7 @@ namespace apptab.Controllers
         }
         //DELETE SOA
         [HttpPost]
-        public JsonResult DeleteSOA(SI_USERS suser, string SOAid)
+        public JsonResult DeleteFSOA(SI_USERS suser, string SOAid)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
@@ -525,16 +526,18 @@ namespace apptab.Controllers
             {
                 int IDSOA = int.Parse(SOAid);
                 var SOA = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA);
-                var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDSOA).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
+                var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDSOA && F_ProjetSoa.DELETIONDATE==null).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
                 if (SOA != null)
                 {
-                    db.SI_SOAS.Remove(SOA);
+                    //db.SI_SOAS.Remove(SOA);
+                    SOA.DELETIONDATE = DateTime.Now;
                     if (ProjSoa != null)
                     {
                         foreach (var p in ProjSoa)
                         {
                             var F_del = db.SI_PROSOA.Where(F_remSoa => F_remSoa.IDSOA == p).FirstOrDefault();
-                            db.SI_PROSOA.Remove(F_del);
+                            F_del.DELETIONDATE= DateTime.Now;
+                            //db.SI_PROSOA.Remove(F_del);
                         }
 
                     }
@@ -565,7 +568,7 @@ namespace apptab.Controllers
             try
             {
                 int IDSOA = int.Parse(SOAID);
-                var soa = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA);
+                var soa = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA && a.DELETIONDATE == null);
 
                 if (soa != null)
                 {
@@ -594,12 +597,15 @@ namespace apptab.Controllers
             try
             {
                 int IDSOA = int.Parse(SOAID);
-                var SOAEXIST = db.SI_SOAS.Where(soaid => soaid.ID == IDSOA).FirstOrDefault();
-                var SOAupdate = db.SI_SOAS.FirstOrDefault(soaid => soaid.ID == IDSOA);
+                var SOAEXIST = db.SI_SOAS.Where(soaid => soaid.ID == IDSOA && soaid.DELETIONDATE == null).FirstOrDefault();
+                //var SOAupdate = db.SI_SOAS.FirstOrDefault(soaid => soaid.ID == IDSOA);
                 if (SOAEXIST != null)
                 {
-                    SOAupdate.SOA = SOAID_2;
-
+                    SOAEXIST.DELETIONDATE = DateTime.Now;
+                    // SOAupdate.SOA = SOAID_2;
+                    db.SI_SOAS.Add(new SI_SOAS{
+                        SOA = SOAID_2
+                    });
                     //var eeee = db.GetValidationErrors();
                     db.SaveChanges();
 
@@ -623,7 +629,7 @@ namespace apptab.Controllers
             try
             {
                 int IDPROSOA = int.Parse(PROSOAID);
-                var PROSOA = db.SI_PROSOA.Where(prosoa => prosoa.ID == IDPROSOA).FirstOrDefault();
+                var PROSOA = db.SI_PROSOA.Where(prosoa => prosoa.ID == IDPROSOA && prosoa.DELETIONDATE == null).FirstOrDefault();
                 //var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDPROSOA).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
                 if (PROSOA != null)
                 {
@@ -650,18 +656,31 @@ namespace apptab.Controllers
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD) != null;
             if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
             int idUp = int.Parse(idprosoaUp);
-            var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.PROJET).ID;
-            var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.SOA).ID;
+            var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.PROJET && a.DELETIONDATE == null).ID;
+            var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.SOA && a.DELETIONDATE == null).ID;
 
-            var societeExist = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.IDSOA == Soa);
+            var CorrespondanceExist = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.IDSOA == Soa && a.DELETIONDATE == null);
+            var CorrespondanceSOA = db.SI_PROSOA.FirstOrDefault(a => a.IDSOA == Soa && a.DELETIONDATE == null);
+            var CorrespondancePROJET = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.DELETIONDATE == null);
 
-            if (societeExist == null)
+            if (CorrespondanceExist == null)
             {
+                if (CorrespondanceSOA != null)
+                {
+                    CorrespondanceSOA.DELETIONDATE = DateTime.Now;
+                }
+                if (CorrespondancePROJET != null)
+                {
+                    CorrespondancePROJET.DELETIONDATE = DateTime.Now;
+                }
+                var newProsoa = new SI_PROSOA()
+                {
+                    IDPROJET = Projet,
+                    IDSOA = Soa,
+                    //DELETIONDATE = null,
+                };
+                db.SI_PROSOA.Add(newProsoa);
 
-                var upCorrespondance = db.SI_PROSOA.Where(x => x.ID == idUp).FirstOrDefault();
-                upCorrespondance.IDPROJET = Projet;
-                upCorrespondance.IDSOA = Soa;
-                //var eeee = db.GetValidationErrors();
                 db.SaveChanges();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = societe }, settings));
@@ -669,6 +688,106 @@ namespace apptab.Controllers
             else
             {
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Correspondance déjà existante. " }, settings));
+            }
+        }
+
+        //Mailing//
+        public ActionResult MailCreate()
+        {
+            ViewBag.Controller = "Paramétrage des mails (Notifications et Alertes)";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsMail(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_MAIL.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer une nouvelle liste de mail. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateMail(SI_USERS suser, SI_MAIL param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            var canCreate = true;
+            var Tomail = param.MAIL;
+            string[] separators = { ";" };
+            if (Tomail != null)
+            {
+                string listUser = Tomail.ToString();
+                string[] mailListe = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var mailto in mailListe)
+                {
+                    Match match = regex.Match(mailto);
+                    if (!match.Success)
+                        canCreate = false;
+                }
+            }
+            if (canCreate == false) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "L'une des adresses mail renseignée n'est pas valide. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_MAIL.FirstOrDefault(a => a.IDPROJET == IdS && a.DELETIONDATE == null);
+
+                if (SExist != null)
+                {
+                    if (SExist.MAIL != param.MAIL)
+                    {
+                        SExist.DELETIONDATE = DateTime.Now;
+
+                        var newPara = new SI_MAIL()
+                        {
+                            MAIL = param.MAIL,
+                            IDPROJET = IdS
+                        };
+
+                        db.SI_MAIL.Add(newPara);
+                        db.SaveChanges();
+                    }
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_MAIL()
+                    {
+                        MAIL = param.MAIL,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_MAIL.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
             }
         }
     }
