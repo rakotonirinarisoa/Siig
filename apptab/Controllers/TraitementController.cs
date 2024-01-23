@@ -38,5 +38,7 @@ namespace apptab.Controllers
 
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = user }, settings));
         }
+
+
     }
 }

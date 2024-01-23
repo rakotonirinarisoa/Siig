@@ -9,7 +9,6 @@ $(document).ready(() => {
     $(`[data-id="username"]`).text(User.LOGIN);
     
     GetListProjet();
-    //GetUsers(undefined);
 });
 
 let urlOrigin = "https://localhost:44334";
