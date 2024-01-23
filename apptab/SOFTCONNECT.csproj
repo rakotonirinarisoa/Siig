@@ -187,6 +187,7 @@
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TraitementController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Data\Entities\UserPassword.cs" />
     <Compile Include="Models\CPTADMIN_FLIQUIDATION.cs" />
     <Compile Include="Models\CPTADMIN_MLIQUIDATION.cs" />
     <Compile Include="Models\CPTADMIN_MLIQUIDATIONPJ.cs" />
@@ -2101,6 +2102,7 @@
     <Content Include="Assets\js\Mis.js" />
     <Content Include="Assets\js\Min.js" />
     <Content Include="Assets\js\Act.js" />
+    <Content Include="Assets\js\passwords.js" />
     <Content Include="Assets\js\Prog.js" />
     <Content Include="Assets\js\Proc.js" />
     <Content Include="Assets\js\Enga.js" />

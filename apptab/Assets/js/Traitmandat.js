@@ -63,3 +63,63 @@ $('#proj').on('change', () => {
 
     GetUsers(id);
 });
+
+
+//GENERER//
+$('[data-action="GenereR"]').click(function () {
+    let formData = new FormData();
+    //alert(baseName);
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    formData.append("DateDebut", $('#dateD').val());
+    formData.append("DateFin", $('#dateF').val());
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/Generation',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                //window.location = window.location.origin;
+                ListResult = Datas.data
+                contentpaie = ``;
+                $.each(ListResult, function (k, v) {
+                    contentpaie += `
+                    <tr compteG-id="${v.No}">
+                        <td>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked/>
+                        </td><td>${v.No}</td>
+                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
+                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                        <td style="font-weight: bold; text-align:center">${v.MONT}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.DATE}</td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags text-danger"></i></div>
+                        </td>
+                    </tr>`
+                });
+
+                $('.afb160Paie').empty();
+                $('.afb160Paie').html(contentpaie);
+            }
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+});
