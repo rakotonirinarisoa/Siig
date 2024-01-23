@@ -9,8 +9,7 @@ $(document).ready(() => {
 
     GetFSOA();
 });
-
-let urlOrigin = "https://localhost:44334";
+//let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 
 function GetFSOA() {
@@ -27,7 +26,7 @@ function GetFSOA() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/DetailsFSOA',
+        url: Origin + '/SuperAdmin/DetailsFSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -74,7 +73,7 @@ $(`[data-action="UpdateFSOAJS"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/UpdatFSOA',
+        url: Origin + '/SuperAdmin/UpdatFSOA',
         data: formData,
         cache: false,
         contentType: false,

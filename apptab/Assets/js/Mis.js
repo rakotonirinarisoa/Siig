@@ -9,8 +9,6 @@ $(document).ready(() => {
     $(`[data-id="username"]`).text(User.LOGIN);
     GetUsers();
 });
-
-let urlOrigin = "https://localhost:44334";
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetUsers() {
     let formData = new FormData();
@@ -22,7 +20,7 @@ function GetUsers() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Parametre/DetailsMis',
+        url: Origin + '/Parametre/DetailsMis',
         data: formData,
         cache: false,
         contentType: false,
@@ -70,7 +68,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Parametre/UpdateMis',
+        url: Origin + '/Parametre/UpdateMis',
         data: formData,
         cache: false,
         contentType: false,

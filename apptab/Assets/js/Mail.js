@@ -5,12 +5,11 @@ $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
     if (User == null || User === "undefined") window.location = "../";
     Origin = User.origin;
-
     $(`[data-id="username"]`).text(User.LOGIN);
     GetUsers();
 });
 
-let urlOrigin = "https://localhost:44334";
+//let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetUsers() {
     let formData = new FormData();
@@ -22,7 +21,7 @@ function GetUsers() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/DetailsMail',
+        url: Origin + '/SuperAdmin/DetailsMail',
         data: formData,
         cache: false,
         contentType: false,
@@ -66,7 +65,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/UpdateMail',
+        url: Origin + '/SuperAdmin/UpdateMail',
         data: formData,
         cache: false,
         contentType: false,

@@ -11,7 +11,6 @@ $(document).ready(() => {
     GetListProjet();
 });
 
-let urlOrigin = "https://localhost:44334";
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListProjet() {
     let formData = new FormData();
@@ -23,7 +22,7 @@ function GetListProjet() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Traitement/GetAllPROJET',
+        url: Origin + '/Traitement/GetAllPROJET',
         data: formData,
         cache: false,
         contentType: false,
