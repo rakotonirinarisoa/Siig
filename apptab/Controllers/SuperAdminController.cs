@@ -525,7 +525,7 @@ namespace apptab.Controllers
             try
             {
                 int IDSOA = int.Parse(SOAid);
-                var SOA = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA);
+                var SOA = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA && a.DELETIONDATE == null);
                 var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDSOA && F_ProjetSoa.DELETIONDATE==null).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
                 if (SOA != null)
                 {
@@ -535,7 +535,7 @@ namespace apptab.Controllers
                     {
                         foreach (var p in ProjSoa)
                         {
-                            var F_del = db.SI_PROSOA.Where(F_remSoa => F_remSoa.IDSOA == p).FirstOrDefault();
+                            var F_del = db.SI_PROSOA.Where(F_remSoa => F_remSoa.IDSOA == p && F_remSoa.DELETIONDATE != null).FirstOrDefault();
                             F_del.DELETIONDATE= DateTime.Now;
                             //db.SI_PROSOA.Remove(F_del);
                         }
