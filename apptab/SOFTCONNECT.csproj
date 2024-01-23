@@ -2079,6 +2079,7 @@
     <Content Include="Assets\admlte\plugins\uplot\uPlot.iife.js" />
     <Content Include="Assets\admlte\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Assets\admlte\plugins\uplot\uPlot.min.css" />
+    <Content Include="Assets\css\new_project.styles.css" />
     <Content Include="Assets\img\bg.jpg" />
     <Content Include="Assets\img\df.png" />
     <Content Include="Assets\img\logo-soft.png" />
