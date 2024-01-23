@@ -234,29 +234,66 @@
                         </ul>
                     }
 
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block">
-                        <li class="nav-flat" data-io><hr /></li>
-                        <li class="nav-item" data-io>
-                            <a href="../User/List" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    Gestion des utilisateurs
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
+                    @if ((Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.SAdministrateur || (Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.Administrateur)
+                    {
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block">
+                            <li class="nav-flat" data-io><hr /></li>
+                            <li class="nav-item" data-io>
+                                <a href="../User/List" class="nav-link">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>
+                                        Gestion des utilisateurs
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item" data-io>
+                                <a href="../SuperAdmin/MailCreate" class="nav-link">
+                                    <i class="nav-icon fas fa-envelope"></i>
+                                    <p>
+                                        Gestion des mails
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    }
 
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block">
-                        <li class="nav-flat" data-io><hr /></li>
-                        <li class="nav-item" data-io>
-                            <a href="../User/List" class="nav-link">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block" id="menu-accordeon">
+                        <li class="nav-item SuperAd" data-io>
+                            <a class="nav-link">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>
                                     Traitements
                                 </p>
                             </a>
+                            @if ((Session["userSession"] as apptab.SI_USERS).ROLE != apptab.Role.ORDSEC)
+                            {
+                                <ul style="list-style-type: none; display:block" class="nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                    <li class="nav-item">
+                                        <a href="../Traitement/TraitementPROJET" class="nav-link">
+                                            <i class="nav-icon fas fa-tasks"></i>
+                                            <p>
+                                                Traitement des mandats (PROJET)
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            }
+                            @if ((Session["userSession"] as apptab.SI_USERS).ROLE != apptab.Role.Projet)
+                            {
+                                <ul style="list-style-type: none; display:block" class="nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                    <li class="nav-item">
+                                        <a href="../SuperAdmin/ProjetList" class="nav-link">
+                                            <i class="nav-icon fas fa-tasks"></i>
+                                            <p>
+                                                Traitement des mandats (ORDESEC)
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            }
                         </li>
                     </ul>
+                    
 
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block" id="menu-accordeon">
                         <li class="nav-item SuperAd" data-io>

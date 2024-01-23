@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Traitement MANDATS";
+    ViewData["Controller"] = "Traitement MANDATS";
+    /*Layout = "~/Views/Shared/_Layout.cshtml";*/
+}
+
+<div class="form-row">
+    <div class="input-group mb-3 col">
+        <div class="input-group-prepend">
+            <span class="input-group-text text-bold" id="inputGroup-sizing-default">PROJET</span>
+        </div>
+        <select class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="proj" data-id="proj-list" disabled="@((Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.Projet || (Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.ORDSEC)">
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="input-group mb-3 col">
+        <div class="input-group-prepend">
+            <span class="input-group-text text-bold" id="inputGroup-sizing-default">Date début</span>
+        </div>
+        <input type="date" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="dateD">
+    </div>
+    <div class="input-group mb-3 col">
+        <div class="input-group-prepend">
+            <span class="input-group-text text-bold" id="inputGroup-sizing-default">Date fin</span>
+        </div>
+        <input type="date" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="dateF">
+    </div>
+</div>
+
+<div class="form-row mb-3">
+    <div class="input-group mb-3 col">
+        <div class="btn btn-flat bg-gradient-info col-12" data-action="CreateTxt">
+            <i class="fa fa-download"></i> Générer
+        </div>
+    </div>
+</div>
+
+<div class="form-row mb-3">
+    <div class="input-group mb-3 col">
+        <div class="btn btn-flat bg-gradient-green col-12" data-action="CreateTxt">
+            <i class="fa fa-save"></i> Enregistrer
+        </div>
+    </div>
+    <div class="input-group mb-3 col">
+        <div class="btn btn-flat bg-gradient-red col-12">
+            <i class="fa fa-check-double"></i> Enregistrer et envoyer pour validation
+        </div>
+    </div>
+</div>
+
+
+<!-- Droit.js -->
+<script src="~/Assets/js/Traitmandat.js"></script>

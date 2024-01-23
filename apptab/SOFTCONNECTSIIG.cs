@@ -1,4 +1,4 @@
-using System.Data.Entity;
+﻿using System.Data.Entity;
 
 namespace apptab
 {
@@ -24,6 +24,7 @@ namespace apptab
         public virtual DbSet<SI_MISSION> SI_MISSION { get; set; }
         public virtual DbSet<SI_PROCEDURE> SI_PROCEDURE { get; set; }
         public virtual DbSet<SI_PROGRAMME> SI_PROGRAMME { get; set; }
+        public virtual DbSet<SI_MAIL> SI_MAIL { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

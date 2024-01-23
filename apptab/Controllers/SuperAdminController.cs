@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Text.RegularExpressions;
 
 namespace apptab.Controllers
 {
@@ -687,6 +688,106 @@ namespace apptab.Controllers
             else
             {
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Correspondance déjà existante. " }, settings));
+            }
+        }
+
+        //Mailing//
+        public ActionResult MailCreate()
+        {
+            ViewBag.Controller = "Paramétrage des mails (Notifications et Alertes)";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsMail(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_MAIL.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer une nouvelle liste de mail. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateMail(SI_USERS suser, SI_MAIL param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            var canCreate = true;
+            var Tomail = param.MAIL;
+            string[] separators = { ";" };
+            if (Tomail != null)
+            {
+                string listUser = Tomail.ToString();
+                string[] mailListe = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var mailto in mailListe)
+                {
+                    Match match = regex.Match(mailto);
+                    if (!match.Success)
+                        canCreate = false;
+                }
+            }
+            if (canCreate == false) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "L'une des adresses mail renseignée n'est pas valide. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_MAIL.FirstOrDefault(a => a.IDPROJET == IdS && a.DELETIONDATE == null);
+
+                if (SExist != null)
+                {
+                    if (SExist.MAIL != param.MAIL)
+                    {
+                        SExist.DELETIONDATE = DateTime.Now;
+
+                        var newPara = new SI_MAIL()
+                        {
+                            MAIL = param.MAIL,
+                            IDPROJET = IdS
+                        };
+
+                        db.SI_MAIL.Add(newPara);
+                        db.SaveChanges();
+                    }
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_MAIL()
+                    {
+                        MAIL = param.MAIL,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_MAIL.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
             }
         }
     }

@@ -9,18 +9,23 @@ $(document).ready(() => {
     $(`[data-id="username"]`).text(User.LOGIN);
     
     GetListProjet();
-    GetUsers();
+    GetUsers(undefined);
 });
 
 let urlOrigin = "https://localhost:44334";
 //let urlOrigin = "http://softwell.cloud/OPAVI";
-function GetUsers() {
+function GetUsers(id) {
     let formData = new FormData();
     
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
-    formData.append("suser.IDPROJET", User.IDPROJET);
+
+    if (!id) {
+        formData.append("suser.IDPROJET", User.IDPROJET);
+    } else {
+        formData.append("suser.IDPROJET", id);
+    }
 
     $.ajax({
         type: "POST",
@@ -107,3 +112,9 @@ function GetListProjet() {
         }
     })
 }
+
+$('#proj').on('change', () => {
+    const id = $('#proj').val();
+
+    GetUsers(id);
+});
