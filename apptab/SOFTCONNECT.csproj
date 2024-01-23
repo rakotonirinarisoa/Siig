@@ -185,7 +185,11 @@
     <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
+    <Compile Include="Controllers\TraitementController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Models\CPTADMIN_FLIQUIDATION.cs" />
+    <Compile Include="Models\CPTADMIN_MLIQUIDATION.cs" />
+    <Compile Include="Models\CPTADMIN_MLIQUIDATIONPJ.cs" />
     <Compile Include="Data\Entities\ProjectToDelete.cs" />
     <Compile Include="Data\Entities\ProjectToUpdate.cs" />
     <Compile Include="Global.asax.cs">
@@ -209,6 +213,7 @@
     <Compile Include="Models\SI_MISSION.cs" />
     <Compile Include="Models\SI_PROCEDURE.cs" />
     <Compile Include="Models\SI_PROGRAMME.cs" />
+    <Compile Include="SOFTCONNECTOM.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2080,6 +2085,7 @@
     <Content Include="Assets\admlte\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Assets\admlte\plugins\uplot\uPlot.min.css" />
     <Content Include="Assets\css\new_project.styles.css" />
+    <Content Include="Assets\icons\eye.svg" />
     <Content Include="Assets\img\bg.jpg" />
     <Content Include="Assets\img\df.gif" />
     <Content Include="Assets\img\df.png" />
@@ -2122,11 +2128,25 @@
     <Content Include="Assets\js\User.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.min.js" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Assets\css\style.css" />
+    <Content Include="Content\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="DeploieF\UrlOrigine.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -2216,6 +2236,21 @@
     <Content Include="Assets\admlte\plugins\summernote\summernote.js.map" />
     <Content Include="Assets\admlte\plugins\summernote\summernote.min.js.map" />
     <Content Include="Assets\admlte\plugins\toastr\toastr.js.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
+    <Content Include=".editorconfig" />
     <None Include="deploy" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
@@ -2291,8 +2326,9 @@
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\SuperAdmin\SuperAdminDetailFPROSOA.cshtml" />
     <Content Include="Views\SuperAdmin\SuperAdminDetailFSOA.cshtml" />
-    <Content Include="Views\Traitement\TraitementPROJET.cshtml" />
     <Content Include="Views\SuperAdmin\MailCreate.cshtml" />
+    <Content Include="Views\Traitement\TraitementPROJET.cshtml" />
+    <Content Include="Views\User\AdminMaPUserCreate.cshtml" />
     <Content Include="Views\User\AdminMaPUserList.cshtml" />
     <Content Include="Views\User\SuperAdmin.cshtml" />
     <Content Include="Views\User\SuperAdminMaPCreate.cshtml" />
