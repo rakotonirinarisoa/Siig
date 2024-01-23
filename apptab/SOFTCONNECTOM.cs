@@ -12,10 +12,11 @@ namespace apptab
     public partial class SOFTCONNECTOM : DbContext
     {
         public SOFTCONNECTOM()
-            : base("name=SOFTCONNECTOM")
+            : base(connex)
         {
         }
 
+        public static string connex = "name=SOFTCONNECTOM";
         public virtual DbSet<CPTADMIN_FLIQUIDATION> CPTADMIN_FLIQUIDATION { get; set; }
         public virtual DbSet<CPTADMIN_MLIQUIDATION> CPTADMIN_MLIQUIDATION { get; set; }
         public virtual DbSet<CPTADMIN_MLIQUIDATIONPJ> CPTADMIN_MLIQUIDATIONPJ { get; set; }
