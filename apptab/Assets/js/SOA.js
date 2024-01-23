@@ -11,7 +11,6 @@ $(document).ready(() => {
 });
 
 
-let urlOrigin = "https://localhost:44334";
 ////let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListSociete() {
     let formData = new FormData();
@@ -23,7 +22,7 @@ function GetListSociete() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/FillTableSOA',
+        url: Origin + '/SuperAdmin/FillTableSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -86,7 +85,7 @@ $(`[data-action="AddnewSociete"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/AddSocieteSOA',
+        url: Origin + '/SuperAdmin/AddSocieteSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -124,7 +123,7 @@ function deleteSoa(id) {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/DeleteFSOA',
+        url: Origin + '/SuperAdmin/DeleteFSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -146,6 +145,6 @@ function deleteSoa(id) {
     });
 }
 function DetailSOA(id) {
-    window.location = urlOrigin + "/SuperAdmin/SuperAdminDetailFSOA?SOAID=" + id;
+    window.location = Origin + "/SuperAdmin/SuperAdminDetailFSOA?SOAID=" + id;
 }
 //SuperAdminDetailFSOA

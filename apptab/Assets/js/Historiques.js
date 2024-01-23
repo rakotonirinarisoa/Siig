@@ -19,7 +19,6 @@ $(document).ready(() => {
     //GetListCodeJournal();
     //GetListCompG();
 });
-
 function GetHistoriques() {
     let formData = new FormData();
 
@@ -31,7 +30,7 @@ function GetHistoriques() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Home/GetHistoriques',
+        url: Origin + '/Home/GetHistoriques',
         data: formData,
         cache: false,
         contentType: false,
@@ -152,7 +151,7 @@ $('[data-action="GetElementChecked"]').click(function () {
     let listid = list.splice(',');
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Home/GetCancel',
+        url: Origin + '/Home/GetCancel',
         data: formData,
         cache: false,
         contentType: false,
@@ -188,5 +187,4 @@ $(`[name="options"]`).on("change", (k, v) => {
     }
 });
 
-let urlOrigin = "https://localhost:44334";
 //let urlOrigin = "http://softwell.cloud/OPAVI";

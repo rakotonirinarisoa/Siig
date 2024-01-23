@@ -9,8 +9,7 @@ $(document).ready(() => {
     $(`[data-id="username"]`).text(User.LOGIN);
     GetListDroit();
 });
-
-let urlOrigin = "https://localhost:44334";
+//let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListDroit() {
     let formData = new FormData();
@@ -22,7 +21,7 @@ function GetListDroit() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Admin/FillTable',
+        url: Origin + '/Admin/FillTable',
         data: formData,
         cache: false,
         contentType: false,
@@ -83,7 +82,7 @@ function deleteDroit(id) {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Admin/DeleteDroit',
+        url: Origin + '/Admin/DeleteDroit',
         data: formData,
         cache: false,
         contentType: false,

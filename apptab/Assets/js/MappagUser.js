@@ -26,8 +26,7 @@ $(document).ready(() => {
 
     $("#base-container").hide();
 });
-
-let urlOrigin = "https://localhost:44334";
+//let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListUser() {
     let formData = new FormData();
@@ -39,7 +38,7 @@ function GetListUser() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/GetAllPROJET',
+        url: Origin + '/SuperAdmin/GetAllPROJET',
         data: formData,
         cache: false,
         contentType: false,
@@ -112,7 +111,7 @@ $(`[data-id="connex"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/GetNewInstance',
+        url: Origin + '/SuperAdmin/GetNewInstance',
         data: formData,
         cache: false,
         contentType: false,
@@ -165,7 +164,7 @@ $(`[data-action="AddnewUser"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/SuperAdminMaPCreate',
+        url: Origin + '/SuperAdmin/SuperAdminMaPCreate',
         data: formData,
         cache: false,
         contentType: false,

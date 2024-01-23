@@ -11,8 +11,7 @@ $(document).ready(() => {
     GetListProjet();
     GetUsers(undefined);
 });
-
-let urlOrigin = "https://localhost:44334";
+//let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetUsers(id) {
     let formData = new FormData();
@@ -29,7 +28,7 @@ function GetUsers(id) {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Etat/DetailsInfoPro',
+        url: Origin + '/Etat/DetailsInfoPro',
         data: formData,
         cache: false,
         contentType: false,
@@ -77,7 +76,7 @@ function GetListProjet() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Etat/GetAllPROJET',
+        url: Origin + '/Etat/GetAllPROJET',
         data: formData,
         cache: false,
         contentType: false,

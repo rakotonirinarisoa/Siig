@@ -46,8 +46,9 @@ namespace SOFTCONNECT.Controllers
                         a.PWD,
                         ROLE = a.ROLE.ToString(), //db.OPA_ROLES.Where(x => x.ID == a.ROLE).FirstOrDefault().INTITULES,
                         ID = a.ID,
-                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET
-                    }).ToList();
+                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET,
+                        DELETONDATE = a.DELETIONDATE
+                    }).Where(a => a.DELETONDATE == null).ToList();
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
                 }
                 else
@@ -58,8 +59,9 @@ namespace SOFTCONNECT.Controllers
                         a.PWD,
                         ROLE = a.ROLE.ToString(), //db.OPA_ROLES.Where(x => x.ID == a.ROLE).FirstOrDefault().INTITULES,
                         ID = a.ID,
-                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET
-                    }).ToList();
+                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET,
+                        DELETONDATE = a.DELETIONDATE
+                    }).Where(a => a.DELETONDATE == null).ToList();
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
                 }
             }

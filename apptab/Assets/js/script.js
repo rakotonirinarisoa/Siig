@@ -24,7 +24,7 @@ function GetUR() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/User/GetUR',
+        url: Origin + '/User/GetUR',
         data: formData,
         cache: false,
         contentType: false,

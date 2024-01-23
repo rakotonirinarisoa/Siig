@@ -15,7 +15,7 @@ $(document).ready(() => {
     });
 });
 
-let urlOrigin = "https://localhost:44334";
+let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListInstance() {
     let formData = new FormData();

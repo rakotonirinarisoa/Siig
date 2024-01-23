@@ -12,8 +12,7 @@ $(document).ready(() => {
     GetListProjet(getUrlParameter("PROSOAID"));
     GetListFPROSOA(getUrlParameter("PROSOAID"));
 });
-
-let urlOrigin = "https://localhost:44334";
+//let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListProjet(id) {
     let formData = new FormData();
@@ -27,7 +26,7 @@ function GetListProjet(id) {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/GetAllPROJET',
+        url: Origin + '/SuperAdmin/GetAllPROJET',
         data: formData,
         cache: false,
         contentType: false,
@@ -80,7 +79,7 @@ function GetListFPROSOA(id) {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/GetAllSOA',
+        url: Origin + '/SuperAdmin/GetAllSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -146,7 +145,7 @@ $(`[data-action="AddnewSociete"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/AddSocietePROSOA',
+        url: Origin + '/SuperAdmin/AddSocietePROSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -181,7 +180,7 @@ function GetListSociete() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/FillTablePROSOA',
+        url: Origin + '/SuperAdmin/FillTablePROSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -243,7 +242,7 @@ function deletePROSOA(id) {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/DeleteFPROSOA',
+        url: Origin + '/SuperAdmin/DeleteFPROSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -291,7 +290,7 @@ $(`[data-action="UpdateFPROSOA"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/UpdateFPROSOA',
+        url: Origin + '/SuperAdmin/UpdateFPROSOA',
         data: formData,
         cache: false,
         contentType: false,

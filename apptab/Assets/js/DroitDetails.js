@@ -15,8 +15,7 @@ $(document).ready(() => {
 
     GetUsers();
 });
-
-let urlOrigin = "https://localhost:44334";
+//let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListUser() {
     let formData = new FormData();
@@ -28,7 +27,7 @@ function GetListUser() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Admin/GetAllUser',
+        url: Origin + '/Admin/GetAllUser',
         data: formData,
         cache: false,
         contentType: false,
@@ -125,7 +124,7 @@ function GetDB(instanceID, id) {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Admin/GetDB',
+        url: Origin + '/Admin/GetDB',
         data: formData,
         cache: false,
         contentType: false,
@@ -179,7 +178,7 @@ function GetUsers() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Admin/DetailsUser',
+        url: Origin + '/Admin/DetailsUser',
         data: formData,
         cache: false,
         contentType: false,
@@ -248,7 +247,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Admin/UpdateUser',
+        url: Origin + '/Admin/UpdateUser',
         data: formData,
         cache: false,
         contentType: false,

@@ -997,5 +997,5 @@ $(`[name="options"]`).on("change", (k, v) => {
 
 });
 
-let urlOrigin = "https://localhost:44334";
+let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
