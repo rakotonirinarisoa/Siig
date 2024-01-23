@@ -74,9 +74,8 @@ namespace SOFTCONNECT.Controllers
             }
         }
 
-        [Route("/users/passwords/{Id}")]
         [HttpPost]
-        public async Task<JsonResult> GetUserPassword(UserPassword userPassword)
+        public async Task<JsonResult> Password(UserPassword userPassword)
         {
             var connectedUser = await db.SI_USERS.FirstOrDefaultAsync(
                 a => a.LOGIN == userPassword.LoginName && a.PWD == userPassword.Password && a.DELETIONDATE == null && (a.ROLE == Role.SAdministrateur || a.ROLE == Role.Administrateur)
@@ -162,7 +161,7 @@ namespace SOFTCONNECT.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateUser(SI_USERS suser, SI_USERS user, string UserId)
+        public JsonResult UpdateUser(SI_USERS suser, SI_USERS user, string oldPassword, string UserId)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
@@ -173,6 +172,11 @@ namespace SOFTCONNECT.Controllers
                 var userExist = db.SI_USERS.FirstOrDefault(a => a.ID == userId && a.DELETIONDATE == null);
                 if (userExist != null)
                 {
+                    if (userExist.PWD != oldPassword)
+                    {
+                        return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Ancien mot de passe erroné!", data = user }, settings));
+                    }
+
                     userExist.LOGIN = user.LOGIN;
                     userExist.PWD = user.PWD;
                     userExist.IDPROJET = exist.IDPROJET;

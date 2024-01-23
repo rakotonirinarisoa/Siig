@@ -12,7 +12,7 @@
         </a>
     </div>
     @*<div class="input-group mb-3 col-sm-5">
-            <div class="input-group-prepend">
+            <div class="input-group-prepend custom-label">
                 <span class="input-group-text text-bold" id="basic-addon3"><i class="fa fa-search"></i></span>
             </div>
             <input type="text" class="form-control col" id="ticket" placeholder="Rechercher...">
@@ -54,16 +54,16 @@
                     </div>
                     <div>
                         <label for="password">Mot de passe: </label>
-                        <input type="text" id="password" class="form-control" />
+                        <input type="password" id="password" class="form-control" />
                     </div>
 
-                    <button type="button" class="btn btn-primary">Vérifier</button>
+                    <button type="button" class="btn btn-primary" id="get-user-password-btn">Vérifier</button>
                 </div>
 
                 <p id="user-password"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-btn">Annuler</button>
             </div>
         </div>
     </div>
@@ -72,9 +72,3 @@
 <!-- USer.js -->
 <script defer src="~/Assets/js/User.js"></script>
 <script defer src="~/Assets/js/passwords.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $("#idTable").DataTable()
-    });
-</script>

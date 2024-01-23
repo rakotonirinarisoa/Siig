@@ -92,7 +92,7 @@ function GetUsers() {
             }
 
             $("#Login").val(Datas.data.LOGIN);
-            $("#MDP").val(Datas.data.PWD);
+            //$("#MDP").val(Datas.data.PWD);
             $("#Role").val(`${Datas.data.ROLE}`);
         },
         error: function () {
@@ -173,6 +173,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("user.ROLE", $(`#Role`).val());
     formData.append("user.PWD", newpwd);
 
+    formData.append("oldPassword", $('#old-password').val());
     formData.append("UserId", getUrlParameter("UserId"));
     
     $.ajax({
@@ -187,6 +188,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
+
                 return;
             }
             if (Datas.type == "success") {

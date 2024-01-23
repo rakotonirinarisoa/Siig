@@ -8,9 +8,10 @@ $(document).ready(() => {
 
     $(`[data-id="username"]`).text(User.LOGIN);
     GetListUser();
+
+    $("#idTable").DataTable()
 });
 
-//let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListUser() {
     let formData = new FormData();
 
@@ -117,6 +118,5 @@ function DetailUpdateUser(id) {
     window.location = Origin + "/User/DetailsUser?UserId=" + id;
 }
 
-function showPassword(id) {
-    $('#password-modal').modal('toggle');
-}
+
+
