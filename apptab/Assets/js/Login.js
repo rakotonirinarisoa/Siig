@@ -21,7 +21,7 @@ function GetFileUrlOrgF() {
         success: function (result) {
             var Datas = JSON.parse(result);
             //urlOrigin = Datas.data,
-               
+             
             if (Datas.type == "error") {
                 return;
             }

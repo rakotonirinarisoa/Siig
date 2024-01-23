@@ -185,6 +185,7 @@
     <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
+    <Compile Include="Controllers\TraitementController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Data\Entities\ProjectToDelete.cs" />
     <Compile Include="Data\Entities\ProjectToUpdate.cs" />
@@ -192,6 +193,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\PROSOA.cs" />
+    <Compile Include="Models\SI_MAIL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\SI_ROLES.cs" />
     <Compile Include="Models\SI_PROJETS.cs" />
@@ -2078,10 +2080,18 @@
     <Content Include="Assets\admlte\plugins\uplot\uPlot.iife.js" />
     <Content Include="Assets\admlte\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Assets\admlte\plugins\uplot\uPlot.min.css" />
+    <Content Include="Assets\css\new_project.styles.css" />
     <Content Include="Assets\img\bg.jpg" />
     <Content Include="Assets\img\df.png" />
     <Content Include="Assets\img\logo-soft.png" />
     <Content Include="Assets\img\logoMellis.png" />
+    <Content Include="Assets\js\Crypto.js" />
+    <Content Include="Assets\js\DetailCrypto.js" />
+    <Content Include="Assets\js\DetailsFPROSOA.js" />
+    <Content Include="Assets\js\DetailsFSoaUpdate.js" />
+    <Content Include="Assets\js\Ftp.js" />
+    <Content Include="Assets\js\Info.js" />
+    <Content Include="Assets\js\Mail.js" />
     <Content Include="Assets\js\Mis.js" />
     <Content Include="Assets\js\Min.js" />
     <Content Include="Assets\js\Act.js" />
@@ -2108,6 +2118,7 @@
     <Content Include="Assets\js\Droit.js" />
     <Content Include="Assets\js\MaPS.js" />
     <Content Include="Assets\js\SOA.js" />
+    <Content Include="Assets\js\Traitmandat.js" />
     <Content Include="Assets\js\User.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.min.js" />
@@ -2116,10 +2127,15 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Assets\css\style.css" />
+    <Content Include="DeploieF\UrlOrigine.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Assets\admlte\dist\css\adminlte.css.map" />
@@ -2201,12 +2217,25 @@
     <Content Include="Assets\admlte\plugins\summernote\summernote.min.js.map" />
     <Content Include="Assets\admlte\plugins\toastr\toastr.js.map" />
     <None Include="deploy" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.7.1.min.map" />
+    <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <None Include="Scripts\jquery-3.7.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.7.1.js" />
+    <Content Include="Scripts\jquery-3.7.1.min.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -2262,6 +2291,8 @@
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\SuperAdmin\SuperAdminDetailFPROSOA.cshtml" />
     <Content Include="Views\SuperAdmin\SuperAdminDetailFSOA.cshtml" />
+    <Content Include="Views\SuperAdmin\MailCreate.cshtml" />
+    <Content Include="Views\Traitement\TraitementPROJET.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
