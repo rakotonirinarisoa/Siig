@@ -5,6 +5,9 @@ using System.Web.Mvc;
 using apptab;
 using Newtonsoft.Json;
 using System.Web.UI.WebControls;
+using System.Threading.Tasks;
+using apptab.Data.Entities;
+using System.Data.Entity;
 
 namespace SOFTCONNECT.Controllers
 {
@@ -70,6 +73,34 @@ namespace SOFTCONNECT.Controllers
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
             }
         }
+
+        [Route("/users/passwords/{Id}")]
+        [HttpPost]
+        public async Task<JsonResult> GetUserPassword(UserPassword userPassword)
+        {
+            var connectedUser = await db.SI_USERS.FirstOrDefaultAsync(
+                a => a.LOGIN == userPassword.LoginName && a.PWD == userPassword.Password && a.DELETIONDATE == null && (a.ROLE == Role.SAdministrateur || a.ROLE == Role.Administrateur)
+            );
+
+            if (connectedUser == null)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "" }, settings));
+            }
+
+            var res = await db.SI_USERS.FirstOrDefaultAsync(user => user.ID == userPassword.UserId);
+
+            return Json(JsonConvert.SerializeObject(new
+            {
+                type = "success",
+                msg = "Connexion avec succès. ",
+                data = new
+                {
+                    login = res.LOGIN,
+                    password = res.PWD
+                }
+            }, settings));
+        }
+
         public ActionResult Create()
         {
 
