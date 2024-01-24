@@ -158,7 +158,7 @@ $('[data-action="GenereR"]').click(function () {
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${v.DATE}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">
-                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags text-danger"></i></div>
+                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
                         </td>
                     </tr>`
                 });
@@ -224,7 +224,7 @@ $('[data-action="GenereSIIG"]').click(function () {
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${v.DATE}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">
-                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags text-danger"></i></div>
+                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
                         </td>
                     </tr>`
                 });

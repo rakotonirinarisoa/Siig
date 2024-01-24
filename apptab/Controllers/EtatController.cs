@@ -184,7 +184,7 @@ namespace apptab.Controllers
                         var sta = "Attente validation";
                         if (x.ETAT == 1)
                             sta = "Validée";
-                        else if (x.ETAT == 2) 
+                        else if (x.ETAT == 2)
                             sta = "Annulée";
 
                         list.Add(new DATATRPROJET { No = Guid.Parse(x.No), REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
