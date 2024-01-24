@@ -147,14 +147,14 @@ $('[data-action="GenereR"]').click(function () {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}">
+                    <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">
                             <input type="checkbox" name = "checkprod" compteg-ischecked/>
                         </td><td style="font-weight: bold; text-align:center">${v.No}</td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${v.MONT}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(v.MONT, '.')}</td>
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${v.DATE}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">

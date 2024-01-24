@@ -193,7 +193,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
-                window.location = urlOrigin + "/User/List";
+                window.location = Origin + "/User/List";
                 /*window.history.back();*/
                 /*location.replace(document.referrer);*/
             }

@@ -231,3 +231,13 @@ a.nav-link.Fnav {
     width: 100%;
 }
 
+.select-text {
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+td, th {
+    border: 2px solid black !important;
+}
+

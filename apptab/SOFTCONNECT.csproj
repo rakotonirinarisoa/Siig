@@ -2131,6 +2131,7 @@
     <Content Include="Assets\js\SOA.js" />
     <Content Include="Assets\js\Traitmandat.js" />
     <Content Include="Assets\js\User.js" />
+    <Content Include="Assets\js\utils.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
