@@ -184,7 +184,7 @@ namespace apptab.Controllers
                         var sta = "Attente validation";
                         if (x.ETAT == 1)
                             sta = "Validée";
-                        else if(x.ETAT == 2) 
+                        else if (x.ETAT == 2) 
                             sta = "Annulée";
 
                         list.Add(new DATATRPROJET { No = Guid.Parse(x.No), REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
@@ -231,11 +231,16 @@ namespace apptab.Controllers
                         }
                     }
                 }
-                else if (STAT == 1)
+                else
                 {
-                    if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == 0) != null)
+                    var ett = 0;
+                    /*if (STAT == 1) ett = 0;*/
+                    if (STAT == 2) ett = 1;
+                    if (STAT == 3) ett = 2;
+
+                    if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == ett) != null)
                     {
-                        foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == 0).ToList())
+                        foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == ett).ToList())
                         {
                             var sta = "Attente validation";
 
@@ -243,31 +248,7 @@ namespace apptab.Controllers
                         }
                     }
                 }
-                else if (STAT == 2)
-                {
-                    if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == 1) != null)
-                    {
-                        foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == 1).ToList())
-                        {
-                            var sta = "Validée";
-
-                            list.Add(new DATATRPROJET { No = Guid.Parse(x.No), REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
-                        }
-                    }
-                }
-                else if (STAT == 3)
-                {
-                    if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == 2) != null)
-                    {
-                        foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == 2).ToList())
-                        {
-                            var sta = "Annulée";
-
-                            list.Add(new DATATRPROJET { No = Guid.Parse(x.No), REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
-                        }
-                    }
-                }
-
+                
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
             }
             catch (Exception e)
