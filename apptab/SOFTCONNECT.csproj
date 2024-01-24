@@ -198,7 +198,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DATATRPROJET.cs" />
-    <Compile Include="Models\Model1.cs" />
     <Compile Include="Models\PROSOA.cs" />
     <Compile Include="Models\SI_MAIL.cs" />
     <Compile Include="Models\SI_TRAITPROJET.cs" />
@@ -218,6 +217,7 @@
     <Compile Include="Models\SI_MISSION.cs" />
     <Compile Include="Models\SI_PROCEDURE.cs" />
     <Compile Include="Models\SI_PROGRAMME.cs" />
+    <Compile Include="Models\RTIERS.cs" />
     <Compile Include="SOFTCONNECTOM.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
   </ItemGroup>
@@ -2100,6 +2100,7 @@
     <Content Include="Assets\js\DetailsFPROSOA.js" />
     <Content Include="Assets\js\DetailsFSoaUpdate.js" />
     <Content Include="Assets\js\Ftp.js" />
+    <Content Include="Assets\js\InfoMandat.js" />
     <Content Include="Assets\js\Info.js" />
     <Content Include="Assets\js\Mail.js" />
     <Content Include="Assets\js\Mis.js" />
@@ -2131,6 +2132,7 @@
     <Content Include="Assets\js\SOA.js" />
     <Content Include="Assets\js\Traitmandat.js" />
     <Content Include="Assets\js\User.js" />
+    <Content Include="Assets\js\utils.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -2339,6 +2341,8 @@
     <Content Include="Views\User\SuperAdminMaPCreate.cshtml" />
     <Content Include="Views\User\SuperAdminMaPList.cshtml" />
     <Content Include="Views\User\AdminMaPUserCreate.cshtml" />
+    <Content Include="Views\Traitement\TraitementORDSEC.cshtml" />
+    <Content Include="Views\Etat\EtatMandatP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

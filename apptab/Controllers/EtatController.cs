@@ -1,4 +1,6 @@
-﻿using Microsoft.Build.Framework.XamlTypes;
+﻿using apptab.Data;
+using apptab.Models;
+using Microsoft.Build.Framework.XamlTypes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -36,11 +38,7 @@ namespace apptab.Controllers
 
             try
             {
-                int crpt = 0;
-                if (suser.IDPROJET == null)
-                    crpt = exist.IDPROJET.Value;
-                else
-                    crpt = suser.IDPROJET.Value;
+                int crpt = exist.IDPROJET.Value;
 
                 var fina = "";
                 if (db.SI_FINANCEMENT.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null) != null)
@@ -137,6 +135,45 @@ namespace apptab.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult DetailsInfoProMANDAT(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = suser.IDPROJET.Value;
+
+                int proj = 0;
+                if (db.SI_PROJETS.FirstOrDefault(a => a.ID == crpt && a.DELETIONDATE == null) != null)
+                {
+                    proj = db.SI_PROJETS.FirstOrDefault(a => a.ID == crpt && a.DELETIONDATE == null).ID;
+                }
+                
+                if (proj != 0)
+                {
+                    return Json(JsonConvert.SerializeObject(new
+                    {
+                        type = "success",
+                        msg = "message",
+                        data = new
+                        {
+                            PROJ = proj
+                        }
+                    }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "message" }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
         //GET ALL PROJET//
         [HttpPost]
         public ActionResult GetAllPROJET(SI_USERS suser)
@@ -149,6 +186,185 @@ namespace apptab.Controllers
             }).Where(a => a.DELETIONDATE == null).ToList();
 
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = user }, settings));
+        }
+
+        //ETAT MANDAT PROJET//
+        public ActionResult EtatMandatP()
+        {
+            ViewBag.Controller = "Etat MANDATS";
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult EtatMandatProjet(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+
+                SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM tom = new SOFTCONNECTOM();
+
+                List<DATATRPROJET> list = new List<DATATRPROJET>();
+
+                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt) != null)
+                {
+                    foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt).ToList())
+                    {
+                        var sta = "Attente validation";
+                        if (x.ETAT == 1)
+                            sta = "Validée";
+                        else if (x.ETAT == 2)
+                            sta = "Annulée";
+
+                        list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
+                    }
+                }
+
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult EtatMandatChange(SI_USERS suser, int IdPROJET)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = IdPROJET;
+
+                SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM tom = new SOFTCONNECTOM();
+
+                List<DATATRPROJET> list = new List<DATATRPROJET>();
+
+                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt) != null)
+                {
+                    foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt).ToList())
+                    {
+                        var sta = "Attente validation";
+                        if (x.ETAT == 1)
+                            sta = "Validée";
+                        else if (x.ETAT == 2)
+                            sta = "Annulée";
+
+                        list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
+                    }
+                }
+
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult EtatMandatProjetSEARCH(SI_USERS suser, DateTime DateDebut, DateTime DateFin, int STAT)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = 0;
+                if (suser.IDPROJET == null)
+                    crpt = exist.IDPROJET.Value;
+                else
+                    crpt = suser.IDPROJET.Value;
+
+                SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM tom = new SOFTCONNECTOM();
+
+                List<DATATRPROJET> list = new List<DATATRPROJET>();
+
+                if (STAT == 0)
+                {
+                    if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin) != null)
+                    {
+                        foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin).ToList())
+                        {
+                            var sta = "Attente validation";
+                            if (x.ETAT == 1)
+                                sta = "Validée";
+                            else if (x.ETAT == 2)
+                                sta = "Annulée";
+
+                            list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
+                        }
+                    }
+                }
+                else
+                {
+                    var ett = 0;
+                    /*if (STAT == 1) ett = 0;*/
+                    if (STAT == 2) ett = 1;
+                    if (STAT == 3) ett = 2;
+
+                    if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == ett) != null)
+                    {
+                        foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == ett).ToList())
+                        {
+                            var sta = "Attente validation";
+
+                            list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
+                        }
+                    }
+                }
+                
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteUser(SI_USERS suser, string UserId)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = 0;
+                if (suser.IDPROJET == null)
+                    crpt = exist.IDPROJET.Value;
+                else
+                    crpt = suser.IDPROJET.Value;
+
+                Guid useID = Guid.Parse(UserId);
+                var user = db.SI_TRAITPROJET.FirstOrDefault(a => a.No == useID && a.IDPROJET == crpt);
+                if (user != null)
+                {
+                    user.ETAT = 2;
+                    db.SaveChanges();
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Annulation avec succès. " }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "message" }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
         }
     }
 }

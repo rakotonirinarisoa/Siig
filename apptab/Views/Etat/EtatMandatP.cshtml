@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Etat MANDATS";
+    ViewData["Controller"] = "Etat MANDATS";
+    /*Layout = "~/Views/Shared/_Layout.cshtml";*/
+}
+
+<div class="form-row">
+    <div class="input-group mb-3 col">
+        <div class="input-group-prepend custom-label">
+            <span class="input-group-text text-bold" id="inputGroup-sizing-default">PROJET</span>
+        </div>
+        <select class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="proj" data-id="proj-list" disabled="@((Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.Projet || (Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.ORDSEC)">
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="input-group mb-3 col">
+        <div class="input-group-prepend custom-label">
+            <span class="input-group-text text-bold" id="inputGroup-sizing-default">Date début</span>
+        </div>
+        <input type="date" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="dateD">
+    </div>
+    <div class="input-group mb-3 col">
+        <div class="input-group-prepend custom-label">
+            <span class="input-group-text text-bold" id="inputGroup-sizing-default">Date fin</span>
+        </div>
+        <input type="date" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="dateF">
+    </div>
+</div>
+<div class="form-row">
+    <div class="input-group mb-3 col">
+        <div class="input-group-prepend custom-label">
+            <span class="input-group-text text-bold" id="inputGroup-sizing-default">Etat</span>
+        </div>
+        <select class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="stat" data-id="stat-list">
+            <option value="0">Tous</option>
+            <option value="1">Attente validation</option>
+            <option value="2">Validée</option>
+            <option value="3">Annulée</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-row mb-3">
+    <div class="input-group mb-3 col">
+        <div class="btn btn-flat bg-gradient-success col-12" data-action="SearchPROJET">
+            <i class="fa fa-search"></i> Filtrer
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive mb-3" style="max-height:400px" tab="ordsec">
+    <table class="table table-hover table-striped">
+        <thead style="position:sticky">
+            <tr class="thead-accueil1" style="white-space: nowrap;">
+                @*<td style="text-align:right">
+            <input type="checkbox" />
+        </td>*@
+                <td style="font-weight: bold; text-align:center" width="">N°</td>
+                <td style="font-weight:bold; text-align:center" width="">Référence Engagement</td>
+                <td style="font-weight: bold; text-align: center" width="">Objet</td>
+                <td style="font-weight: bold; text-align: center" width="">Titulaire</td>
+                <td style="font-weight: bold; text-align: center" width="">Montant</td>
+                <td style="font-weight: bold; text-align: center" width="">Compte</td>
+                <td style="font-weight: bold; text-align: center" width="">Date engagement</td>
+                <td style="font-weight: bold; text-align: center" width="">Etat</td>
+                <td style="font-weight: bold; text-align: center" width=""></td>
+            </tr>
+        </thead>
+        <tbody class="traitementPROJET"></tbody>
+    </table>
+</div>
+
+<!-- Droit.js -->
+<script src="~/Assets/js/InfoMandat.js"></script>

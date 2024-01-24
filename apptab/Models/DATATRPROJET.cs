@@ -18,5 +18,7 @@ namespace apptab.Models
         public string MONT { get; set; }
         public string COMPTE { get; set; }
         public DateTime? DATE { get; set; }
+
+        public string STAT { get; set; }
     }
 }

@@ -299,10 +299,10 @@ namespace SOFTCONNECT.Controllers
                 var test = db.SI_USERS.FirstOrDefault(x => x.LOGIN == Users.LOGIN && x.PWD == Users.PWD && x.DELETIONDATE == null);
                 if (test == null) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vérifiez vos identifiants. " }, settings));
 
+                if (String.IsNullOrEmpty(test.IDPROJET.ToString()) || !db.SI_PROJETS.Any(a => a.ID == test.IDPROJET && a.DELETIONDATE == null))
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas rattaché à un projet actif. " }, settings));
+
                 Session["userSession"] = test;
-
-
-                if (String.IsNullOrEmpty(test.IDPROJET.ToString())) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas rattaché à un projet actif. " }, settings));
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", Data = new { test.ROLE, test.IDPROJET } }, settings));
             }
