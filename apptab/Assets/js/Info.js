@@ -228,6 +228,9 @@ $('[data-action="SearchPROJET"]').click(function () {
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${v.DATE}</td>
                         <td style="font-weight: bold; text-align:center">${v.STAT}</td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
+                        </td>
                     </tr>`
                 });
 
