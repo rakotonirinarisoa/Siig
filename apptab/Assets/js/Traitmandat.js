@@ -148,9 +148,9 @@ $('[data-action="GenereR"]').click(function () {
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
                     <tr compteG-id="${v.No}">
-                        <td>
+                        <td style="font-weight: bold; text-align:center">
                             <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                        </td><td>${v.No}</td>
+                        </td><td style="font-weight: bold; text-align:center">${v.No}</td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
@@ -214,9 +214,9 @@ $('[data-action="GenereSIIG"]').click(function () {
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
                     <tr compteG-id="${v.No}">
-                        <td>
+                        <td style="font-weight: bold; text-align:center">
                             <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                        </td><td>${v.No}</td>
+                        </td><td style="font-weight: bold; text-align:center">${v.No}</td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
