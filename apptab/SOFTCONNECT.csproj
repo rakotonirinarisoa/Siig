@@ -218,6 +218,7 @@
     <Compile Include="Models\SI_MISSION.cs" />
     <Compile Include="Models\SI_PROCEDURE.cs" />
     <Compile Include="Models\SI_PROGRAMME.cs" />
+    <Compile Include="Models\RTIERS.cs" />
     <Compile Include="SOFTCONNECTOM.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
   </ItemGroup>

@@ -20,6 +20,7 @@ namespace apptab
         public virtual DbSet<CPTADMIN_FLIQUIDATION> CPTADMIN_FLIQUIDATION { get; set; }
         public virtual DbSet<CPTADMIN_MLIQUIDATION> CPTADMIN_MLIQUIDATION { get; set; }
         public virtual DbSet<CPTADMIN_MLIQUIDATIONPJ> CPTADMIN_MLIQUIDATIONPJ { get; set; }
+        public virtual DbSet<RTIERS> RTIERS { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -52,6 +53,18 @@ namespace apptab
             modelBuilder.Entity<CPTADMIN_MLIQUIDATION>()
                 .Property(e => e.MONTANTDEVISE)
                 .HasPrecision(30, 12);
+
+            modelBuilder.Entity<RTIERS>()
+                .Property(e => e.NBJOURS)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<RTIERS>()
+                .Property(e => e.JOURREF)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<RTIERS>()
+                .Property(e => e.IMPORTID)
+                .HasPrecision(18, 0);
         }
     }
 }

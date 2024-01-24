@@ -112,7 +112,16 @@ namespace apptab.Controllers
                             {
                                 if (!db.SI_TRAITPROJET.Any(a => a.No == y.ID.ToString()))
                                 {
-                                    list.Add(new DATATRPROJET { No = y.ID, REF = x.NUMEROFACTURE, OBJ = x.DESCRIPTION, TITUL = "TITULAIRE", MONT = Math.Round(y.MONTANTLOCAL.Value, 2).ToString(), COMPTE = y.POSTE, DATE = x.DATELIQUIDATION.Value.Date });                                    
+                                    //var Coge = y.COGE;
+                                    //var Auxi = y.AUXI.ToString();
+                                    var titulaire = "";
+                                    if (tom.RTIERS.Any(a => a.COGE == y.COGE && a.AUXI == y.AUXI))
+                                    {
+                                        var isCA = tom.RTIERS.FirstOrDefault(a => a.COGE == y.COGE && a.AUXI == y.AUXI);
+                                        titulaire = isCA.COGE.ToString() + " " + isCA.AUXI;
+                                    }
+
+                                    list.Add(new DATATRPROJET { No = y.ID, REF = x.NUMEROFACTURE, OBJ = x.DESCRIPTION, TITUL = titulaire, MONT = Math.Round(y.MONTANTLOCAL.Value, 2).ToString(), COMPTE = y.POSTE, DATE = x.DATELIQUIDATION.Value.Date });                                    
                                 }
                             }
                         }
@@ -172,6 +181,7 @@ namespace apptab.Controllers
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
             var listCompteS = listCompte.Split(',');
             foreach (var SAV in listCompteS)
             {
@@ -185,21 +195,28 @@ namespace apptab.Controllers
                     var FSauv = new SI_TRAITPROJET();
 
                     List<DATATRPROJET> list = new List<DATATRPROJET>();
+                    var MLiq = tom.CPTADMIN_MLIQUIDATION.Where(FLiq => FLiq.ID.ToString() == SAV).FirstOrDefault();
                     if (tom.CPTADMIN_FLIQUIDATION.Any(FLiq => FLiq.DATELIQUIDATION >= DateDebut && FLiq.DATELIQUIDATION <= DateFin))
                     {
-                        foreach (var x in tom.CPTADMIN_FLIQUIDATION.Where(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).ToList())
+                        foreach (var x in tom.CPTADMIN_FLIQUIDATION.Where(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin && a.ID == MLiq.IDLIQUIDATION).ToList())
                         {
-                            if (tom.CPTADMIN_FLIQUIDATION.Any(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin))
+                            if (tom.CPTADMIN_FLIQUIDATION.Any(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin && a.ID == MLiq.IDLIQUIDATION))
                             {
                                 var SauveF = tom.CPTADMIN_MLIQUIDATION.Where(a => a.ID.ToString() == SAV.ToUpper()).FirstOrDefault();
                                 try
                                 {
+                                    var titulaire = "";
+                                    if (tom.RTIERS.Any(a => a.COGE == SauveF.COGE && a.AUXI == SauveF.AUXI))
+                                    {
+                                        var isCA = tom.RTIERS.FirstOrDefault(a => a.COGE == SauveF.COGE && a.AUXI == SauveF.AUXI);
+                                        titulaire = isCA.COGE.ToString() + " " + isCA.AUXI;
+                                    }
 
                                     var ss = new SI_TRAITPROJET()
                                     {
-                                        No = SauveF.IDLIQUIDATION.ToString(),
-                                        DATECRE = SauveF.DATECRE,
-                                        TITUL = "TITULAIRE",
+                                        No = SauveF.ID.ToString(),
+                                        DATECRE = DateTime.Now,
+                                        TITUL = titulaire,
                                         COMPTE = SauveF.POSTE,
                                         REF = x.NUMEROFACTURE,
                                         OBJ = x.DESCRIPTION,
