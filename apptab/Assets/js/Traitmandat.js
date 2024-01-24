@@ -256,6 +256,7 @@ $('[data-action="SaveV"]').click(function () {
 
     formData.append("DateDebut", $('#dateD').val());
     formData.append("DateFin", $('#dateF').val());
+
     $.ajax({
         type: "POST",
         url: Origin + '/Traitement/GetCheckedEcritureF',
