@@ -206,7 +206,7 @@ namespace apptab.Controllers
                                         MONT = Math.Round(SauveF.MONTANTLOCAL.Value, 2),
                                         DATE = x.DATELIQUIDATION,
                                         IDPROJET = exist.IDPROJET.Value,
-                                        ETAT = 1,
+                                        ETAT = 0,
                                     };
                                     db.SI_TRAITPROJET.Add(ss);
                                     db.SaveChanges();
