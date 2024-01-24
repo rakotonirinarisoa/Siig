@@ -7,7 +7,7 @@ $(document).ready(() => {
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
-    
+
     GetListProjet();
     GetUsers(undefined);
     GetListMANDATP();
@@ -16,7 +16,7 @@ $(document).ready(() => {
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetUsers(id) {
     let formData = new FormData();
-    
+
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
@@ -46,18 +46,6 @@ function GetUsers(id) {
                 window.location = window.location.origin;
                 return;
             }
-
-            //$("#proj").val(Datas.data.PROJ);
-            $("#soa").val(Datas.data.SOA);
-            $("#fina").val(Datas.data.FIN);
-            $("#convention").val(Datas.data.CONV);
-            $("#catego").val(Datas.data.CAT);
-            $("#enga").val(Datas.data.ENG);
-            $("#proc").val(Datas.data.PROC);
-            $("#min").val(Datas.data.MIN);
-            $("#mis").val(Datas.data.MIS);
-            $("#prog").val(Datas.data.PROG);
-            $("#act").val(Datas.data.ACT);
 
             $("#proj").val(`${Datas.data.PROJ}`);
         },
@@ -114,9 +102,61 @@ function GetListProjet() {
 }
 
 $('#proj').on('change', () => {
-    const id = $('#proj').val();
+    const idPROJET = $('#proj').val();
 
-    GetUsers(id);
+    let formData = new FormData();
+    //alert(baseName);
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    formData.append("IdPROJET", idPROJET);
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Etat/EtatMandatChange',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                //window.location = window.location.origin;
+                ListResult = Datas.data
+                contentpaie = ``;
+                $.each(ListResult, function (k, v) {
+                    contentpaie += `
+                    <tr compteG-id="${v.No}">
+                        <td style="font-weight: bold; text-align:center">${v.No}</td>
+                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
+                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                        <td style="font-weight: bold; text-align:center">${v.MONT}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.DATE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.STAT}</td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
+                        </td>
+                    </tr>`
+                });
+
+                $('.traitementPROJET').empty();
+                $('.traitementPROJET').html(contentpaie);
+            }
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
 });
 
 //GET LISTE MANDAT PROJET//
