@@ -13,7 +13,6 @@ $(document).ready(() => {
     GetListSOA();
 });
 
-let urlOrigin = "https://localhost:44334";
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListProjet() {
     let formData = new FormData();
@@ -26,7 +25,7 @@ function GetListProjet() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/GetAllPROJET',
+        url: Origin + '/SuperAdmin/GetAllPROJET',
         data: formData,
         cache: false,
         contentType: false,
@@ -72,7 +71,7 @@ function GetListSOA() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/GetAllSOA',
+        url: Origin + '/SuperAdmin/GetAllSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -133,7 +132,7 @@ $(`[data-action="AddnewSociete"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/AddSocietePROSOA',
+        url: Origin + '/SuperAdmin/AddSocietePROSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -168,7 +167,7 @@ function GetListSociete() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/FillTablePROSOA',
+        url: Origin + '/SuperAdmin/FillTablePROSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -214,7 +213,7 @@ function GetListSociete() {
     });
 }
 function DetailPROSOA(id) {
-    window.location = urlOrigin + "/SuperAdmin/SuperAdminDetailFPROSOA?PROSOAID=" + id;
+    window.location = Origin + "/SuperAdmin/SuperAdminDetailFPROSOA?PROSOAID=" + id;
 }
 function deletePROSOA(id) {
     //alert("eto");
@@ -230,7 +229,7 @@ function deletePROSOA(id) {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/DeleteFPROSOA',
+        url: Origin + '/SuperAdmin/DeleteFPROSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -277,7 +276,7 @@ $(`[data-action="UpdateFPROSOA"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/SuperAdmin/UpdateFPROSOA',
+        url: Origin + '/SuperAdmin/UpdateFPROSOA',
         data: formData,
         cache: false,
         contentType: false,
@@ -291,7 +290,7 @@ $(`[data-action="UpdateFPROSOA"]`).click(function () {
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
-                window.location = urlOrigin + "/SuperAdmin/PROSOAList";
+                window.location = Origin + "/SuperAdmin/PROSOAList";
             }
             if (Datas.type == "login") {
                 alert(Datas.msg);

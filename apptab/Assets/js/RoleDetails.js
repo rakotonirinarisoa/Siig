@@ -12,7 +12,6 @@ $(document).ready(() => {
     GetUsers();
 });
 
-let urlOrigin = "https://localhost:44334";
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListRole() {
     let formData = new FormData();
@@ -24,7 +23,7 @@ function GetListRole() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/User/GetAllRole',
+        url: Origin + '/User/GetAllRole',
         data: formData,
         cache: false,
         contentType: false,
@@ -73,7 +72,7 @@ function GetUsers() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/User/DetailsUser',
+        url: Origin + '/User/DetailsUser',
         data: formData,
         cache: false,
         contentType: false,
@@ -93,7 +92,7 @@ function GetUsers() {
             }
 
             $("#Login").val(Datas.data.LOGIN);
-            $("#MDP").val(Datas.data.PWD);
+            //$("#MDP").val(Datas.data.PWD);
             $("#Role").val(`${Datas.data.ROLE}`);
         },
         error: function () {
@@ -174,11 +173,12 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("user.ROLE", $(`#Role`).val());
     formData.append("user.PWD", newpwd);
 
+    formData.append("oldPassword", $('#old-password').val());
     formData.append("UserId", getUrlParameter("UserId"));
     
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/User/UpdateUser',
+        url: Origin + '/User/UpdateUser',
         data: formData,
         cache: false,
         contentType: false,
@@ -188,11 +188,12 @@ $(`[data-action="UpdateUser"]`).click(function () {
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
+
                 return;
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
-                window.location = urlOrigin + "/User/List";
+                window.location = Origin + "/User/List";
                 /*window.history.back();*/
                 /*location.replace(document.referrer);*/
             }
