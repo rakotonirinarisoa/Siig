@@ -79,11 +79,19 @@ namespace apptab.Controllers
                 return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion!" }, _settings));
             }
 
-            var res = await _db.SI_PROJETS.FirstOrDefaultAsync(project => project.ID == projectToDelete.Id);
+            var project = await _db.SI_PROJETS.FirstOrDefaultAsync(x => x.ID == projectToDelete.Id);
 
-            if (res != null)
+            if (project != null)
             {
-                res.DELETIONDATE = DateTime.Now;
+                var prosoa = await _db.SI_PROSOA.FirstOrDefaultAsync(x => x.IDPROJET == projectToDelete.Id);
+
+                if (prosoa != null)
+                {
+                    var now = DateTime.Now;
+
+                    project.DELETIONDATE = now;
+                    prosoa.DELETIONDATE = now;
+                }
 
                 await _db.SaveChangesAsync();
 

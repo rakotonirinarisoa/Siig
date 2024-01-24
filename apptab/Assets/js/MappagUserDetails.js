@@ -296,7 +296,7 @@ $(`[data-action="UpdateMAPP"]`).click(function () {
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
-                window.location = urlOrigin + "/SuperAdmin/SuperAdminMaPList";
+                window.location = Origin + "/SuperAdmin/SuperAdminMaPList";
                 /*window.history.back();*/
                 /*location.replace(document.referrer);*/
             }

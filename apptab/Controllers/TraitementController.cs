@@ -101,7 +101,7 @@ namespace apptab.Controllers
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
-
+               // var Fliq = tom.CPTADMIN_FLIQUIDATION.Where(a=>a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).ToList();
                 if (tom.CPTADMIN_FLIQUIDATION.Any(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin))
                 {
                     foreach (var x in tom.CPTADMIN_FLIQUIDATION.Where(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).ToList())
@@ -126,6 +126,7 @@ namespace apptab.Controllers
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
             }
         }
+<<<<<<< HEAD
 
         //Traitement mandats ORDSEC//
         public ActionResult TraitementORDSEC()
@@ -165,6 +166,69 @@ namespace apptab.Controllers
             {
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
             }
+=======
+        [HttpPost]
+        public JsonResult GetCheckedEcritureF(SI_USERS suser, DateTime DateDebut, DateTime DateFin, string listCompte)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+            var listCompteS = listCompte.Split(',');
+            foreach (var SAV in listCompteS)
+            {
+                try
+                {
+                    int crpt = exist.IDPROJET.Value;
+
+                    SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+                    SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                    SOFTCONNECTOM tom = new SOFTCONNECTOM();
+                    var FSauv = new SI_TRAITPROJET();
+
+                    List<DATATRPROJET> list = new List<DATATRPROJET>();
+                    if (tom.CPTADMIN_FLIQUIDATION.Any(FLiq => FLiq.DATELIQUIDATION >= DateDebut && FLiq.DATELIQUIDATION <= DateFin))
+                    {
+                        foreach (var x in tom.CPTADMIN_FLIQUIDATION.Where(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).ToList())
+                        {
+                            if (tom.CPTADMIN_FLIQUIDATION.Any(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin))
+                            {
+                                var SauveF = tom.CPTADMIN_MLIQUIDATION.Where(a => a.ID.ToString() == SAV.ToUpper()).FirstOrDefault();
+                                try
+                                {
+
+                                    var ss = new SI_TRAITPROJET()
+                                    {
+                                        No = SauveF.IDLIQUIDATION.ToString(),
+                                        DATECRE = SauveF.DATECRE,
+                                        TITUL = "TITULAIRE",
+                                        COMPTE = SauveF.POSTE,
+                                        REF = x.NUMEROFACTURE,
+                                        OBJ = x.DESCRIPTION,
+                                        MONT = Math.Round(SauveF.MONTANTLOCAL.Value, 2),
+                                        DATE = x.DATELIQUIDATION,
+                                        IDPROJET = exist.IDPROJET.ToString(),
+                                        ETAT = 1,
+                                    };
+                                    db.SI_TRAITPROJET.Add(ss);
+                                    db.SaveChanges();
+                                }
+                                catch (Exception)
+                                {
+
+                                    return Json(JsonConvert.SerializeObject(new { type = "Error", msg = "Erreur de traitements. ", data = "" }, settings));
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+                }
+            }
+
+            return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitements avec succès. ", data = "" }, settings));
+
+>>>>>>> 794aa41cd746f0392bf3511c624a905cf52c3b01
         }
     }
 }

@@ -12,7 +12,7 @@
         </a>
     </div>
     @*<div class="input-group mb-3 col-sm-5">
-            <div class="input-group-prepend">
+            <div class="input-group-prepend custom-label">
                 <span class="input-group-text text-bold" id="basic-addon3"><i class="fa fa-search"></i></span>
             </div>
             <input type="text" class="form-control col" id="ticket" placeholder="Rechercher...">
@@ -35,11 +35,40 @@
     </table>
 </div>
 
-<!-- USer.js -->
-<script src="~/Assets/js/User.js"></script>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="password-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mot de passe</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Veuillez confirmer vos identifiants.</p>
 
-<script>
-    $(document).ready(function () {
-        $("#idTable").DataTable()
-    });
-</script>
+                <div>
+                    <div>
+                        <label for="login-name">Login: </label>
+                        <input type="text" id="login-name" class="form-control" />
+                    </div>
+                    <div>
+                        <label for="password">Mot de passe: </label>
+                        <input type="password" id="password" class="form-control" />
+                    </div>
+
+                    <button type="button" class="btn btn-primary" id="get-user-password-btn">Vérifier</button>
+                </div>
+
+                <p id="user-password"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-btn">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- USer.js -->
+<script defer src="~/Assets/js/User.js"></script>
+<script defer src="~/Assets/js/passwords.js"></script>

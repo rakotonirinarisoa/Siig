@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿namespace apptab
+=======
+namespace apptab.Models
+>>>>>>> 794aa41cd746f0392bf3511c624a905cf52c3b01
 {
     using System;
     using System.Collections.Generic;
@@ -31,6 +35,11 @@
         [Column(TypeName = "smalldatetime")]
         public DateTime? DATECRE { get; set; }
 
+<<<<<<< HEAD
         public int? IDPROJET { get; set; }
+=======
+        [Required]
+        public string IDPROJET { get; set; }
+>>>>>>> 794aa41cd746f0392bf3511c624a905cf52c3b01
     }
 }

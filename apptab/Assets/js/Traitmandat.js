@@ -172,6 +172,7 @@ $('[data-action="GenereR"]').click(function () {
         }
     });
 });
+<<<<<<< HEAD
 
 //GENERER SIIG//
 $('[data-action="GenereSIIG"]').click(function () {
@@ -184,23 +185,45 @@ $('[data-action="GenereSIIG"]').click(function () {
 
     let formData = new FormData();
     //alert(baseName);
+=======
+$('[data-action="SaveV"]').click(function () {
+    let CheckList = $(`[compteg-ischecked]:checked`).closest("tr");
+    let list = [];
+    $.each(CheckList, (k, v) => {
+        list.push($(v).attr("compteG-id"));
+    });
+
+    let formData = new FormData();
+    console.log(list);
+>>>>>>> 794aa41cd746f0392bf3511c624a905cf52c3b01
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDSOCIETE);
 
+<<<<<<< HEAD
     formData.append("DateDebut", $('#dateD').val());
     formData.append("DateFin", $('#dateF').val());
 
     $.ajax({
         type: "POST",
         url: Origin + '/Traitement/GenerationSIIG',
+=======
+    formData.append("listCompte", list);
+
+    formData.append("DateDebut", $('#dateD').val());
+    formData.append("DateFin", $('#dateF').val());
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/GetCheckedEcritureF',
+>>>>>>> 794aa41cd746f0392bf3511c624a905cf52c3b01
         data: formData,
         cache: false,
         contentType: false,
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
+<<<<<<< HEAD
             console.log(Datas);
 
             if (Datas.type == "error") {
@@ -232,6 +255,9 @@ $('[data-action="GenereSIIG"]').click(function () {
                 $('.traitementORDSEC').empty();
                 $('.traitementORDSEC').html(contentpaie);
             }
+=======
+            alert(Datas.data);
+>>>>>>> 794aa41cd746f0392bf3511c624a905cf52c3b01
         },
         error: function () {
             alert("Problème de connexion. ");
