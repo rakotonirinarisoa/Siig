@@ -2100,6 +2100,7 @@
     <Content Include="Assets\js\DetailsFPROSOA.js" />
     <Content Include="Assets\js\DetailsFSoaUpdate.js" />
     <Content Include="Assets\js\Ftp.js" />
+    <Content Include="Assets\js\InfoMandat.js" />
     <Content Include="Assets\js\Info.js" />
     <Content Include="Assets\js\Mail.js" />
     <Content Include="Assets\js\Mis.js" />
