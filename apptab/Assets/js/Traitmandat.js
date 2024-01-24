@@ -9,7 +9,49 @@ $(document).ready(() => {
     $(`[data-id="username"]`).text(User.LOGIN);
     
     GetListProjet();
+    GetUsers(undefined);
 });
+
+function GetUsers(id) {
+    let formData = new FormData();
+
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+
+    if (!id) {
+        formData.append("suser.IDPROJET", User.IDPROJET);
+    } else {
+        formData.append("suser.IDPROJET", id);
+    }
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/DetailsInfoPro',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
+
+            $("#proj").val(`${Datas.data.PROJ}`);
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+}
 
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetListProjet() {
@@ -67,6 +109,13 @@ $('#proj').on('change', () => {
 
 //GENERER//
 $('[data-action="GenereR"]').click(function () {
+    let dd = $("#dateD").val();
+    let df = $("#dateF").val();
+    if (!dd || !df) {
+        alert("Veuillez renseigner les dates afin de générer les mandats. ");
+        return;
+    }
+
     let formData = new FormData();
     //alert(baseName);
     formData.append("suser.LOGIN", User.LOGIN);
@@ -76,7 +125,7 @@ $('[data-action="GenereR"]').click(function () {
 
     formData.append("DateDebut", $('#dateD').val());
     formData.append("DateFin", $('#dateF').val());
-
+    
     $.ajax({
         type: "POST",
         url: Origin + '/Traitement/Generation',
@@ -116,6 +165,72 @@ $('[data-action="GenereR"]').click(function () {
 
                 $('.afb160Paie').empty();
                 $('.afb160Paie').html(contentpaie);
+            }
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+});
+
+//GENERER SIIG//
+$('[data-action="GenereSIIG"]').click(function () {
+    let dd = $("#dateD").val();
+    let df = $("#dateF").val();
+    if (!dd || !df) {
+        alert("Veuillez renseigner les dates afin de générer les mandats. ");
+        return;
+    }
+
+    let formData = new FormData();
+    //alert(baseName);
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    formData.append("DateDebut", $('#dateD').val());
+    formData.append("DateFin", $('#dateF').val());
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/GenerationSIIG',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                //window.location = window.location.origin;
+                ListResult = Datas.data
+                contentpaie = ``;
+                $.each(ListResult, function (k, v) {
+                    contentpaie += `
+                    <tr compteG-id="${v.No}">
+                        <td>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked/>
+                        </td><td>${v.No}</td>
+                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
+                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                        <td style="font-weight: bold; text-align:center">${v.MONT}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.DATE}</td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags text-danger"></i></div>
+                        </td>
+                    </tr>`
+                });
+
+                $('.traitementORDSEC').empty();
+                $('.traitementORDSEC').html(contentpaie);
             }
         },
         error: function () {

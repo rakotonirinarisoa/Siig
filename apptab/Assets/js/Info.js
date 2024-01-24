@@ -10,6 +10,7 @@ $(document).ready(() => {
     
     GetListProjet();
     GetUsers(undefined);
+    GetListMANDATP();
 });
 //let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
@@ -116,4 +117,123 @@ $('#proj').on('change', () => {
     const id = $('#proj').val();
 
     GetUsers(id);
+});
+
+//GET LISTE MANDAT PROJET//
+function GetListMANDATP() {
+    let formData = new FormData();
+    //alert(baseName);
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    const id = $('#proj').val();
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Etat/EtatMandatProjet',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                //window.location = window.location.origin;
+                ListResult = Datas.data
+                contentpaie = ``;
+                $.each(ListResult, function (k, v) {
+                    contentpaie += `
+                    <tr compteG-id="${v.No}">
+                        <td style="font-weight: bold; text-align:center">${v.No}</td>
+                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
+                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                        <td style="font-weight: bold; text-align:center">${v.MONT}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.DATE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.STAT}</td>
+                    </tr>`
+                });
+
+                $('.traitementPROJET').empty();
+                $('.traitementPROJET').html(contentpaie);
+            }
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+}
+
+//FILTRE PROJET//
+$('[data-action="SearchPROJET"]').click(function () {
+    let dd = $("#dateD").val();
+    let df = $("#dateF").val();
+    if (!dd || !df) {
+        alert("Veuillez renseigner les dates afin de filtrer les mandats. ");
+        return;
+    }
+
+    let formData = new FormData();
+    //alert(baseName);
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    formData.append("DateDebut", $('#dateD').val());
+    formData.append("DateFin", $('#dateF').val());
+    formData.append("STAT", $('#stat').val());
+
+    const id = $('#proj').val();
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Etat/EtatMandatProjetSEARCH',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                //window.location = window.location.origin;
+                ListResult = Datas.data
+                contentpaie = ``;
+                $.each(ListResult, function (k, v) {
+                    contentpaie += `
+                    <tr compteG-id="${v.No}">
+                        <td style="font-weight: bold; text-align:center">${v.No}</td>
+                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
+                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                        <td style="font-weight: bold; text-align:center">${v.MONT}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.DATE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.STAT}</td>
+                    </tr>`
+                });
+
+                $('.traitementPROJET').empty();
+                $('.traitementPROJET').html(contentpaie);
+            }
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
 });

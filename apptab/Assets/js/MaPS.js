@@ -104,5 +104,5 @@ function deleteMAPP(id) {
 }
 
 function DetailUpdateMAPP(id) {
-    window.location = urlOrigin + "/SuperAdmin/DetailsMAPP?UserId=" + id;
+    window.location = Origin + "/SuperAdmin/DetailsMAPP?UserId=" + id;
 }
