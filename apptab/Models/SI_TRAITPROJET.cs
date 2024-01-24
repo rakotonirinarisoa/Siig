@@ -1,4 +1,4 @@
-namespace apptab.Models
+﻿namespace apptab.Models
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace apptab.Models
     {
         public int ID { get; set; }
 
-        public string No { get; set; }
+        public Guid No { get; set; }
 
         public string REF { get; set; }
 

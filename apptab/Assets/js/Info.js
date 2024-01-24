@@ -243,3 +243,39 @@ $('[data-action="SearchPROJET"]').click(function () {
         }
     });
 });
+
+function deleteUser(id) {
+    if (!confirm("Etes-vous sûr de vouloir annuler cette ligne ?")) return;
+    let formData = new FormData();
+
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDPROJET);
+
+    formData.append("UserId", id);
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Etat/DeleteUser',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+
+            $(`[data-userId="${id}"]`).remove();
+            //compteG - id="${v.No}"
+        },
+        error: function () {
+            alert("Connexion Problems");
+        }
+    });
+}

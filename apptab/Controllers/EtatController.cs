@@ -187,7 +187,7 @@ namespace apptab.Controllers
                         else if (x.ETAT == 2)
                             sta = "Annulée";
 
-                        list.Add(new DATATRPROJET { No = Guid.Parse(x.No), REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
+                        list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
                     }
                 }
 
@@ -227,7 +227,7 @@ namespace apptab.Controllers
                             else if (x.ETAT == 2)
                                 sta = "Annulée";
 
-                            list.Add(new DATATRPROJET { No = Guid.Parse(x.No), REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
+                            list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
                         }
                     }
                 }
@@ -244,12 +244,39 @@ namespace apptab.Controllers
                         {
                             var sta = "Attente validation";
 
-                            list.Add(new DATATRPROJET { No = Guid.Parse(x.No), REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
+                            list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date, STAT = sta });
                         }
                     }
                 }
                 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteUser(SI_USERS suser, string UserId)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int useID = int.Parse(UserId);
+                var user = db.SI_USERS.FirstOrDefault(a => a.ID == useID && a.DELETIONDATE == null);
+                if (user != null)
+                {
+                    user.DELETIONDATE = DateTime.Now;
+                    db.SaveChanges();
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression avec succès. " }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "message" }, settings));
+                }
             }
             catch (Exception e)
             {
