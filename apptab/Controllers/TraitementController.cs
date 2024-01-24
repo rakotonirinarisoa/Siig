@@ -118,7 +118,7 @@ namespace apptab.Controllers
                                     if (tom.RTIERS.Any(a => a.COGE == y.COGE && a.AUXI == y.AUXI))
                                     {
                                         var isCA = tom.RTIERS.FirstOrDefault(a => a.COGE == y.COGE && a.AUXI == y.AUXI);
-                                        titulaire = isCA.COGE.ToString() + " " + isCA.AUXI;
+                                        titulaire = isCA.COGEAUXI; ;
                                     }
 
                                     list.Add(new DATATRPROJET { No = y.ID, REF = x.NUMEROFACTURE, OBJ = x.DESCRIPTION, TITUL = titulaire, MONT = Math.Round(y.MONTANTLOCAL.Value, 2).ToString(), COMPTE = y.POSTE, DATE = x.DATELIQUIDATION.Value.Date });                                    
@@ -209,7 +209,7 @@ namespace apptab.Controllers
                                     if (tom.RTIERS.Any(a => a.COGE == SauveF.COGE && a.AUXI == SauveF.AUXI))
                                     {
                                         var isCA = tom.RTIERS.FirstOrDefault(a => a.COGE == SauveF.COGE && a.AUXI == SauveF.AUXI);
-                                        titulaire = isCA.COGE.ToString() + " " + isCA.AUXI;
+                                        titulaire = isCA.COGEAUXI;
                                     }
 
                                     var ss = new SI_TRAITPROJET()
