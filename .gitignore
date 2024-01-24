@@ -267,8 +267,4 @@ app.config
 packages
 
 Web.config
-<<<<<<< HEAD
-!Views/Web.config
-=======
 !apptab/Views/Web.config
->>>>>>> 76306826f01955ae80b7bdef8547afad6c0a9d3c
