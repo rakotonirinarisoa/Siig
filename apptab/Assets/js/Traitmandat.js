@@ -131,7 +131,6 @@ $('[data-action="SaveV"]').click(function () {
     });
 
     let formData = new FormData();
-    console.log(list);
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
@@ -150,7 +149,7 @@ $('[data-action="SaveV"]').click(function () {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            alert(Datas.data);
+            alert(Datas.msg);
         },
         error: function () {
             alert("Problème de connexion. ");

@@ -101,11 +101,12 @@ namespace apptab.Controllers
                     var FSauv = new SI_TRAITPROJET();
 
                     List<DATATRPROJET> list = new List<DATATRPROJET>();
+                    var MLiq = tom.CPTADMIN_MLIQUIDATION.Where(FLiq => FLiq.ID.ToString() == SAV).FirstOrDefault();
                     if (tom.CPTADMIN_FLIQUIDATION.Any(FLiq => FLiq.DATELIQUIDATION >= DateDebut && FLiq.DATELIQUIDATION <= DateFin))
                     {
-                        foreach (var x in tom.CPTADMIN_FLIQUIDATION.Where(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).ToList())
+                        foreach (var x in tom.CPTADMIN_FLIQUIDATION.Where(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin && a.ID == MLiq.IDLIQUIDATION).ToList())
                         {
-                            if (tom.CPTADMIN_FLIQUIDATION.Any(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin))
+                            if (tom.CPTADMIN_FLIQUIDATION.Any(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin && a.ID == MLiq.IDLIQUIDATION))
                             {
                                 var SauveF = tom.CPTADMIN_MLIQUIDATION.Where(a => a.ID.ToString() == SAV.ToUpper()).FirstOrDefault();
                                 try
@@ -113,8 +114,8 @@ namespace apptab.Controllers
 
                                     var ss = new SI_TRAITPROJET()
                                     {
-                                        No = SauveF.IDLIQUIDATION.ToString(),
-                                        DATECRE = SauveF.DATECRE,
+                                        No = SauveF.ID.ToString(),
+                                        DATECRE = DateTime.Now,
                                         TITUL = "TITULAIRE",
                                         COMPTE = SauveF.POSTE,
                                         REF = x.NUMEROFACTURE,
@@ -122,7 +123,7 @@ namespace apptab.Controllers
                                         MONT = Math.Round(SauveF.MONTANTLOCAL.Value, 2),
                                         DATE = x.DATELIQUIDATION,
                                         IDPROJET = exist.IDPROJET.ToString(),
-                                        ETAT = 1,
+                                        ETAT = 0,
                                     };
                                     db.SI_TRAITPROJET.Add(ss);
                                     db.SaveChanges();
