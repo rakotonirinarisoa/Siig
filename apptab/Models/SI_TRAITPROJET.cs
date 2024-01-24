@@ -1,4 +1,4 @@
-namespace apptab
+namespace apptab.Models
 {
     using System;
     using System.Collections.Generic;
@@ -12,19 +12,15 @@ namespace apptab
 
         public string No { get; set; }
 
-        [StringLength(50)]
         public string REF { get; set; }
 
-        [StringLength(50)]
         public string OBJ { get; set; }
 
-        [StringLength(50)]
         public string TITUL { get; set; }
 
         [Column(TypeName = "numeric")]
         public decimal? MONT { get; set; }
 
-        [StringLength(50)]
         public string COMPTE { get; set; }
 
         [Column(TypeName = "smalldatetime")]
@@ -34,5 +30,8 @@ namespace apptab
 
         [Column(TypeName = "smalldatetime")]
         public DateTime? DATECRE { get; set; }
+
+        [Required]
+        public string IDPROJET { get; set; }
     }
 }

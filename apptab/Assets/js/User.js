@@ -8,8 +8,10 @@ $(document).ready(() => {
 
     $(`[data-id="username"]`).text(User.LOGIN);
     GetListUser();
+
+    $("#idTable").DataTable()
 });
-//let urlOrigin = "http://softwell.cloud/OPAVI";
+
 function GetListUser() {
     let formData = new FormData();
 
@@ -30,7 +32,7 @@ function GetListUser() {
             console.log(Datas);
 
             if (Datas.type == "error") {
-                alert("eeee"+Datas.msg);
+                alert("eeee" + Datas.msg);
                 return;
             }
             if (Datas.type == "login") {
@@ -41,14 +43,24 @@ function GetListUser() {
 
             $(`[data-id="ubody"]`).text("");
 
+            /* <td>${v.PWD}</td> */
+
             var code = ``;
             $.each(Datas.data, function (k, v) {
                 code += `
                     <tr data-userId="${v.ID}" class="text-nowrap last-hover">
                         <td>${v.PROJET}</td>
                         <td>${v.LOGIN}</td>
-                        <td>${v.ROLE}</td>
-                        <td>${v.PWD}</td>                     
+                        <td>${v.ROLE}</td>           
+                        <td>
+                            <img 
+                                src="/Assets/icons/eye.svg" 
+                                width="20" height="20" 
+                                alt="Show password" 
+                                style="cursor: pointer;" 
+                                onclick="showPassword('${v.ID}')"
+                            />
+                        </td>                     
                         <td class="elerfr">
                             <div onclick="DetailUpdateUser('${v.ID}')"><i class="fa fa-pen-alt text-warning"></i></div>
                         </td>
@@ -60,7 +72,6 @@ function GetListUser() {
             });
 
             $(`[data-id="ubody"]`).append(code);
-
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -106,3 +117,6 @@ function deleteUser(id) {
 function DetailUpdateUser(id) {
     window.location = Origin + "/User/DetailsUser?UserId=" + id;
 }
+
+
+
