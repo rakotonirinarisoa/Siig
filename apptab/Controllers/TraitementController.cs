@@ -126,7 +126,6 @@ namespace apptab.Controllers
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
             }
         }
-<<<<<<< HEAD
 
         //Traitement mandats ORDSEC//
         public ActionResult TraitementORDSEC()
@@ -166,7 +165,8 @@ namespace apptab.Controllers
             {
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
             }
-=======
+        }
+
         [HttpPost]
         public JsonResult GetCheckedEcritureF(SI_USERS suser, DateTime DateDebut, DateTime DateFin, string listCompte)
         {
@@ -205,7 +205,7 @@ namespace apptab.Controllers
                                         OBJ = x.DESCRIPTION,
                                         MONT = Math.Round(SauveF.MONTANTLOCAL.Value, 2),
                                         DATE = x.DATELIQUIDATION,
-                                        IDPROJET = exist.IDPROJET.ToString(),
+                                        IDPROJET = exist.IDPROJET.Value,
                                         ETAT = 1,
                                     };
                                     db.SI_TRAITPROJET.Add(ss);
@@ -228,7 +228,6 @@ namespace apptab.Controllers
 
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitements avec succès. ", data = "" }, settings));
 
->>>>>>> 794aa41cd746f0392bf3511c624a905cf52c3b01
         }
     }
 }

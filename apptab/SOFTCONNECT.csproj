@@ -2339,6 +2339,7 @@
     <Content Include="Views\User\SuperAdminMaPCreate.cshtml" />
     <Content Include="Views\User\SuperAdminMaPList.cshtml" />
     <Content Include="Views\User\AdminMaPUserCreate.cshtml" />
+    <Content Include="Views\Traitement\TraitementORDSEC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
