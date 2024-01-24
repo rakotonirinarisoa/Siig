@@ -110,7 +110,7 @@ namespace apptab.Controllers
                         {
                             foreach (var y in tom.CPTADMIN_MLIQUIDATION.Where(a => a.IDLIQUIDATION == x.ID).ToList())
                             {
-                                if (!db.SI_TRAITPROJET.Any(a => a.No == y.ID.ToString()))
+                                if (!db.SI_TRAITPROJET.Any(a => a.No == y.ID.ToString()) || db.SI_TRAITPROJET.Any(a => a.No == y.ID.ToString() && a.ETAT == 2))
                                 {
                                     //var Coge = y.COGE;
                                     //var Auxi = y.AUXI.ToString();
