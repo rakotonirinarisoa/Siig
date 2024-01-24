@@ -266,5 +266,5 @@ app.config
 
 packages
 
-!Views/Web.config
 Web.config
+!apptab/Views/Web.config
