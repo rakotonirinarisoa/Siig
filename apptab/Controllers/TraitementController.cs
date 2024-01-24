@@ -244,7 +244,6 @@ namespace apptab.Controllers
             }
 
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitements avec succès. ", data = "" }, settings));
-
         }
     }
 }
