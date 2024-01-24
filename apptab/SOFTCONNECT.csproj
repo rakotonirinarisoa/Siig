@@ -198,7 +198,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DATATRPROJET.cs" />
-    <Compile Include="Models\Model1.cs" />
     <Compile Include="Models\PROSOA.cs" />
     <Compile Include="Models\SI_MAIL.cs" />
     <Compile Include="Models\SI_TRAITPROJET.cs" />

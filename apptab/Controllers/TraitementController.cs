@@ -110,7 +110,7 @@ namespace apptab.Controllers
                         {
                             foreach (var y in tom.CPTADMIN_MLIQUIDATION.Where(a => a.IDLIQUIDATION == x.ID).ToList())
                             {
-                                if (!db.SI_TRAITPROJET.Any(a => a.No == y.ID.ToString()) || db.SI_TRAITPROJET.Any(a => a.No == y.ID.ToString() && a.ETAT == 2))
+                                if (!db.SI_TRAITPROJET.Any(a => a.No == y.ID) || db.SI_TRAITPROJET.Any(a => a.No == y.ID && a.ETAT == 2))
                                 {
                                     //var Coge = y.COGE;
                                     //var Auxi = y.AUXI.ToString();
@@ -164,7 +164,7 @@ namespace apptab.Controllers
                 {
                     foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == 0).ToList())
                     {
-                        list.Add(new DATATRPROJET { No = Guid.Parse(x.No), REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date });
+                        list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date });
                     }
                 }
 
@@ -214,7 +214,7 @@ namespace apptab.Controllers
 
                                     var ss = new SI_TRAITPROJET()
                                     {
-                                        No = SauveF.ID.ToString(),
+                                        No = SauveF.ID,
                                         DATECRE = DateTime.Now,
                                         TITUL = titulaire,
                                         COMPTE = SauveF.POSTE,
