@@ -154,7 +154,7 @@ $('[data-action="GenereR"]').click(function () {
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${formatCurrency(v.MONT, '.')}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(v.MONT)}</td>
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${v.DATE}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">
@@ -285,4 +285,39 @@ $('.Checkall').change(function () {
         $('[compteg-ischecked]').prop("checked", false);
     }
     
+});
+
+$('[data-action="SaveSIIG"]').click(function () {
+    let CheckList = $(`[compteg-ischecked]:checked`).closest("tr");
+    let list = [];
+    $.each(CheckList, (k, v) => {
+        list.push($(v).attr("compteG-id"));
+    });
+
+    let formData = new FormData();
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    formData.append("listCompte", list);
+
+    formData.append("DateDebut", $('#dateD').val());
+    formData.append("DateFin", $('#dateF').val());
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/GetCheckedEcritureORDSEC',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            alert(Datas.msg);
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
 });
