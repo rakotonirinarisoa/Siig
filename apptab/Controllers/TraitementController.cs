@@ -227,11 +227,12 @@ namespace apptab.Controllers
                                     };
                                     db.SI_TRAITPROJET.Add(ss);
                                     db.SaveChanges();
+
+                                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitement avec succès. ", data = "" }, settings));
                                 }
                                 catch (Exception)
                                 {
-
-                                    return Json(JsonConvert.SerializeObject(new { type = "Error", msg = "Erreur de traitements. ", data = "" }, settings));
+                                    return Json(JsonConvert.SerializeObject(new { type = "Error", msg = "Erreur du traitement. ", data = "" }, settings));
                                 }
                             }
                         }
@@ -243,7 +244,48 @@ namespace apptab.Controllers
                 }
             }
 
-            return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitements avec succès. ", data = "" }, settings));
+            return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitement avec succès. ", data = "" }, settings));
+        }
+
+        [HttpPost]
+        public JsonResult GetCheckedEcritureORDSEC(SI_USERS suser, DateTime DateDebut, DateTime DateFin, string listCompte)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            var listCompteS = listCompte.Split(',');
+            foreach (var SAV in listCompteS)
+            {
+                try
+                {
+                    int crpt = exist.IDPROJET.Value;
+
+                    SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+                    SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                    SOFTCONNECTOM tom = new SOFTCONNECTOM();
+
+                    List<DATATRPROJET> list = new List<DATATRPROJET>();
+
+                    Guid isSAV = Guid.Parse(SAV);
+                    if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.No == isSAV) != null)
+                    {
+                        //SEND SIIGFP//
+
+
+                        var isModified = db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.No == isSAV);
+                        isModified.ETAT = 1;
+                        db.SaveChanges();
+
+                        return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitement avec succès. ", data = "" }, settings));
+                    }
+                }
+                catch (Exception e)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+                }
+            }
+
+            return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitement avec succès. ", data = "" }, settings));
         }
     }
 }

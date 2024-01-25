@@ -22,7 +22,7 @@ function GetUsers() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Parametre/DetailsAct',
+        url: Origin + '/Parametre/DetailsAct',
         data: formData,
         cache: false,
         contentType: false,
@@ -70,7 +70,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Parametre/UpdateAct',
+        url: Origin + '/Parametre/UpdateAct',
         data: formData,
         cache: false,
         contentType: false,

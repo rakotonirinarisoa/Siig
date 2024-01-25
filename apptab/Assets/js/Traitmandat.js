@@ -273,3 +273,38 @@ $('[data-action="SaveV"]').click(function () {
         }
     });
 });
+
+$('[data-action="SaveSIIG"]').click(function () {
+    let CheckList = $(`[compteg-ischecked]:checked`).closest("tr");
+    let list = [];
+    $.each(CheckList, (k, v) => {
+        list.push($(v).attr("compteG-id"));
+    });
+
+    let formData = new FormData();
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    formData.append("listCompte", list);
+
+    formData.append("DateDebut", $('#dateD').val());
+    formData.append("DateFin", $('#dateF').val());
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/GetCheckedEcritureORDSEC',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            alert(Datas.msg);
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+});
