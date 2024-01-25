@@ -31,7 +31,7 @@ namespace apptab.Controllers
 
         //GET ALL PROJET//
         [HttpPost]
-        public ActionResult GetAllPROJET(SI_USERS suser)
+        public ActionResult GetAllPROJET()
         {
             var user = db.SI_PROJETS.Select(a => new
             {
@@ -101,7 +101,7 @@ namespace apptab.Controllers
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
-               // var Fliq = tom.CPTADMIN_FLIQUIDATION.Where(a=>a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).ToList();
+                // var Fliq = tom.CPTADMIN_FLIQUIDATION.Where(a=>a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).ToList();
                 if (tom.CPTADMIN_FLIQUIDATION.Any(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin))
                 {
                     foreach (var x in tom.CPTADMIN_FLIQUIDATION.Where(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).ToList())
@@ -121,7 +121,7 @@ namespace apptab.Controllers
                                         titulaire = isCA.COGEAUXI; ;
                                     }
 
-                                    list.Add(new DATATRPROJET { No = y.ID, REF = x.NUMEROFACTURE, OBJ = x.DESCRIPTION, TITUL = titulaire, MONT = Math.Round(y.MONTANTLOCAL.Value, 2).ToString(), COMPTE = y.POSTE, DATE = x.DATELIQUIDATION.Value.Date });                                    
+                                    list.Add(new DATATRPROJET { No = y.ID, REF = x.NUMEROFACTURE, OBJ = x.DESCRIPTION, TITUL = titulaire, MONT = Math.Round(y.MONTANTLOCAL.Value, 2).ToString(), COMPTE = y.POSTE, DATE = x.DATELIQUIDATION.Value.Date });
                                 }
                             }
                         }

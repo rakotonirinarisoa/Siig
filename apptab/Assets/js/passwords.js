@@ -30,7 +30,7 @@ $('#get-user-password-btn').on('click', () => {
     $.ajax({
         type: 'POST',
         async: true,
-        url: Origin + 'user/password',
+        url: Origin + 'User/Password',
         contentType: 'application/json',
         datatype: 'json',
         data: JSON.stringify({ ...payload }),
