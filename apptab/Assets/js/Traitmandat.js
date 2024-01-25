@@ -175,14 +175,7 @@ $('[data-action="GenereR"]').click(function () {
 
 function checkdel(id) {
     $('.Checkall').prop("checked", false);
-
-    console.log(id);
-    if (id != null) {
-        $('.Checkall').prop("checked", false);
-    }
-    if ($('[compteg-ischecked]').prop("checked") == false) {
-        $('.Checkall').prop("checked", false);
-    }
+    
 }
 //SIIGLOAD//
 function GetListLOAD() {
@@ -214,9 +207,9 @@ function GetListLOAD() {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}" class="select-text">
+                   <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">
-                            <input type="checkbox" name = "checkprod" compteg-ischecked/>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked  onchange = "checkdel()"/>
                         </td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
