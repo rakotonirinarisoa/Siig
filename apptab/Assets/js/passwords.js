@@ -43,7 +43,7 @@ $('#get-user-password-btn').on('click', () => {
                 p.text('Identifiants incorrects!');
             } else {
                 p.css({ 'color': 'black' });
-                p.text(`${res.data.login}: ${res.data.password}`);
+                p.html(`Le mot de passe de <b>${res.data.login}</b> est <u>${res.data.password}</u>`);
 
                 closeButton.text('Fermer');
             }
