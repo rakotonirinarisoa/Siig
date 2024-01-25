@@ -175,7 +175,6 @@ $('[data-action="GenereR"]').click(function () {
 
 function checkdel(id) {
     $('.Checkall').prop("checked", false);
-    
 }
 //SIIGLOAD//
 function GetListLOAD() {
