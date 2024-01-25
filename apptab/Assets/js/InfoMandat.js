@@ -329,20 +329,22 @@ function deleteUser(id) {
             var Datas = JSON.parse(result);
             console.log(Datas);
 
-            if (Datas.type == "error") {
+            if (Datas.type == "success") {
+                alert(Datas.msg);
+
+                $('.traitementPROJET').empty();
+                $('.traitementPROJET').html(contentpaie);
+
+                GetListProjet();
+                GetUsers(undefined);
+                GetListMANDATP();
+
+                return;
+            }
+            else {
                 alert(Datas.msg);
                 return;
             }
-
-            $('.traitementPROJET').empty();
-            $('.traitementPROJET').html(contentpaie);
-
-            GetListProjet();
-            GetUsers(undefined);
-            GetListMANDATP();
-
-            //$(`[compteG-id="${id}"]`).remove();
-            //compteG - id="${v.No}"
         },
         error: function () {
             alert("Connexion Problems");

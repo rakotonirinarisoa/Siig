@@ -24,7 +24,7 @@
         public string COMPTE { get; set; }
 
         [Column(TypeName = "smalldatetime")]
-        public DateTime? DATE { get; set; }
+        public DateTime? DATEMANDAT { get; set; }
 
         public int? ETAT { get; set; }
 
@@ -32,5 +32,14 @@
         public DateTime? DATECRE { get; set; }
 
         public int? IDPROJET { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATEVALIDATION { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATESIIG { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATEANNUL { get; set; }
     }
 }

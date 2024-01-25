@@ -160,11 +160,11 @@ namespace apptab.Controllers
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
 
-                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == 0) != null)
+                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATEMANDAT >= DateDebut && a.DATEMANDAT <= DateFin && a.ETAT == 0) != null)
                 {
-                    foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.ETAT == 0).ToList())
+                    foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATEMANDAT >= DateDebut && a.DATEMANDAT <= DateFin && a.ETAT == 0).ToList())
                     {
-                        list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATE.Value.Date });
+                        list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATEMANDAT.Value.Date });
                     }
                 }
 
@@ -212,20 +212,31 @@ namespace apptab.Controllers
                                         titulaire = isCA.COGEAUXI;
                                     }
 
-                                    var ss = new SI_TRAITPROJET()
+                                    if (db.SI_TRAITPROJET.FirstOrDefault(a => a.No == SauveF.ID) != null)
                                     {
-                                        No = SauveF.ID,
-                                        DATECRE = DateTime.Now,
-                                        TITUL = titulaire,
-                                        COMPTE = SauveF.POSTE,
-                                        REF = x.NUMEROFACTURE,
-                                        OBJ = x.DESCRIPTION,
-                                        MONT = Math.Round(SauveF.MONTANTLOCAL.Value, 2),
-                                        DATE = x.DATELIQUIDATION,
-                                        IDPROJET = exist.IDPROJET.Value,
-                                        ETAT = 0,
-                                    };
-                                    db.SI_TRAITPROJET.Add(ss);
+                                        var ismod = db.SI_TRAITPROJET.FirstOrDefault(a => a.No == SauveF.ID);
+                                        ismod.ETAT = 0;
+                                        ismod.DATECRE = DateTime.Now;
+                                        ismod.DATEANNUL = null;
+                                    }
+                                    else
+                                    {
+                                        var ss = new SI_TRAITPROJET()
+                                        {
+                                            No = SauveF.ID,
+                                            DATECRE = DateTime.Now,
+                                            TITUL = titulaire,
+                                            COMPTE = SauveF.POSTE,
+                                            REF = x.NUMEROFACTURE,
+                                            OBJ = x.DESCRIPTION,
+                                            MONT = Math.Round(SauveF.MONTANTLOCAL.Value, 2),
+                                            DATEMANDAT = x.DATELIQUIDATION,
+                                            IDPROJET = exist.IDPROJET.Value,
+                                            ETAT = 0,
+                                        };
+                                        db.SI_TRAITPROJET.Add(ss);
+                                    }
+                                    
                                     db.SaveChanges();
 
                                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitement avec succès. ", data = "" }, settings));
@@ -267,13 +278,15 @@ namespace apptab.Controllers
                     List<DATATRPROJET> list = new List<DATATRPROJET>();
 
                     Guid isSAV = Guid.Parse(SAV);
-                    if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.No == isSAV) != null)
+                    if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATEMANDAT >= DateDebut && a.DATEMANDAT <= DateFin && a.No == isSAV) != null)
                     {
                         //SEND SIIGFP//
 
 
-                        var isModified = db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATE >= DateDebut && a.DATE <= DateFin && a.No == isSAV);
+                        var isModified = db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATEMANDAT >= DateDebut && a.DATEMANDAT <= DateFin && a.No == isSAV);
                         isModified.ETAT = 1;
+                        isModified.DATEVALIDATION = DateTime.Now;
+                        isModified.DATEANNUL = null;
                         db.SaveChanges();
 
                         return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitement avec succès. ", data = "" }, settings));

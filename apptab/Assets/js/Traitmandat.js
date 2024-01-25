@@ -315,6 +315,9 @@ $('[data-action="SaveSIIG"]').click(function () {
         success: function (result) {
             var Datas = JSON.parse(result);
             alert(Datas.msg);
+            $.each(CheckList, (k, v) => {
+                list.push($(v).remove());
+            });
         },
         error: function () {
             alert("Problème de connexion. ");
