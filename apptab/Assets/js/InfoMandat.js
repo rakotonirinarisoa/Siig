@@ -134,13 +134,13 @@ $('#proj').on('change', () => {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}">
+                    <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${v.MONT}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(v.MONT) }</td>
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
-                        <td style="font-weight: bold; text-align:center">${v.DATE}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
                         <td style="font-weight: bold; text-align:center">${v.STAT}</td>
                         
                     `
@@ -199,13 +199,13 @@ function GetListMANDATP() {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}">
+                    <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${v.MONT}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(v.MONT)}</td>
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
-                        <td style="font-weight: bold; text-align:center">${v.DATE}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
                         <td style="font-weight: bold; text-align:center">${v.STAT}</td>
                         
                     `
@@ -275,13 +275,13 @@ $('[data-action="SearchPROJET"]').click(function () {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}">
+                    <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${v.MONT}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(v.MONT) }</td>
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
-                        <td style="font-weight: bold; text-align:center">${v.DATE}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
                         <td style="font-weight: bold; text-align:center">${v.STAT}</td>
                     `
                     if (v.STAT == "Attente validation") {
