@@ -26,17 +26,18 @@ $('#get-user-password-btn').on('click', () => {
         password: passwordInput.val(),
         userId: clickedId
     };
-
+    
     $.ajax({
         type: 'POST',
         async: true,
-        url: Origin + 'User/Password',
+        url: Origin + '/User/Password',
         contentType: 'application/json',
         datatype: 'json',
         data: JSON.stringify({ ...payload }),
+        
         success: function (result) {
             const res = JSON.parse(result);
-
+            console.log(result);
             if (res.type === 'error') {
                 p.css({ 'color': 'red' });
                 p.text('Identifiants incorrects!');

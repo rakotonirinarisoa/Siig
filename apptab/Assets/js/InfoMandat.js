@@ -135,7 +135,6 @@ $('#proj').on('change', () => {
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
                     <tr compteG-id="${v.No}">
-                        <td style="font-weight: bold; text-align:center">${v.No}</td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
@@ -143,10 +142,19 @@ $('#proj').on('change', () => {
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${v.DATE}</td>
                         <td style="font-weight: bold; text-align:center">${v.STAT}</td>
-                        <td class="elerfr" style="font-weight: bold; text-align:center">
-                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
-                        </td>
-                    </tr>`
+                        
+                    `
+                    if (v.STAT == "Attente validation") {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
+                                        </td >
+                                    </tr >`
+                    }
+                    else {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                        </td >
+                                    </tr >`
+                    }
                 });
 
                 $('.traitementPROJET').empty();
@@ -192,7 +200,6 @@ function GetListMANDATP() {
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
                     <tr compteG-id="${v.No}">
-                        <td style="font-weight: bold; text-align:center">${v.No}</td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
@@ -200,10 +207,19 @@ function GetListMANDATP() {
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${v.DATE}</td>
                         <td style="font-weight: bold; text-align:center">${v.STAT}</td>
-                        <td class="elerfr" style="font-weight: bold; text-align:center">
-                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
-                        </td>
-                    </tr>`
+                        
+                    `
+                    if (v.STAT == "Attente validation") {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
+                                        </td >
+                                    </tr >`
+                    }
+                    else {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                        </td >
+                                    </tr >`
+                    }
                 });
 
                 $('.traitementPROJET').empty();
@@ -260,7 +276,6 @@ $('[data-action="SearchPROJET"]').click(function () {
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
                     <tr compteG-id="${v.No}">
-                        <td style="font-weight: bold; text-align:center">${v.No}</td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
@@ -268,10 +283,18 @@ $('[data-action="SearchPROJET"]').click(function () {
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${v.DATE}</td>
                         <td style="font-weight: bold; text-align:center">${v.STAT}</td>
-                        <td class="elerfr" style="font-weight: bold; text-align:center">
-                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
-                        </td>
-                    </tr>`
+                    `
+                    if (v.STAT == "Attente validation") {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
+                                        </td >
+                                    </tr >`
+                    }
+                    else {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                        </td >
+                                    </tr >`
+                    }
                 });
 
                 $('.traitementPROJET').empty();

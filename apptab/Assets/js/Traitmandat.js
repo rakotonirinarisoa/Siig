@@ -150,7 +150,7 @@ $('[data-action="GenereR"]').click(function () {
                     <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">
                             <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                        </td><td style="font-weight: bold; text-align:center">${v.No}</td>
+                        </td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
@@ -216,7 +216,7 @@ $('[data-action="GenereSIIG"]').click(function () {
                     <tr compteG-id="${v.No}">
                         <td style="font-weight: bold; text-align:center">
                             <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                        </td><td style="font-weight: bold; text-align:center">${v.No}</td>
+                        </td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
