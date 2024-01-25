@@ -267,11 +267,24 @@ $('[data-action="SaveV"]').click(function () {
         success: function (result) {
             var Datas = JSON.parse(result);
             alert(Datas.msg);
+            $.each(CheckList, (k, v) => {
+                list.push($(v).remove());
+            });
         },
         error: function () {
             alert("Problème de connexion. ");
         }
     });
+});
+$('.Checkall').change(function () {
+
+    if ($('.Checkall').prop("checked") == true) {
+       
+        $('[compteg-ischecked]').prop("checked", true);
+    } else {
+        $('[compteg-ischecked]').prop("checked", false);
+    }
+    
 });
 
 $('[data-action="SaveSIIG"]').click(function () {
