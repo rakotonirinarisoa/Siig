@@ -154,7 +154,7 @@ $('[data-action="GenereR"]').click(function () {
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${formatCurrency(v.MONT, '.')}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(v.MONT)}</td>
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${v.DATE}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">
