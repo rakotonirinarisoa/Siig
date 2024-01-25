@@ -149,7 +149,7 @@ $('[data-action="GenereR"]').click(function () {
                     contentpaie += `
                     <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">
-                            <input type="checkbox" name = "checkprod" compteg-ischecked/>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked class="chk" onchange = "checkdel('${v.No}')" />
                         </td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
@@ -162,7 +162,6 @@ $('[data-action="GenereR"]').click(function () {
                         </td>
                     </tr>`
                 });
-
                 $('.afb160Paie').empty();
                 $('.afb160Paie').html(contentpaie);
             }
@@ -173,6 +172,17 @@ $('[data-action="GenereR"]').click(function () {
     });
 });
 
+function checkdel(id) {
+    $('.Checkall').prop("checked", false);
+
+    console.log(id);
+    if (id != null) {
+        $('.Checkall').prop("checked", false);
+    }
+    if ($('[compteg-ischecked]').prop("checked") == false) {
+        $('.Checkall').prop("checked", false);
+    }
+}
 //GENERER SIIG//
 $('[data-action="GenereSIIG"]').click(function () {
     let dd = $("#dateD").val();
@@ -215,7 +225,7 @@ $('[data-action="GenereSIIG"]').click(function () {
                     contentpaie += `
                     <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">
-                            <input type="checkbox" name = "checkprod" compteg-ischecked/>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked class="chk" onchange = "checkdel()"/>
                         </td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
@@ -284,8 +294,9 @@ $('.Checkall').change(function () {
     } else {
         $('[compteg-ischecked]').prop("checked", false);
     }
-    
+   
 });
+
 
 $('[data-action="SaveSIIG"]').click(function () {
     let CheckList = $(`[compteg-ischecked]:checked`).closest("tr");

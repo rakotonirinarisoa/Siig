@@ -9,6 +9,8 @@
 .btn.btn-flat.bg-gradient-red.col-12 {
     position: fixed;
     bottom: 5%;
+    width: 86%;
+    right: 8px;
 }
 .thead-red {
     color: #fff;
