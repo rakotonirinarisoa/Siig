@@ -6,6 +6,11 @@
     background-color: #fff;
 }
 
+.btn.btn-flat.bg-gradient-red.col-12 {
+    position: fixed;
+    bottom: 5%;
+    left: 0;
+}
 .thead-red {
     color: #fff;
     background-color: crimson;
@@ -237,7 +242,7 @@ a.nav-link.Fnav {
     user-select: text;
 }
 
-td, th {
+/*td, th {
     border: 2px solid black !important;
-}
+}*/
 
