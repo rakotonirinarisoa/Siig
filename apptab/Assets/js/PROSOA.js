@@ -146,7 +146,7 @@ $(`[data-action="AddnewSociete"]`).click(function () {
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
-                window.location = urlOrigin + "/SuperAdmin/PROSOAList";
+                window.location = Origin + "/SuperAdmin/PROSOAList";
             }
             if (Datas.type == "login") {
                 alert(Datas.msg);
