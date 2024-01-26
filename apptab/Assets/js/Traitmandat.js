@@ -148,8 +148,8 @@ $('[data-action="GenereR"]').click(function () {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}" class="select-text ">
-                        <td style="font-weight: bold; text-align:center">
+                    <tr compteG-id="${v.No}" class="select-text data-node="treetable-1"">
+                        <td style="font-weight: bold; text-align:center" name="row.id">
                             <input type="checkbox" name = "checkprod" compteg-ischecked class="chk" onchange = "checkdel('${v.No}')" />
                         </td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
@@ -161,7 +161,24 @@ $('[data-action="GenereR"]').click(function () {
                         <td class="elerfr" style="font-weight: bold; text-align:center">
                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
                         </td>
-                    </tr>`                });
+                    </tr>
+
+                    <tr compteG-id="${v.No}" class="select-text" data-node="treetable-2" data-pnode="treetable-parent-1">
+                        <td style="font-weight: bold; text-align:center" name="row.id">
+                            <input type="checkbox" name = "checkprod" compteg-ischecked class="chk" onchange = "checkdel('${v.No}')" />
+                        </td>
+                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
+                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                        </td>
+                    </tr>
+
+                    `                });
                 $('.afb160Paie').empty();
                 $('.afb160Paie').html(contentpaie);
             }

@@ -2089,6 +2089,10 @@
     <Content Include="Assets\admlte\plugins\uplot\uPlot.iife.js" />
     <Content Include="Assets\admlte\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Assets\admlte\plugins\uplot\uPlot.min.css" />
+    <Content Include="Assets\dist\bootstrap-treefy.js" />
+    <Content Include="Assets\dist\bootstrap-treefy.min.js" />
+    <Content Include="Assets\dist\css\bootstrap-treefy.css" />
+    <Content Include="Assets\dist\css\bootstrap-treefy.min.css" />
     <Content Include="Assets\icons\eye.svg" />
     <Content Include="Assets\img\bg.jpg" />
     <Content Include="Assets\img\df.gif" />
@@ -2258,6 +2262,9 @@
     <Content Include="Content\bootstrap.rtl.css.map" />
     <Content Include="Content\bootstrap.rtl.min.css.map" />
     <Content Include=".editorconfig" />
+    <Content Include="Assets\dist\css\bootstrap-treefy.css.map" />
+    <Content Include="Assets\dist\less\bootstrap-treefy.less" />
+    <Content Include="Assets\dist\less\variables.less" />
     <None Include="deploy" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
