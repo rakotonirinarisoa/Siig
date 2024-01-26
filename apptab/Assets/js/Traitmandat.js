@@ -148,7 +148,7 @@ $('[data-action="GenereR"]').click(function () {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}" class="select-text">
+                    <tr compteG-id="${v.No}" class="select-text ">
                         <td style="font-weight: bold; text-align:center">
                             <input type="checkbox" name = "checkprod" compteg-ischecked class="chk" onchange = "checkdel('${v.No}')" />
                         </td>
@@ -161,8 +161,7 @@ $('[data-action="GenereR"]').click(function () {
                         <td class="elerfr" style="font-weight: bold; text-align:center">
                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
                         </td>
-                    </tr>`
-                });
+                    </tr>`                });
                 $('.afb160Paie').empty();
                 $('.afb160Paie').html(contentpaie);
             }

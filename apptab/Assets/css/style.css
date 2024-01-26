@@ -247,3 +247,11 @@ a.nav-link.Fnav {
     border: 2px solid black !important;
 }*/
 
+.child-check {
+    margin-left: 15px;
+    display: none;
+}
+
+    .child-check.active {
+        display: block;
+    }
