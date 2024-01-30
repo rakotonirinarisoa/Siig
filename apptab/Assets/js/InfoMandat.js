@@ -158,7 +158,7 @@ $('#proj').on('change', () => {
                     }
 
                     contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
-                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                                     </td>
                                     </tr>`
                 });
@@ -232,7 +232,7 @@ function GetListMANDATP() {
                     }
 
                     contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
-                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                                     </td>
                                     </tr>`
                 });
@@ -314,7 +314,7 @@ $('[data-action="SearchPROJET"]').click(function () {
                     }
 
                     contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
-                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                                     </td>
                                     </tr>`
                 });
@@ -371,5 +371,15 @@ function deleteUser(id) {
         error: function () {
             alert("Connexion Problems");
         }
+    });
+}
+
+var toggler = document.getElementsByClassName("caret");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+    toggler[i].addEventListener("click", function () {
+        this.parentElement.querySelector(".nested").classList.toggle("active");
+        this.classList.toggle("caret-down");
     });
 }
