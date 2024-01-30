@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using apptab.Data;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -768,6 +769,106 @@ namespace apptab.Controllers
             catch (Exception)
             {
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Correspondance ETAT//
+        public ActionResult CorrEtatCreate()
+        {
+            ViewBag.Controller = "Correspondance des états";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsCorrEtat(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_PARAMETAT.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer une nouvelle correspondance des états. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCorrEtat(SI_USERS suser, SI_PARAMETAT param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            int IdS = exist.IDPROJET.Value;
+
+            if (db.SI_MAPPAGES.FirstOrDefault(a => a.IDPROJET == IdS) == null)
+                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Le projet n'est pas mappé à une base de données TOM²PRO. " }, settings));
+
+            SOFTCONNECTOM.connex = new Extension().GetCon(IdS);
+            SOFTCONNECTOM tom = new SOFTCONNECTOM();
+
+            if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == param.DEF) == null)
+                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "L'état DEF n'est pas présent sur TOM²PRO. " }, settings));
+            if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == param.TEF) == null)
+                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "L'état TEF n'est pas présent sur TOM²PRO. " }, settings));
+            if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == param.BE) == null)
+                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "L'état BE n'est pas présent sur TOM²PRO. " }, settings));
+
+            try
+            {
+                var SExist = db.SI_PARAMETAT.FirstOrDefault(a => a.IDPROJET == IdS && a.DELETIONDATE == null);
+
+                if (SExist != null)
+                {
+                    if (SExist.DEF != param.DEF || SExist.TEF != param.TEF || SExist.BE != param.BE)
+                    {
+                        SExist.DELETIONDATE = DateTime.Now;
+
+                        var newPara = new SI_PARAMETAT()
+                        {
+                            DEF = param.DEF,
+                            TEF = param.TEF,
+                            BE = param.BE,
+                            IDPROJET = IdS
+                        };
+
+                        db.SI_PARAMETAT.Add(newPara);
+                        db.SaveChanges();
+                    }
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_PARAMETAT()
+                    {
+                        DEF = param.DEF,
+                        TEF = param.TEF,
+                        BE = param.BE,
+                        IDPROJET = IdS
+                    };
+
+                    db.SI_PARAMETAT.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement des informations. " }, settings));
             }
         }
     }

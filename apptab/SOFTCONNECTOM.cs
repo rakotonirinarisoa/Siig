@@ -17,9 +17,17 @@ namespace apptab
         }
 
         public static string connex = "name=SOFTCONNECTOM";
+
+        public virtual DbSet<CPTADMIN_CHAINETRAITEMENT> CPTADMIN_CHAINETRAITEMENT { get; set; }
+        public virtual DbSet<CPTADMIN_COMMENTAIRE> CPTADMIN_COMMENTAIRE { get; set; }
         public virtual DbSet<CPTADMIN_FLIQUIDATION> CPTADMIN_FLIQUIDATION { get; set; }
         public virtual DbSet<CPTADMIN_MLIQUIDATION> CPTADMIN_MLIQUIDATION { get; set; }
         public virtual DbSet<CPTADMIN_MLIQUIDATIONPJ> CPTADMIN_MLIQUIDATIONPJ { get; set; }
+        public virtual DbSet<CPTADMIN_MODELEETATS> CPTADMIN_MODELEETATS { get; set; }
+        public virtual DbSet<CPTADMIN_STRUCTURE> CPTADMIN_STRUCTURE { get; set; }
+        public virtual DbSet<CPTADMIN_TRAITEMENT> CPTADMIN_TRAITEMENT { get; set; }
+        public virtual DbSet<CPTADMIN_TYPEENGAGEMENT> CPTADMIN_TYPEENGAGEMENT { get; set; }
+        public virtual DbSet<CPTADMIN_TYPEPROCEDURE> CPTADMIN_TYPEPROCEDURE { get; set; }
         public virtual DbSet<RTIERS> RTIERS { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

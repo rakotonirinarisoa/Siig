@@ -138,11 +138,14 @@ $('#proj').on('change', () => {
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
-                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
                         <td style="font-weight: bold; text-align:center">${v.STAT}</td>
-                        
                     `
                     if (v.STAT == "Attente validation") {
                         contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
@@ -205,10 +208,13 @@ function GetListMANDATP() {
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        
-                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
-                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
                         <td style="font-weight: bold; text-align:center">${v.STAT}</td>
                         
                     `
@@ -282,9 +288,13 @@ $('[data-action="SearchPROJET"]').click(function () {
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
-                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
                         <td style="font-weight: bold; text-align:center">${v.STAT}</td>
                     `
                     if (v.STAT == "Attente validation") {

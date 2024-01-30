@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
 
 namespace apptab.Controllers
 {
@@ -32,8 +33,8 @@ namespace apptab.Controllers
 
         public async Task<JsonResult> FillTable(SI_USERS suser)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null) != null;
-            if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
@@ -56,9 +57,8 @@ namespace apptab.Controllers
         [HttpPost]
         public async Task<JsonResult> AddSociete(SI_USERS suser, SI_PROJETS societe, SI_USERS user)
         {
-            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null) != null;
-
-            if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             var societeExist = await db.SI_PROJETS.FirstOrDefaultAsync(a => a.PROJET == societe.PROJET && a.DELETIONDATE == null);
 
@@ -102,8 +102,8 @@ namespace apptab.Controllers
 
         public JsonResult FillTableSOA(SI_USERS suser)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null) != null;
-            if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
@@ -131,8 +131,8 @@ namespace apptab.Controllers
         [HttpPost]
         public JsonResult AddSocieteSOA(SI_USERS suser, SI_SOAS societe)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null) != null;
-            if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             var societeExist = db.SI_SOAS.FirstOrDefault(a => a.SOA == societe.SOA && a.DELETIONDATE == null);
             if (societeExist == null)
@@ -162,14 +162,14 @@ namespace apptab.Controllers
 
         public JsonResult FillTablePROSOA(SI_USERS suser)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null) != null;
-            if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
                 var societe = db.SI_PROSOA.Select(a => new
                 {
-                    PROJET = db.SI_PROJETS.FirstOrDefault(x => x.ID == a.IDPROJET).PROJET,
+                    PROJET = db.SI_PROJETS.FirstOrDefault(x => x.ID == a.IDPROJET && a.DELETIONDATE == null).PROJET,
                     SOA = db.SI_SOAS.FirstOrDefault(x => x.ID == a.IDSOA).SOA,
                     ID = a.ID,
                     DELETIONDATE = a.DELETIONDATE
@@ -192,8 +192,8 @@ namespace apptab.Controllers
         [HttpPost]
         public JsonResult AddSocietePROSOA(SI_USERS suser, PROSOA societe)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null) != null;
-            if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.PROJET && a.DELETIONDATE == null).ID;
             var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.SOA && a.DELETIONDATE == null).ID;
@@ -222,8 +222,11 @@ namespace apptab.Controllers
 
         //GET ALL PROJET//
         [HttpPost]
-        public ActionResult GetAllPROJET(SI_USERS susergit , string IDPROSOA)
+        public ActionResult GetAllPROJET(SI_USERS suser, string IDPROSOA)
         {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
             if (IDPROSOA != null)
             {
                 int? PROSOAID = int.Parse(IDPROSOA);
@@ -259,10 +262,13 @@ namespace apptab.Controllers
         [HttpPost]
         public ActionResult GetAllSOA(SI_USERS suser, string IDPROSOA)
         {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
             if (IDPROSOA != null)
             {
                 int? PROSOAID = int.Parse(IDPROSOA);
-                var idsoa = db.SI_PROSOA.Where(a => a.ID == PROSOAID).Select(a => a.IDSOA).FirstOrDefault();
+                var idsoa = db.SI_PROSOA.Where(a => a.ID == PROSOAID && a.DELETIONDATE == null).Select(a => a.IDSOA).FirstOrDefault();
                 var SOA = db.SI_SOAS.Where(x => x.ID != idsoa && x.DELETIONDATE == null).Select(a => new
                 {
                     SOA = a.SOA,
@@ -282,7 +288,7 @@ namespace apptab.Controllers
             }
             else
             {
-                var SOA = db.SI_SOAS.Select(a => new
+                var SOA = db.SI_SOAS.Where(x => x.DELETIONDATE == null).Select(a => new
                 {
                     SOA = a.SOA,
                     ID = a.ID
@@ -301,14 +307,14 @@ namespace apptab.Controllers
         [HttpPost]
         public JsonResult FillTableMAPP(SI_USERS suser)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null) != null;
-            if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
                 var mapp = db.SI_MAPPAGES.Select(a => new
                 {
-                    db.SI_PROJETS.FirstOrDefault(x => x.ID == a.IDPROJET).PROJET,
+                    db.SI_PROJETS.FirstOrDefault(x => x.ID == a.IDPROJET && a.DELETIONDATE == null).PROJET,
                     a.INSTANCE,
                     a.DBASE,
                     a.ID
@@ -326,7 +332,7 @@ namespace apptab.Controllers
         [HttpPost]
         public JsonResult DeleteMAPP(SI_USERS suser, string MAPPId)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
@@ -358,7 +364,7 @@ namespace apptab.Controllers
         [HttpPost]
         public ActionResult DetailsMAPP(SI_USERS suser, string UserId)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
@@ -400,7 +406,7 @@ namespace apptab.Controllers
         [HttpPost]
         public JsonResult SuperAdminMaPCreate(SI_USERS suser, SI_MAPPAGES user)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
@@ -438,6 +444,9 @@ namespace apptab.Controllers
         [HttpPost]
         public ActionResult GetNewInstance(SI_USERS suser, SI_MAPPAGES map)
         {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
             //Get all bases with the instance
             var BaseList = new List<string>();
 
@@ -483,7 +492,7 @@ namespace apptab.Controllers
         [HttpPost]
         public JsonResult SuperAdminMaPUpdate(SI_USERS suser, SI_MAPPAGES user, string UserId)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
@@ -519,14 +528,14 @@ namespace apptab.Controllers
         [HttpPost]
         public JsonResult DeleteFSOA(SI_USERS suser, string SOAid)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
             {
                 int IDSOA = int.Parse(SOAid);
-                var SOA = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA);
-                var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDSOA && F_ProjetSoa.DELETIONDATE==null).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
+                var SOA = db.SI_SOAS.FirstOrDefault(a => a.ID == IDSOA && a.DELETIONDATE == null);
+                var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDSOA && F_ProjetSoa.DELETIONDATE == null).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
                 if (SOA != null)
                 {
                     //db.SI_SOAS.Remove(SOA);
@@ -562,7 +571,7 @@ namespace apptab.Controllers
         [HttpPost]
         public ActionResult DetailsFSOA(SI_USERS suser, string SOAID)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
@@ -591,7 +600,7 @@ namespace apptab.Controllers
         }
         public ActionResult UpdatFSOA(SI_USERS suser, string SOAID, string SOAID_2)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
@@ -623,7 +632,7 @@ namespace apptab.Controllers
         }
         public ActionResult DeleteFPROSOA(SI_USERS suser, string PROSOAID)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD/* && a.IDPROJET == suser.IDPROJET*/);
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
@@ -653,8 +662,9 @@ namespace apptab.Controllers
         }
         public JsonResult UpdateFPROSOA(SI_USERS suser, PROSOA societe, string idprosoaUp)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD) != null;
-            if (!exist) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
             int idUp = int.Parse(idprosoaUp);
             var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.PROJET && a.DELETIONDATE == null).ID;
             var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.SOA && a.DELETIONDATE == null).ID;
@@ -732,8 +742,9 @@ namespace apptab.Controllers
 
             Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             var canCreate = true;
-            var Tomail = param.MAIL;
             string[] separators = { ";" };
+
+            var Tomail = param.MAILTRAI;
             if (Tomail != null)
             {
                 string listUser = Tomail.ToString();
@@ -746,6 +757,35 @@ namespace apptab.Controllers
                         canCreate = false;
                 }
             }
+
+            Tomail = param.MAILVALI;
+            if (Tomail != null)
+            {
+                string listUser = Tomail.ToString();
+                string[] mailListe = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var mailto in mailListe)
+                {
+                    Match match = regex.Match(mailto);
+                    if (!match.Success)
+                        canCreate = false;
+                }
+            }
+
+            Tomail = param.MAILPAYM;
+            if (Tomail != null)
+            {
+                string listUser = Tomail.ToString();
+                string[] mailListe = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var mailto in mailListe)
+                {
+                    Match match = regex.Match(mailto);
+                    if (!match.Success)
+                        canCreate = false;
+                }
+            }
+
             if (canCreate == false) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "L'une des adresses mail renseignée n'est pas valide. " }, settings));
 
             try
@@ -755,13 +795,15 @@ namespace apptab.Controllers
 
                 if (SExist != null)
                 {
-                    if (SExist.MAIL != param.MAIL)
+                    if (SExist.MAILTRAI != param.MAILTRAI || SExist.MAILVALI != param.MAILVALI || SExist.MAILPAYM != param.MAILPAYM)
                     {
                         SExist.DELETIONDATE = DateTime.Now;
 
                         var newPara = new SI_MAIL()
                         {
-                            MAIL = param.MAIL,
+                            MAILTRAI = param.MAILTRAI,
+                            MAILVALI = param.MAILVALI,
+                            MAILPAYM = param.MAILPAYM,
                             IDPROJET = IdS
                         };
 
@@ -775,7 +817,9 @@ namespace apptab.Controllers
                 {
                     var newPara = new SI_MAIL()
                     {
-                        MAIL = param.MAIL,
+                        MAILTRAI = param.MAILTRAI,
+                        MAILVALI = param.MAILVALI,
+                        MAILPAYM = param.MAILPAYM,
                         IDPROJET = IdS
                     };
 

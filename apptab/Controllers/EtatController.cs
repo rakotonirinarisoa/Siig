@@ -38,7 +38,11 @@ namespace apptab.Controllers
 
             try
             {
-                int crpt = exist.IDPROJET.Value;
+                int crpt = 0;
+                if (suser.IDPROJET == null)
+                    crpt = exist.IDPROJET.Value;
+                else
+                    crpt = suser.IDPROJET.Value;
 
                 var fina = "";
                 if (db.SI_FINANCEMENT.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null) != null)
@@ -221,8 +225,24 @@ namespace apptab.Controllers
                             sta = "Validée";
                         else if (x.ETAT == 2)
                             sta = "Annulée";
+                        else if (x.ETAT == 3)
+                            sta = "Traitée SIIGFP";
 
-                        list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATEMANDAT.Value, STAT = sta });
+                        list.Add(new DATATRPROJET
+                        {
+                            No = x.No,
+                            REF = x.REF,
+                            OBJ = x.OBJ,
+                            TITUL = x.TITUL,
+                            MONT = Math.Round(x.MONT.Value, 2).ToString(),
+                            COMPTE = x.COMPTE,
+                            DATE = x.DATEMANDAT.Value.Date,
+                            PCOP = x.PCOP,
+                            DATEDEF = x.DATEDEF.Value.Date,
+                            DATETEF = x.DATETEF.Value.Date,
+                            DATEBE = x.DATEBE.Value.Date,
+                            STAT = sta
+                        });
                     }
                 }
 
@@ -250,17 +270,33 @@ namespace apptab.Controllers
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
 
-                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt) != null)
+                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.ETAT == 0) != null)
                 {
-                    foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt).ToList())
+                    foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.ETAT == 0).ToList())
                     {
                         var sta = "Attente validation";
                         if (x.ETAT == 1)
                             sta = "Validée";
                         else if (x.ETAT == 2)
                             sta = "Annulée";
+                        else if (x.ETAT == 3)
+                            sta = "Traitée SIIGFP";
 
-                        list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATEMANDAT.Value.Date, STAT = sta });
+                        list.Add(new DATATRPROJET
+                        {
+                            No = x.No,
+                            REF = x.REF,
+                            OBJ = x.OBJ,
+                            TITUL = x.TITUL,
+                            MONT = Math.Round(x.MONT.Value, 2).ToString(),
+                            COMPTE = x.COMPTE,
+                            DATE = x.DATEMANDAT.Value.Date,
+                            PCOP = x.PCOP,
+                            DATEDEF = x.DATEDEF.Value.Date,
+                            DATETEF = x.DATETEF.Value.Date,
+                            DATEBE = x.DATEBE.Value.Date,
+                            STAT = sta
+                        });
                     }
                 }
 
@@ -306,7 +342,21 @@ namespace apptab.Controllers
                             else if (x.ETAT == 3)
                                 sta = "Traitée SIIGFP";
 
-                            list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATEMANDAT.Value.Date, STAT = sta });
+                            list.Add(new DATATRPROJET
+                            {
+                                No = x.No,
+                                REF = x.REF,
+                                OBJ = x.OBJ,
+                                TITUL = x.TITUL,
+                                MONT = Math.Round(x.MONT.Value, 2).ToString(),
+                                COMPTE = x.COMPTE,
+                                DATE = x.DATEMANDAT.Value.Date,
+                                PCOP = x.PCOP,
+                                DATEDEF = x.DATEDEF.Value.Date,
+                                DATETEF = x.DATETEF.Value.Date,
+                                DATEBE = x.DATEBE.Value.Date,
+                                STAT = sta
+                            });
                         }
                     }
                 }
@@ -324,7 +374,21 @@ namespace apptab.Controllers
                         {
                             var sta = "Attente validation";
 
-                            list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATEMANDAT.Value.Date, STAT = sta });
+                            list.Add(new DATATRPROJET
+                            {
+                                No = x.No,
+                                REF = x.REF,
+                                OBJ = x.OBJ,
+                                TITUL = x.TITUL,
+                                MONT = Math.Round(x.MONT.Value, 2).ToString(),
+                                COMPTE = x.COMPTE,
+                                DATE = x.DATEMANDAT.Value.Date,
+                                PCOP = x.PCOP,
+                                DATEDEF = x.DATEDEF.Value.Date,
+                                DATETEF = x.DATETEF.Value.Date,
+                                DATEBE = x.DATEBE.Value.Date,
+                                STAT = sta
+                            });
                         }
                     }
                 }

@@ -142,27 +142,39 @@ $('[data-action="GenereR"]').click(function () {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "PEtat") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "Prese") {
+                alert(Datas.msg);
+                return;
+            }
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResult = Datas.data
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}" class="select-text ">
+                    <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">
                             <input type="checkbox" name = "checkprod" compteg-ischecked class="chk" onchange = "checkdel('${v.No}')" />
                         </td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
-                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">
                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
                         </td>
-                    </tr>`
-                });
+                    </tr>
+                    `                });
                 $('.afb160Paie').empty();
                 $('.afb160Paie').html(contentpaie);
             }
@@ -213,9 +225,14 @@ function GetListLOAD() {
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
-                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
+
                         <td class="elerfr" style="font-weight: bold; text-align:center">
                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
                         </td>
@@ -279,9 +296,13 @@ $('[data-action="GenereSIIG"]').click(function () {
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
-                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE) }</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">
                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
                         </td>

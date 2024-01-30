@@ -5,11 +5,12 @@ $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
     if (User == null || User === "undefined") window.location = "../";
     Origin = User.origin;
+
     $(`[data-id="username"]`).text(User.LOGIN);
     GetUsers();
 });
 
-//let urlOrigin = Origin;
+let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetUsers() {
     let formData = new FormData();
@@ -21,7 +22,7 @@ function GetUsers() {
 
     $.ajax({
         type: "POST",
-        url: Origin + '/SuperAdmin/DetailsMail',
+        url: Origin + '/Parametre/DetailsCorrEtat',
         data: formData,
         cache: false,
         contentType: false,
@@ -39,9 +40,10 @@ function GetUsers() {
                 return;
             }
 
-            $("#ParaT").val(Datas.data.MAILTRAI);
-            $("#ParaV").val(Datas.data.MAILVALI);
-            $("#ParaP").val(Datas.data.MAILPAYM);
+            $("#defC").val(Datas.data.DEF);
+            $("#tefC").val(Datas.data.TEF);
+            $("#beC").val(Datas.data.BE);
+
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -50,11 +52,11 @@ function GetUsers() {
 }
 
 $(`[data-action="UpdateUser"]`).click(function () {
-    let ParaT = $("#ParaT").val();
-    let ParaV = $("#ParaV").val();
-    let ParaP = $("#ParaP").val();
-    if (!ParaT || !ParaV || !ParaP) {
-        alert("Veuillez renseigner les mails. ");
+    let defC = $("#defC").val();
+    let tefC = $("#tefC").val();
+    let beC = $("#beC").val();
+    if (!defC || !tefC || !beC) {
+        alert("Veuillez renseigner les informations sur la correspondance des états. ");
         return;
     }
 
@@ -65,13 +67,13 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    formData.append("param.MAILTRAI", $(`#ParaT`).val());
-    formData.append("param.MAILVALI", $(`#ParaV`).val());
-    formData.append("param.MAILPAYM", $(`#ParaP`).val());
+    formData.append("param.DEF", $(`#defC`).val());
+    formData.append("param.TEF", $(`#tefC`).val());
+    formData.append("param.BE", $(`#beC`).val());
 
     $.ajax({
         type: "POST",
-        url: Origin + '/SuperAdmin/UpdateMail',
+        url: Origin + '/Parametre/UpdateCorrEtat',
         data: formData,
         cache: false,
         contentType: false,
