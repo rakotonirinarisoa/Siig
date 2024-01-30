@@ -109,6 +109,7 @@ namespace apptab.Controllers
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
 
                 decimal MTN = 0;
+                decimal MTNPJ = 0;
                 var PCOP = "";
 
                 //Check si la correspondance des états est OK//
@@ -126,53 +127,64 @@ namespace apptab.Controllers
                 {
                     foreach (var x in tom.CPTADMIN_FLIQUIDATION.Where(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).OrderBy(a => a.DATELIQUIDATION).ToList())
                     {
+                        //Get total MTN dans CPTADMIN_MLIQUIDATION pour vérification du SOMMES MTN M = SOMMES MTN MPJ//
                         if (tom.CPTADMIN_MLIQUIDATION.Any(a => a.IDLIQUIDATION == x.ID))
                         {
                             foreach (var y in tom.CPTADMIN_MLIQUIDATION.Where(a => a.IDLIQUIDATION == x.ID).ToList())
                             {
-                                //Get total MTN dans CPTADMIN_MLIQUIDATION pour vérification du SOMMES MTN M = SOMMES MTN MPJ//
                                 MTN += y.MONTANTLOCAL.Value;
 
                                 if (String.IsNullOrEmpty(PCOP))
                                     PCOP = y.POSTE;
                             }
-
-                            //TEST SI SOMMES MTN M = SOMMES MTN MPJ// Fa tsis données anaty table dia ts itako ilay MTN//Donc je passe à la suite pour le moment//
-
                         }
 
-                        //Check si F a déjà passé les 3 étapes (DEF, TEF et BE) pour avoir les dates => BE étape finale//
-                        var canBe = true;
-                        if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF) == null)
-                            canBe = false;
-                        if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF) == null)
-                            canBe = false;
-                        if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE) == null)
-                            canBe = false;
-
-                        //TEST que F n'est pas encore traité ou F a été annulé// ETAT annulé = 2//
-                        if (canBe)
+                        //TEST SI SOMMES MTN M = SOMMES MTN MPJ// Fa tsis données anaty table dia ts itako ilay MTN//Donc je passe à la suite pour le moment//
+                        var IDString = x.ID.ToString();
+                        if (tom.TP_MPIECES_JUSTIFICATIVES.Any(a => a.NUMERO_FICHE == IDString))
                         {
-                            if (!db.SI_TRAITPROJET.Any(a => a.No == x.ID) || db.SI_TRAITPROJET.Any(a => a.No == x.ID && a.ETAT == 2))
+                            foreach (var y in tom.TP_MPIECES_JUSTIFICATIVES.Where(a => a.NUMERO_FICHE == IDString).ToList())
                             {
-                                var titulaire = "";
-                                if (tom.RTIERS.Any(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE))
-                                    titulaire = tom.RTIERS.FirstOrDefault(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE).NOM;
+                                MTNPJ += y.MONTANT.Value;
+                            }
+                        }
 
-                                list.Add(new DATATRPROJET
+                        //MathRound 3 satria kely kokoa ny marge d'erreur no le 2//
+                        if (Math.Round(MTN, 3) == Math.Round(MTNPJ, 3))
+                        {
+                            //Check si F a déjà passé les 3 étapes (DEF, TEF et BE) pour avoir les dates => BE étape finale//
+                            var canBe = true;
+                            if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF) == null)
+                                canBe = false;
+                            if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF) == null)
+                                canBe = false;
+                            if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE) == null)
+                                canBe = false;
+
+                            //TEST que F n'est pas encore traité ou F a été annulé// ETAT annulé = 2//
+                            if (canBe)
+                            {
+                                if (!db.SI_TRAITPROJET.Any(a => a.No == x.ID) || db.SI_TRAITPROJET.Any(a => a.No == x.ID && a.ETAT == 2))
                                 {
-                                    No = x.ID,
-                                    REF = x.NUMEROCA,
-                                    OBJ = x.DESCRIPTION,
-                                    TITUL = titulaire,
-                                    MONT = Math.Round(MTN, 2).ToString(),
-                                    COMPTE = x.COGEBENEFICIAIRE,
-                                    DATE = x.DATELIQUIDATION.Value.Date,
-                                    PCOP = PCOP,
-                                    DATEDEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF).DATECA,
-                                    DATETEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF).DATECA,
-                                    DATEBE = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE).DATECA
-                                });
+                                    var titulaire = "";
+                                    if (tom.RTIERS.Any(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE))
+                                        titulaire = tom.RTIERS.FirstOrDefault(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE).NOM;
+
+                                    list.Add(new DATATRPROJET
+                                    {
+                                        No = x.ID,
+                                        REF = x.NUMEROCA,
+                                        OBJ = x.DESCRIPTION,
+                                        TITUL = titulaire,
+                                        MONT = Math.Round(MTN, 2).ToString(),
+                                        COMPTE = x.COGEBENEFICIAIRE,
+                                        DATE = x.DATELIQUIDATION.Value.Date,
+                                        PCOP = PCOP,
+                                        DATEDEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF).DATECA,
+                                        DATETEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF).DATECA,
+                                        DATEBE = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE).DATECA
+                                    });
+                                }
                             }
                         }
                     }

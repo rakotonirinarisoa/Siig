@@ -29,6 +29,7 @@ namespace apptab
         public virtual DbSet<CPTADMIN_TYPEENGAGEMENT> CPTADMIN_TYPEENGAGEMENT { get; set; }
         public virtual DbSet<CPTADMIN_TYPEPROCEDURE> CPTADMIN_TYPEPROCEDURE { get; set; }
         public virtual DbSet<RTIERS> RTIERS { get; set; }
+        public virtual DbSet<TP_MPIECES_JUSTIFICATIVES> TP_MPIECES_JUSTIFICATIVES { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -73,6 +74,18 @@ namespace apptab
             modelBuilder.Entity<RTIERS>()
                 .Property(e => e.IMPORTID)
                 .HasPrecision(18, 0);
+
+            modelBuilder.Entity<TP_MPIECES_JUSTIFICATIVES>()
+                .Property(e => e.NOMBRE)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<TP_MPIECES_JUSTIFICATIVES>()
+                .Property(e => e.RANG)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<TP_MPIECES_JUSTIFICATIVES>()
+                .Property(e => e.MONTANT)
+                .HasPrecision(30, 6);
         }
     }
 }
