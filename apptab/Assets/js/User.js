@@ -105,8 +105,11 @@ function deleteUser(id) {
                 alert(Datas.msg);
                 return;
             }
-
-            $(`[data-userId="${id}"]`).remove();
+            if (Datas.type == "success") {
+                alert(Datas.msg);
+                $(`[data-userId="${id}"]`).remove();
+                return;
+            }
         },
         error: function () {
             alert("Connexion Problems");

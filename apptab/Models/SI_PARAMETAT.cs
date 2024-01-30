@@ -1,4 +1,4 @@
-﻿namespace apptab
+namespace apptab
 {
     using System;
     using System.Collections.Generic;
@@ -6,13 +6,15 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class SI_MAIL
+    public partial class SI_PARAMETAT
     {
         public int ID { get; set; }
 
-        public string MAILTRAI { get; set; }
-        public string MAILVALI { get; set; }
-        public string MAILPAYM { get; set; }
+        public int? DEF { get; set; }
+
+        public int? TEF { get; set; }
+
+        public int? BE { get; set; }
 
         public int? IDPROJET { get; set; }
 

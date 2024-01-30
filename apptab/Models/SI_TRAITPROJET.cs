@@ -1,4 +1,4 @@
-﻿namespace apptab.Models
+namespace apptab
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@
     {
         public int ID { get; set; }
 
-        public Guid No { get; set; }
+        public Guid? No { get; set; }
 
         public string REF { get; set; }
 
@@ -41,5 +41,16 @@
 
         [Column(TypeName = "smalldatetime")]
         public DateTime? DATEANNUL { get; set; }
+
+        public string PCOP { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATEDEF { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATETEF { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATEBE { get; set; }
     }
 }

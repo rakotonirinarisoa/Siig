@@ -10,10 +10,9 @@ $(document).ready(() => {
     
     GetListProjet();
     GetUsers(undefined);
-    //GetListMANDATP();
 });
-//let urlOrigin = Origin;
-//let urlOrigin = "http://softwell.cloud/OPAVI";
+
+
 function GetUsers(id) {
     let formData = new FormData();
     
@@ -115,7 +114,6 @@ function GetListProjet() {
 
 $('#proj').on('change', () => {
     const id = $('#proj').val();
-
     GetUsers(id);
 });
 
