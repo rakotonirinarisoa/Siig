@@ -150,14 +150,17 @@ $('#proj').on('change', () => {
                     if (v.STAT == "Attente validation") {
                         contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
                                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
-                                        </td >
-                                    </tr >`
+                                        </td >`
                     }
                     else {
                         contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
-                                        </td >
-                                    </tr >`
+                                        </td >`
                     }
+
+                    contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                                    </td>
+                                    </tr>`
                 });
 
                 $('.traitementPROJET').empty();
@@ -221,14 +224,17 @@ function GetListMANDATP() {
                     if (v.STAT == "Attente validation") {
                         contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
                                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
-                                        </td >
-                                    </tr >`
+                                        </td >`
                     }
                     else {
                         contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
-                                        </td >
-                                    </tr >`
+                                        </td >`
                     }
+
+                    contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                                    </td>
+                                    </tr>`
                 });
 
                 $('.traitementPROJET').empty();
@@ -300,14 +306,17 @@ $('[data-action="SearchPROJET"]').click(function () {
                     if (v.STAT == "Attente validation") {
                         contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
                                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
-                                        </td >
-                                    </tr >`
+                                        </td >`
                     }
                     else {
                         contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
-                                        </td >
-                                    </tr >`
+                                        </td >`
                     }
+
+                    contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                                    </td>
+                                    </tr>`
                 });
 
                 $('.traitementPROJET').empty();

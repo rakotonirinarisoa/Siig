@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Runtime;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using apptab.Data;
+using apptab.Data.Entities;
 using apptab.Models;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
@@ -427,6 +430,45 @@ namespace apptab.Controllers
             }
 
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitement avec succès. ", data = "" }, settings));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ModalF(SI_USERS suser, string IdF)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+
+                SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM tom = new SOFTCONNECTOM();
+
+                List<DATATRPROJET> list = new List<DATATRPROJET>();
+
+                if (tom.TP_MPIECES_JUSTIFICATIVES.FirstOrDefault(a => a.NUMERO_FICHE == IdF) != null)
+                {
+                    foreach (var x in tom.TP_MPIECES_JUSTIFICATIVES.Where(a => a.NUMERO_FICHE == IdF).ToList())
+                    {
+                        list.Add(new DATATRPROJET
+                        {
+                            REF = x.DESIGNATION,
+                            OBJ = x.RANG.ToString(),
+                            TITUL = x.NOMBRE.ToString(),
+                            DATE = x.DATECRE.Value.Date,
+                            MONT = Math.Round(x.MONTANT.Value, 2).ToString()
+                        });
+                    }
+                }
+
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
         }
     }
 }

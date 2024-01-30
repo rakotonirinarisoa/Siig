@@ -71,19 +71,32 @@
 <script src="~/Assets/js/Traitmandat.js"></script>
 <script src="~/Assets/js/utils.js"></script>
 
-@*<link href="~/Assets/dist/css/bootstrap-treefy.css" rel="stylesheet" />
-<script src="~/Assets/dist/bootstrap-treefy.js"></script>
 
-<script>
-    $(function () {
-        $("#TBD").treeFy({
-            treeColumn: 1,
-            collapseAnimateCallback: function (row) {
-                row.fadeOut();
-            },
-            expandAnimateCallback: function (row) {
-                row.fadeIn();
-            }
-        });
-    });
-</script>*@
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="password-modal">
+    <div class="modal-dialog modal-full-height modal-top" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title w-100">Pièces justificatives</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover table-striped table-bordered" id="TBDMODAL">
+                    <thead style="position:sticky">
+                        <tr class="thead-green" style="white-space: nowrap;">
+                            <td style="font-weight:bold; text-align:center">Type</td>
+                            <td style="font-weight: bold; text-align: center">Numéro</td>
+                            <td style="font-weight: bold; text-align: center">Nombre exemplaire</td>
+                            <td style="font-weight: bold; text-align: center">Date</td>
+                            <td style="font-weight: bold; text-align: center">Montant</td>
+                        </tr>
+                    </thead>
+                    <tbody class="afb160MODAL"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Assets/js/TraitmandatModal.js"></script>

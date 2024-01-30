@@ -2116,6 +2116,7 @@
     <Content Include="Assets\js\Mis.js" />
     <Content Include="Assets\js\Min.js" />
     <Content Include="Assets\js\Act.js" />
+    <Content Include="Assets\js\TraitmandatModal.js" />
     <Content Include="Assets\js\passwords.js" />
     <Content Include="Assets\js\Prog.js" />
     <Content Include="Assets\js\Proc.js" />
