@@ -277,3 +277,28 @@ a.nav-link.Fnav {
         display: block;
     }
 
+.modal-body {
+    padding: 0;
+}
+
+.caret {
+    cursor: pointer;
+    user-select: none;
+}
+
+    .caret:before {
+        content: '\25B6';
+        display: inline-block;
+    }
+
+.nested {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+.carnet-down:before {
+    transform: rotate(90deg);
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -229,7 +230,7 @@ namespace apptab.Controllers
                 {
                     foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATEMANDAT >= DateDebut && a.DATEMANDAT <= DateFin && a.ETAT == 0).ToList())
                     {
-                        list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATEMANDAT.Value.Date });
+                        //list.Add(new DATATRPROJET { No = x.No, REF = x.REF, OBJ = x.OBJ, TITUL = x.TITUL, MONT = Math.Round(x.MONT.Value, 2).ToString(), COMPTE = x.COMPTE, DATE = x.DATEMANDAT.Value.Date });
 
                         list.Add(new DATATRPROJET
                         {
@@ -237,7 +238,7 @@ namespace apptab.Controllers
                             REF = x.REF,
                             OBJ = x.OBJ,
                             TITUL = x.TITUL,
-                            MONT = Math.Round(x.MONT.Value, 2).ToString(),
+                            MONT = Data.Cipher.Decrypt(x.MONT, "Oppenheimer").ToString(),
                             COMPTE = x.COMPTE,
                             DATE = x.DATEMANDAT.Value.Date,
                             PCOP = x.PCOP,
@@ -283,7 +284,7 @@ namespace apptab.Controllers
                             REF = x.REF,
                             OBJ = x.OBJ,
                             TITUL = x.TITUL,
-                            MONT = Math.Round(x.MONT.Value, 2).ToString(),
+                            MONT = Data.Cipher.Decrypt(x.MONT, "Oppenheimer").ToString(),
                             COMPTE = x.COMPTE,
                             DATE = x.DATEMANDAT.Value.Date,
                             PCOP = x.PCOP,
@@ -363,7 +364,7 @@ namespace apptab.Controllers
                                 REF = FF.NUMEROCA,
                                 OBJ = FF.DESCRIPTION,
                                 TITUL = titulaire,
-                                MONT = Math.Round(MTN, 2),
+                                MONT = Data.Cipher.Encrypt((Math.Round(MTN, 2)).ToString(), "Oppenheimer"),
                                 COMPTE = FF.COGEBENEFICIAIRE,
                                 DATEMANDAT = FF.DATELIQUIDATION.Value.Date,
                                 PCOP = PCOP,
@@ -435,7 +436,7 @@ namespace apptab.Controllers
         [HttpPost]
         public async Task<JsonResult> ModalF(SI_USERS suser, string IdF)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
