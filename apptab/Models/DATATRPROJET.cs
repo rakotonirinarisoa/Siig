@@ -17,8 +17,12 @@ namespace apptab.Models
         public string TITUL { get; set; }
         public string MONT { get; set; }
         public string COMPTE { get; set; }
+        public string PCOP { get; set; }
         public DateTime? DATE { get; set; }
-
         public string STAT { get; set; }
+        public DateTime? DATEDEF { get; set; }
+        public DateTime? DATETEF { get; set; }
+        public DateTime? DATEBE { get; set; }
+
     }
 }

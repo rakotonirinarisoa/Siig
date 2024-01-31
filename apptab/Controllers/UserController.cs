@@ -120,7 +120,8 @@ namespace SOFTCONNECT.Controllers
 
             foreach (var item in enumlist)
             {
-                roles.Add((int)item, Enum.GetName(typeof(Role), item));
+                if (item.ToString() != "SAdministrateur")
+                    roles.Add((int)item, Enum.GetName(typeof(Role), item));
             }
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = roles }, settings));
         }

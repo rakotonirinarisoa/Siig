@@ -39,7 +39,9 @@ function GetUsers() {
                 return;
             }
 
-            $("#Para").val(Datas.data.MAIL);
+            $("#ParaT").val(Datas.data.MAILTRAI);
+            $("#ParaV").val(Datas.data.MAILVALI);
+            $("#ParaP").val(Datas.data.MAILPAYM);
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -48,8 +50,10 @@ function GetUsers() {
 }
 
 $(`[data-action="UpdateUser"]`).click(function () {
-    let user = $("#Para").val();
-    if (!user) {
+    let ParaT = $("#ParaT").val();
+    let ParaV = $("#ParaV").val();
+    let ParaP = $("#ParaP").val();
+    if (!ParaT || !ParaV || !ParaP) {
         alert("Veuillez renseigner les mails. ");
         return;
     }
@@ -61,7 +65,9 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    formData.append("param.MAIL", $(`#Para`).val());
+    formData.append("param.MAILTRAI", $(`#ParaT`).val());
+    formData.append("param.MAILVALI", $(`#ParaV`).val());
+    formData.append("param.MAILPAYM", $(`#ParaP`).val());
 
     $.ajax({
         type: "POST",

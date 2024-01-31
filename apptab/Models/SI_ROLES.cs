@@ -14,6 +14,6 @@
 
     public enum Role
     {
-        SAdministrateur, Administrateur, Projet, ORDSEC, Consultation
+        SAdministrateur, Administrateur, Projet, ORDSEC, Consultation, PRORDESEC
     }
 }

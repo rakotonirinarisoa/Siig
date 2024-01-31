@@ -110,15 +110,17 @@ $(`[data-action="AddnewSociete"]`).click(function () {
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
+
                 return;
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
-                window.location = urlOrigin + "/SuperAdmin/ProjetList";
+                window.location = Origin + "/SuperAdmin/ProjetList";
             }
             if (Datas.type == "login") {
                 alert(Datas.msg);
                 window.location = window.location.origin;
+
                 return;
             }
         },
@@ -140,7 +142,7 @@ function deleteProject(id) {
 
     $.ajax({
         type: 'POST',
-        url: Origin + '/projects/delete',
+        url: Origin + '/Projects/Delete',
         data: formData,
         cache: false,
         contentType: false,
@@ -149,13 +151,11 @@ function deleteProject(id) {
             var Datas = JSON.parse(result);
 
             console.log(Datas);
-
-            if (Datas.type == "error") {
-                alert(Datas.msg);
-                return;
-            }
-
+            alert(Datas.msg);
             $(`[data-project-id="${id}"]`).remove();
+
+            alert("Suppression avec succès!");
+           
         }
     });
 }

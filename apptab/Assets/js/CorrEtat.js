@@ -22,7 +22,7 @@ function GetUsers() {
 
     $.ajax({
         type: "POST",
-        url: Origin + '/Parametre/DetailsAct',
+        url: Origin + '/Parametre/DetailsCorrEtat',
         data: formData,
         cache: false,
         contentType: false,
@@ -40,8 +40,9 @@ function GetUsers() {
                 return;
             }
 
-            $("#Para").val(Datas.data.ACTIVITE);
-            $("#Code").val(Datas.data.CODE);
+            $("#defC").val(Datas.data.DEF);
+            $("#tefC").val(Datas.data.TEF);
+            $("#beC").val(Datas.data.BE);
 
         },
         error: function () {
@@ -51,10 +52,11 @@ function GetUsers() {
 }
 
 $(`[data-action="UpdateUser"]`).click(function () {
-    let user = $("#Para").val();
-    let code = $("#Code").val();
-    if (!user || !code) {
-        alert("Veuillez renseigner l'information sur l'activité. ");
+    let defC = $("#defC").val();
+    let tefC = $("#tefC").val();
+    let beC = $("#beC").val();
+    if (!defC || !tefC || !beC) {
+        alert("Veuillez renseigner les informations sur la correspondance des états. ");
         return;
     }
 
@@ -65,12 +67,13 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    formData.append("param.ACTIVITE", $(`#Para`).val());
-    formData.append("param.CODE", $(`#Code`).val());
+    formData.append("param.DEF", $(`#defC`).val());
+    formData.append("param.TEF", $(`#tefC`).val());
+    formData.append("param.BE", $(`#beC`).val());
 
     $.ajax({
         type: "POST",
-        url: Origin + '/Parametre/UpdateAct',
+        url: Origin + '/Parametre/UpdateCorrEtat',
         data: formData,
         cache: false,
         contentType: false,

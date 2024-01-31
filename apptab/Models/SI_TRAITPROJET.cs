@@ -1,4 +1,4 @@
-﻿namespace apptab.Models
+﻿namespace apptab
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@
     {
         public int ID { get; set; }
 
-        public Guid No { get; set; }
+        public Guid? No { get; set; }
 
         public string REF { get; set; }
 
@@ -18,13 +18,14 @@
 
         public string TITUL { get; set; }
 
-        [Column(TypeName = "numeric")]
-        public decimal? MONT { get; set; }
+        //[Column(TypeName = "numeric")]
+        //public decimal? MONT { get; set; }
+        public string MONT { get; set; }
 
         public string COMPTE { get; set; }
 
         [Column(TypeName = "smalldatetime")]
-        public DateTime? DATE { get; set; }
+        public DateTime? DATEMANDAT { get; set; }
 
         public int? ETAT { get; set; }
 
@@ -32,5 +33,25 @@
         public DateTime? DATECRE { get; set; }
 
         public int? IDPROJET { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATEVALIDATION { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATESIIG { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATEANNUL { get; set; }
+
+        public string PCOP { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATEDEF { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATETEF { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? DATEBE { get; set; }
     }
 }
