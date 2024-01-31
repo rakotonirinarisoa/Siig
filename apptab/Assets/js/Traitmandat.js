@@ -218,7 +218,7 @@ function GetListLOAD() {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                   <tr compteG-id="${v.No}" class="select-text">
+                   <tr compteG-id="${v.No}" class="select-text caret">
                         <td style="font-weight: bold; text-align:center">
                             <input type="checkbox" name = "checkprod" compteg-ischecked  onchange = "checkdel()"/>
                         </td>
