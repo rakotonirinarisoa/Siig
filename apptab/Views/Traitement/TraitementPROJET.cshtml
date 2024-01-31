@@ -30,34 +30,37 @@
 
 <div class="form-row mb-3">
     <div class="input-group mb-3 col">
-        <div class="btn btn-flat bg-gradient-info col-12" data-action="GenereR">
+        <div class="btn btn-flat bg-gradient-success col-12" data-action="GenereR">
             <i class="fa fa-download"></i> Générer
         </div>
     </div>
 </div>
 
-<div class="table-responsive mb-3" style="max-height:400px" tab="paie">
-    <table class="table table-hover table-striped table-bordered">
-        <thead style="position:sticky">
-            <tr class="thead-accueil1" style="white-space: nowrap;">
-                <td style="text-align:center">
-                    <input type="checkbox" />
-                </td>
-                <td style="font-weight: bold; text-align:center">N°</td>
-                <td style="font-weight:bold; text-align:center">Référence Engagement</td>
-                <td style="font-weight: bold; text-align: center">Objet</td>
-                <td style="font-weight: bold; text-align: center">Titulaire</td>
-                <td style="font-weight: bold; text-align: center">Montant</td>
-                <td style="font-weight: bold; text-align: center">Compte</td>
-                <td style="font-weight: bold; text-align: center">Date engagement</td>
-                <td style="font-weight: bold; text-align: center"></td>
-            </tr>
-        </thead>
-        <tbody class="afb160Paie"></tbody>
-    </table>
+<div class="table-responsive mb-3" @*style="max-height: calc(600px - 0.6rem * 2 ); "*@ tab="paie">
+    <table class="table table-hover table-striped table-bordered" id="TBD">
+            <thead style="position:sticky">
+                <tr class="thead-accueil1" style="white-space: nowrap;">
+                    <td style="text-align:center">
+                        <input type="checkbox" class="Checkall" />
+                    </td>
+                    <td style="font-weight:bold; text-align:center">Référence mandat</td>
+                    <td style="font-weight: bold; text-align: center">Objet</td>
+                    <td style="font-weight: bold; text-align: center">Titulaire</td>
+                    <td style="font-weight: bold; text-align: center">Date mandat</td>
+                    <td style="font-weight: bold; text-align: center">Compte bénéficiaire</td>
+                    <td style="font-weight: bold; text-align: center">PCOP</td>
+                    <td style="font-weight: bold; text-align: center">Montant</td>
+                    <td style="font-weight: bold; text-align: center">Date DEF</td>
+                    <td style="font-weight: bold; text-align: center">Date TEF</td>
+                    <td style="font-weight: bold; text-align: center">Date BE</td>
+                    <td style="font-weight: bold; text-align: center"></td>
+                </tr>
+            </thead>
+            <tbody class="afb160Paie"></tbody>
+        </table>
 </div>
 
-<div class="form-row mb-3">
+<div class="form-row mb-3 alignment-bottom">
     <div class="input-group mb-3 col">
         <div class="btn btn-flat bg-gradient-red col-12" data-action="SaveV">
             <i class="fa fa-check-double"></i> Enregistrer et envoyer pour validation
@@ -68,3 +71,32 @@
 <script src="~/Assets/js/Traitmandat.js"></script>
 <script src="~/Assets/js/utils.js"></script>
 
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="password-modal">
+    <div class="modal-dialog modal-full-height modal-top" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title w-100">Pièces justificatives</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover table-striped table-bordered" id="TBDMODAL">
+                    <thead style="position:sticky">
+                        <tr class="thead-green" style="white-space: nowrap;">
+                            <td style="font-weight:bold; text-align:center">Type</td>
+                            <td style="font-weight: bold; text-align: center">Numéro</td>
+                            <td style="font-weight: bold; text-align: center">Nombre exemplaire</td>
+                            <td style="font-weight: bold; text-align: center">Date</td>
+                            <td style="font-weight: bold; text-align: center">Montant</td>
+                        </tr>
+                    </thead>
+                    <tbody class="afb160MODAL"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Assets/js/TraitmandatModal.js"></script>

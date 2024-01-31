@@ -10,6 +10,7 @@ $(document).ready(() => {
     
     GetListProjet();
     GetUsers(undefined);
+    GetListLOAD();
 });
 
 function GetUsers(id) {
@@ -141,6 +142,14 @@ $('[data-action="GenereR"]').click(function () {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "PEtat") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "Prese") {
+                alert(Datas.msg);
+                return;
+            }
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResult = Datas.data
@@ -149,20 +158,23 @@ $('[data-action="GenereR"]').click(function () {
                     contentpaie += `
                     <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">
-                            <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                        </td><td style="font-weight: bold; text-align:center">${v.No}</td>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked class="chk" onchange = "checkdel('${v.No}')" />
+                        </td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${formatCurrency(v.MONT, '.')}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
-                        <td style="font-weight: bold; text-align:center">${v.DATE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">
-                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                            <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                         </td>
-                    </tr>`
-                });
-
+                    </tr>
+                    `                });
                 $('.afb160Paie').empty();
                 $('.afb160Paie').html(contentpaie);
             }
@@ -172,6 +184,70 @@ $('[data-action="GenereR"]').click(function () {
         }
     });
 });
+
+function checkdel(id) {
+    $('.Checkall').prop("checked", false);
+}
+//SIIGLOAD//
+function GetListLOAD() {
+    let formData = new FormData();
+    //alert(baseName);
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/GenerationSIIGLOAD',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                //window.location = window.location.origin;
+                ListResult = Datas.data
+                contentpaie = ``;
+                $.each(ListResult, function (k, v) {
+                    contentpaie += `
+                   <tr compteG-id="${v.No}" class="select-text caret">
+                        <td style="font-weight: bold; text-align:center">
+                            <input type="checkbox" name = "checkprod" compteg-ischecked  onchange = "checkdel()"/>
+                        </td>
+                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
+                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
+
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
+                        </td>
+                    </tr>`
+                });
+
+                $('.traitementORDSEC').empty();
+                $('.traitementORDSEC').html(contentpaie);
+            }
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+}
 
 //GENERER SIIG//
 $('[data-action="GenereSIIG"]').click(function () {
@@ -213,18 +289,22 @@ $('[data-action="GenereSIIG"]').click(function () {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}">
+                    <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">
-                            <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                        </td><td style="font-weight: bold; text-align:center">${v.No}</td>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked class="chk" onchange = "checkdel()"/>
+                        </td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${v.MONT}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
                         <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
-                        <td style="font-weight: bold; text-align:center">${v.DATE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">
-                            <div onclick="deleteUser('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                            <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                         </td>
                     </tr>`
                 });
@@ -267,6 +347,58 @@ $('[data-action="SaveV"]').click(function () {
         success: function (result) {
             var Datas = JSON.parse(result);
             alert(Datas.msg);
+            $.each(CheckList, (k, v) => {
+                list.push($(v).remove());
+            });
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+});
+$('.Checkall').change(function () {
+
+    if ($('.Checkall').prop("checked") == true) {
+       
+        $('[compteg-ischecked]').prop("checked", true);
+    } else {
+        $('[compteg-ischecked]').prop("checked", false);
+    }
+   
+});
+
+
+$('[data-action="SaveSIIG"]').click(function () {
+    let CheckList = $(`[compteg-ischecked]:checked`).closest("tr");
+    let list = [];
+    $.each(CheckList, (k, v) => {
+        list.push($(v).attr("compteG-id"));
+    });
+
+    let formData = new FormData();
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    formData.append("listCompte", list);
+
+    //formData.append("DateDebut", $('#dateD').val());
+    //formData.append("DateFin", $('#dateF').val());
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/GetCheckedEcritureORDSEC',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            alert(Datas.msg);
+            $.each(CheckList, (k, v) => {
+                list.push($(v).remove());
+            });
         },
         error: function () {
             alert("Problème de connexion. ");

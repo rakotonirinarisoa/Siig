@@ -114,7 +114,7 @@ $(`[data-action="AddnewSociete"]`).click(function () {
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
-                window.location = urlOrigin + "/SuperAdmin/ProjetList";
+                window.location = Origin + "/SuperAdmin/ProjetList";
             }
             if (Datas.type == "login") {
                 alert(Datas.msg);
@@ -149,13 +149,9 @@ function deleteProject(id) {
             var Datas = JSON.parse(result);
 
             console.log(Datas);
-
-            if (Datas.type == "error") {
-                alert(Datas.msg);
-                return;
-            }
-
+            alert(Datas.msg);
             $(`[data-project-id="${id}"]`).remove();
+           
         }
     });
 }

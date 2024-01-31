@@ -187,11 +187,19 @@
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TraitementController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Data\Entities\UserPassword.cs" />
-    <Compile Include="Data\Extension.cs" />
+    <Compile Include="Data\Cipher.cs" />
+    <Compile Include="Models\CPTADMIN_CHAINETRAITEMENT.cs" />
+    <Compile Include="Models\CPTADMIN_COMMENTAIRE.cs" />
     <Compile Include="Models\CPTADMIN_FLIQUIDATION.cs" />
     <Compile Include="Models\CPTADMIN_MLIQUIDATION.cs" />
     <Compile Include="Models\CPTADMIN_MLIQUIDATIONPJ.cs" />
+    <Compile Include="Models\CPTADMIN_MODELEETATS.cs" />
+    <Compile Include="Models\CPTADMIN_STRUCTURE.cs" />
+    <Compile Include="Models\CPTADMIN_TRAITEMENT.cs" />
+    <Compile Include="Models\CPTADMIN_TYPEENGAGEMENT.cs" />
+    <Compile Include="Models\CPTADMIN_TYPEPROCEDURE.cs" />
+    <Compile Include="Data\Entities\UserPassword.cs" />
+    <Compile Include="Data\Extension.cs" />
     <Compile Include="Data\Entities\ProjectToDelete.cs" />
     <Compile Include="Data\Entities\ProjectToUpdate.cs" />
     <Compile Include="Global.asax.cs">
@@ -200,7 +208,6 @@
     <Compile Include="Models\DATATRPROJET.cs" />
     <Compile Include="Models\PROSOA.cs" />
     <Compile Include="Models\SI_MAIL.cs" />
-    <Compile Include="Models\SI_TRAITPROJET.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\SI_ROLES.cs" />
     <Compile Include="Models\SI_PROJETS.cs" />
@@ -218,8 +225,11 @@
     <Compile Include="Models\SI_PROCEDURE.cs" />
     <Compile Include="Models\SI_PROGRAMME.cs" />
     <Compile Include="Models\RTIERS.cs" />
+    <Compile Include="Models\SI_PARAMETAT.cs" />
+    <Compile Include="Models\SI_TRAITPROJET.cs" />
     <Compile Include="SOFTCONNECTOM.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
+    <Compile Include="TP_MPIECES_JUSTIFICATIVES.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\admlte\dist\css\adminlte.css" />
@@ -2095,6 +2105,8 @@
     <Content Include="Assets\img\df.png" />
     <Content Include="Assets\img\logo-soft.png" />
     <Content Include="Assets\img\LogoS.png" />
+    <Content Include="Assets\js\javascript.js" />
+    <Content Include="Assets\js\CorrEtat.js" />
     <Content Include="Assets\js\Crypto.js" />
     <Content Include="Assets\js\DetailCrypto.js" />
     <Content Include="Assets\js\DetailsFPROSOA.js" />
@@ -2106,6 +2118,7 @@
     <Content Include="Assets\js\Mis.js" />
     <Content Include="Assets\js\Min.js" />
     <Content Include="Assets\js\Act.js" />
+    <Content Include="Assets\js\TraitmandatModal.js" />
     <Content Include="Assets\js\passwords.js" />
     <Content Include="Assets\js\Prog.js" />
     <Content Include="Assets\js\Proc.js" />
@@ -2266,6 +2279,7 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\dayjs.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -2343,6 +2357,7 @@
     <Content Include="Views\User\AdminMaPUserCreate.cshtml" />
     <Content Include="Views\Traitement\TraitementORDSEC.cshtml" />
     <Content Include="Views\Etat\EtatMandatP.cshtml" />
+    <Content Include="Views\Parametre\CorrEtatCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

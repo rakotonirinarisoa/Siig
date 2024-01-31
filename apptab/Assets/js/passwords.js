@@ -26,23 +26,24 @@ $('#get-user-password-btn').on('click', () => {
         password: passwordInput.val(),
         userId: clickedId
     };
-
+    
     $.ajax({
         type: 'POST',
         async: true,
-        url: Origin + 'user/password',
+        url: Origin + '/User/Password',
         contentType: 'application/json',
         datatype: 'json',
         data: JSON.stringify({ ...payload }),
+        
         success: function (result) {
             const res = JSON.parse(result);
-
+            console.log(result);
             if (res.type === 'error') {
                 p.css({ 'color': 'red' });
                 p.text('Identifiants incorrects!');
             } else {
                 p.css({ 'color': 'black' });
-                p.text(`${res.data.login}: ${res.data.password}`);
+                p.html(`Le mot de passe de <b>${res.data.login}</b> est <u>${res.data.password}</u>`);
 
                 closeButton.text('Fermer');
             }
