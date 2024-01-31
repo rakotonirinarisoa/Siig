@@ -551,7 +551,7 @@ namespace apptab.Controllers
 
                     }
                     db.SaveChanges();
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression SOA avec succès. " }, settings));
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression avec succès. " }, settings));
                 }
                 else
                 {
@@ -620,13 +620,13 @@ namespace apptab.Controllers
                         });
                         //var eeee = db.GetValidationErrors();
                         db.SaveChanges();
-                        return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement SOA avec succès. ", data = SOAID_2 }, settings));
+                        return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = SOAID_2 }, settings));
                     }
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Auccun changement n'a été faits ", data = SOAID_2 }, settings));
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = SOAID_2 }, settings));
                 }
                 else
                 {
-                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Le mappage existe déjà. " }, settings));
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "La correspondance existe déjà. " }, settings));
                 }
             }
             catch (Exception e)

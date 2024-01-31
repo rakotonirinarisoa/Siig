@@ -84,15 +84,17 @@ namespace apptab.Controllers
             if (project != null)
             {
                 var prosoa = await _db.SI_PROSOA.FirstOrDefaultAsync(x => x.IDPROJET == projectToDelete.Id);
-
+                var now = DateTime.Now;
                 if (prosoa != null)
                 {
-                    var now = DateTime.Now;
-
                     project.DELETIONDATE = now;
                     prosoa.DELETIONDATE = now;
                 }
-
+                else
+                {
+                    project.DELETIONDATE = now;
+                }
+               
                 await _db.SaveChangesAsync();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression avec succès." }, _settings));
