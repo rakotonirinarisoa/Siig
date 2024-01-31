@@ -210,8 +210,6 @@ function renderTree() {
         const children = $table.find('tr[data-parent="' + id + '"]');
 
         if (children.length) {
-            
-
             $columnName.prepend(`
                 <img
                     class="chevron chevron-right"
@@ -268,7 +266,7 @@ function GetListMANDATP() {
 
     $.ajax({
         type: "POST",
-        url: Origin + '/Etat/Foo',
+        url: Origin + '/Etat/EtatMandatProjet',
         data: formData,
         cache: false,
         contentType: false,
