@@ -22,16 +22,32 @@
 
     let user;
 
+    let originalTitle;
+
     $(document).ready(() => {
         user = JSON.parse(sessionStorage.getItem('user'));
 
         if (!user) {
             window.location = "../";
         }
+
+        originalTitle = $('#title').val();
     });
+
+    function successfulRedirect() {
+        alert("Modification avec succès!");
+
+        window.location = urlOrigin + '/SuperAdmin/ProjetList';
+    }
 
     $('[data-action="update-project"]').on('click', () => {
         const title = $('#title').val();
+
+        if (title === originalTitle) {
+            successfulRedirect();
+
+            return;
+        }
 
         const payload = {
             login: user.LOGIN,
@@ -48,7 +64,7 @@
             datatype: 'json',
             data: JSON.stringify({ ...payload }),
             success: function () {
-                window.location = urlOrigin + '/SuperAdmin/ProjetList';
+                successfulRedirect();
             },
             Error: function (_, e) {
                 alert(e);

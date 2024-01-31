@@ -38,7 +38,6 @@ namespace apptab.Controllers
             return View();
         }
 
-        [Route("/projects/update")]
         [HttpPost]
         public async Task<JsonResult> Update(ProjectToUpdate projectToUpdate)
         {
@@ -68,7 +67,6 @@ namespace apptab.Controllers
             return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Projet non trouvé!" }, _settings));
         }
 
-        [Route("/projects/delete")]
         [HttpPost]
         public async Task<JsonResult> Delete(ProjectToDelete projectToDelete)
         {
@@ -85,16 +83,14 @@ namespace apptab.Controllers
             {
                 var prosoa = await _db.SI_PROSOA.FirstOrDefaultAsync(x => x.IDPROJET == projectToDelete.Id);
                 var now = DateTime.Now;
+
                 if (prosoa != null)
                 {
-                    project.DELETIONDATE = now;
                     prosoa.DELETIONDATE = now;
                 }
-                else
-                {
-                    project.DELETIONDATE = now;
-                }
-               
+
+                project.DELETIONDATE = now;
+
                 await _db.SaveChangesAsync();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression avec succès." }, _settings));

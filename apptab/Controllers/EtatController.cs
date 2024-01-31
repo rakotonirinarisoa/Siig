@@ -157,7 +157,7 @@ namespace apptab.Controllers
                 {
                     proj = db.SI_PROJETS.FirstOrDefault(a => a.ID == crpt && a.DELETIONDATE == null).ID;
                 }
-                
+
                 if (proj != 0)
                 {
                     return Json(JsonConvert.SerializeObject(new
@@ -314,7 +314,7 @@ namespace apptab.Controllers
                             REF = x.REF,
                             OBJ = x.OBJ,
                             TITUL = x.TITUL,
-                            MONT = Math.Round(x.MONT.Value, 2).ToString(),
+                            MONT = Data.Cipher.Decrypt(x.MONT, "Oppenheimer").ToString(),
                             COMPTE = x.COMPTE,
                             DATE = x.DATEMANDAT.Value.Date,
                             PCOP = x.PCOP,
@@ -473,7 +473,7 @@ namespace apptab.Controllers
                         }
                     }
                 }
-                
+
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
             }
             catch (Exception e)

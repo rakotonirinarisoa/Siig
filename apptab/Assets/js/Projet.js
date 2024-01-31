@@ -110,6 +110,7 @@ $(`[data-action="AddnewSociete"]`).click(function () {
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
+
                 return;
             }
             if (Datas.type == "success") {
@@ -119,6 +120,7 @@ $(`[data-action="AddnewSociete"]`).click(function () {
             if (Datas.type == "login") {
                 alert(Datas.msg);
                 window.location = window.location.origin;
+
                 return;
             }
         },
@@ -140,7 +142,7 @@ function deleteProject(id) {
 
     $.ajax({
         type: 'POST',
-        url: Origin + '/projects/delete',
+        url: Origin + '/Projects/Delete',
         data: formData,
         cache: false,
         contentType: false,
@@ -151,6 +153,8 @@ function deleteProject(id) {
             console.log(Datas);
             alert(Datas.msg);
             $(`[data-project-id="${id}"]`).remove();
+
+            alert("Suppression avec succès!");
            
         }
     });
