@@ -1,11 +1,14 @@
 ﻿using apptab.Data;
+using apptab.Data.Entities;
 using apptab.Models;
 using Microsoft.Build.Framework.XamlTypes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.DynamicData;
 using System.Web.Mvc;
@@ -242,6 +245,84 @@ namespace apptab.Controllers
                             DATETEF = x.DATETEF.Value.Date,
                             DATEBE = x.DATEBE.Value.Date,
                             STAT = sta
+                        });
+                    }
+                }
+
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        private async Task<List<object>> GetM(Guid idLiquidation)
+        {
+            var res = new List<object>();
+
+            var tom = new SOFTCONNECTOM();
+
+            var ms = await tom.CPTADMIN_MLIQUIDATION.Where(a => a.IDLIQUIDATION == idLiquidation).ToListAsync();
+
+            for (int i = 0; i < ms.Count; i += 1)
+            {
+                res.Add(new DATATRPROJET
+                {
+                    REF = ms[i].ID.ToString(),
+                    OBJ = ms[i].LIBELLE,
+                    TITUL = ms[i].LIBELLE,
+                    MONT = Math.Round((double)ms[i].MONTANTLOCAL, 2).ToString(),
+                    COMPTE = ms[i].COGE,
+                    PCOP = ms[i].POSTE
+                });
+            }
+
+            return res;
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> Foo(SI_USERS suser, string listCompte)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+
+                var db = new SOFTCONNECTSIIG();
+                var connex = new Extension().GetCon(crpt);
+
+                var list = new List<DATATRPROJET>();
+
+                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt) != null)
+                {
+                    foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt).ToList())
+                    {
+                        var sta = "Attente validation";
+                        if (x.ETAT == 1)
+                            sta = "Validée";
+                        else if (x.ETAT == 2)
+                            sta = "Annulée";
+                        else if (x.ETAT == 3)
+                            sta = "Traitée SIIGFP";
+
+                        list.Add(new X
+                        {
+                            No = x.No,
+                            REF = x.REF,
+                            OBJ = x.OBJ,
+                            TITUL = x.TITUL,
+                            MONT = Math.Round(x.MONT.Value, 2).ToString(),
+                            COMPTE = x.COMPTE,
+                            DATE = x.DATEMANDAT.Value.Date,
+                            PCOP = x.PCOP,
+                            DATEDEF = x.DATEDEF.Value.Date,
+                            DATETEF = x.DATETEF.Value.Date,
+                            DATEBE = x.DATEBE.Value.Date,
+                            STAT = sta,
+                            M = await GetM((Guid)x.No)
                         });
                     }
                 }

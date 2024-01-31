@@ -343,7 +343,7 @@ namespace apptab.Controllers
                                     //Get total MTN dans CPTADMIN_MLIQUIDATION pour vérification du SOMMES MTN M = SOMMES MTN MPJ//
                                     MTN += y.MONTANTLOCAL.Value;
 
-                                    if (String.IsNullOrEmpty(PCOP))
+                                    if (string.IsNullOrEmpty(PCOP))
                                         PCOP = y.POSTE;
                                 }
                             }

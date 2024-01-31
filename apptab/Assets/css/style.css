@@ -252,7 +252,7 @@ a.nav-link.Fnav {
     display: none;
 }
 
-    .child-check.active {
-        display: block;
-    }
+.child-check.active {
+    display: block;
+}
 
