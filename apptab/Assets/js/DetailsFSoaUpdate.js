@@ -88,7 +88,7 @@ $(`[data-action="UpdateFSOAJS"]`).click(function () {
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
-                window.location = urlOrigin + "/SuperAdmin/SOAList";
+                window.location = Origin + "/SuperAdmin/SOAList";
                 /*window.history.back();*/
                 /*location.replace(document.referrer);*/
             }

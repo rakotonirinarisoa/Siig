@@ -152,13 +152,24 @@ $('#proj').on('change', () => {
                                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
                                         </td >`
                     }
-                    else {
+                    else if (v.STAT == "Validée") {
                         contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div><i class="fa fa-check fa-lg text-info"></i></div>
+                                        </td >`
+                    }
+                    else if (v.STAT == "Annulée") {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div><i class="fa fa-ban fa-lg text-warning"></i></div>
+                                        </td >`
+                    }
+                    else if (v.STAT == "Traitée SIIGFP") {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div><i class="fa fa-check-double fa-lg text-success"></i></div>
                                         </td >`
                     }
 
                     contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
-                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                                     </td>
                                     </tr>`
                 });
@@ -226,15 +237,43 @@ function GetListMANDATP() {
                                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
                                         </td >`
                     }
-                    else {
+                    else if (v.STAT == "Validée") {
                         contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div><i class="fa fa-check fa-lg text-info"></i></div>
+                                        </td >`
+                    }
+                    else if (v.STAT == "Annulée") {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div><i class="fa fa-ban fa-lg text-warning"></i></div>
+                                        </td >`
+                    }
+                    else if (v.STAT == "Traitée SIIGFP") {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div><i class="fa fa-check-double fa-lg text-success"></i></div>
                                         </td >`
                     }
 
                     contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
-                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                                     </td>
                                     </tr>`
+
+                    contentpaie += `<tr class="select-text">
+                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
+                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.STAT}</td>
+                        <td style="font-weight: bold; text-align:center">${v.STAT}</td>
+                        <td style="font-weight: bold; text-align:center">${v.STAT}</td>
+                    </tr>
+                    `
                 });
 
                 $('.traitementPROJET').empty();
@@ -308,13 +347,24 @@ $('[data-action="SearchPROJET"]').click(function () {
                                             <div onclick="deleteUser('${v.No}')"><i class="fa fa-times fa-lg text-danger"></i></div>
                                         </td >`
                     }
-                    else {
+                    else if (v.STAT == "Validée") {
                         contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div><i class="fa fa-check fa-lg text-info"></i></div>
+                                        </td >`
+                    }
+                    else if (v.STAT == "Annulée") {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div><i class="fa fa-ban fa-lg text-warning"></i></div>
+                                        </td >`
+                    }
+                    else if (v.STAT == "Traitée SIIGFP") {
+                        contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
+                                            <div><i class="fa fa-check-double fa-lg text-success"></i></div>
                                         </td >`
                     }
 
                     contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
-                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                                        <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                                     </td>
                                     </tr>`
                 });
@@ -371,5 +421,15 @@ function deleteUser(id) {
         error: function () {
             alert("Connexion Problems");
         }
+    });
+}
+
+var toggler = document.getElementsByClassName("caret");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+    toggler[i].addEventListener("click", function () {
+        this.parentElement.querySelector(".nested").classList.toggle("active");
+        this.classList.toggle("caret-down");
     });
 }
