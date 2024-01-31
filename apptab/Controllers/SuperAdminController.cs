@@ -608,17 +608,21 @@ namespace apptab.Controllers
                 int IDSOA = int.Parse(SOAID);
                 var SOAEXIST = db.SI_SOAS.Where(soaid => soaid.ID == IDSOA && soaid.DELETIONDATE == null).FirstOrDefault();
                 //var SOAupdate = db.SI_SOAS.FirstOrDefault(soaid => soaid.ID == IDSOA);
+
                 if (SOAEXIST != null)
                 {
-                    SOAEXIST.DELETIONDATE = DateTime.Now;
-                    // SOAupdate.SOA = SOAID_2;
-                    db.SI_SOAS.Add(new SI_SOAS{
-                        SOA = SOAID_2
-                    });
-                    //var eeee = db.GetValidationErrors();
-                    db.SaveChanges();
-
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement SOA avec succès. ", data = SOAID_2 }, settings));
+                    if (SOAEXIST.SOA != SOAID_2)
+                    {
+                        SOAEXIST.DELETIONDATE = DateTime.Now;
+                        db.SI_SOAS.Add(new SI_SOAS
+                        { // SOAupdate.SOA = SOAID_2;
+                            SOA = SOAID_2
+                        });
+                        //var eeee = db.GetValidationErrors();
+                        db.SaveChanges();
+                        return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement SOA avec succès. ", data = SOAID_2 }, settings));
+                    }
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Auccun changement n'a été faits ", data = SOAID_2 }, settings));
                 }
                 else
                 {
@@ -642,13 +646,14 @@ namespace apptab.Controllers
                 //var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDPROSOA).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
                 if (PROSOA != null)
                 {
-                    db.SI_PROSOA.Remove(PROSOA);
+                    //db.SI_PROSOA.Remove(PROSOA);
+                    PROSOA.DELETIONDATE = DateTime.Now;
                     db.SaveChanges();
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression CORRESPONDANCES avec succès. " }, settings));
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression avec succès. " }, settings));
                 }
                 else
                 {
-                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "message" }, settings));
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur de Supression" }, settings));
                 }
             }
             catch (Exception e)
