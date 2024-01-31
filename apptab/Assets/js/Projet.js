@@ -149,13 +149,9 @@ function deleteProject(id) {
             var Datas = JSON.parse(result);
 
             console.log(Datas);
-
-            if (Datas.type == "error") {
-                alert(Datas.msg);
-                return;
-            }
-
+            alert(Datas.msg);
             $(`[data-project-id="${id}"]`).remove();
+           
         }
     });
 }

@@ -237,13 +237,9 @@ function deletePROSOA(id) {
         success: function (result) {
             var Datas = JSON.parse(result);
             console.log(Datas);
-
-            if (Datas.type == "error") {
-                alert(Datas.msg);
-                return;
-            }
-
-            $(`[data-societeId="${id}"]`).remove();
+            alert(Datas.msg);
+            $(`[data-projetid="${id}"]`).remove();
+            
         },
         error: function () {
             alert("Problème de connexion. ");

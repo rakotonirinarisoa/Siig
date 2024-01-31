@@ -254,9 +254,11 @@ function deletePROSOA(id) {
             if (Datas.type == "error") {
                 alert(Datas.msg);
                 return;
+            } else {
+                alert(Datas.msg);
             }
-
-            $(`[data-societeId="${id}"]`).remove();
+            
+            $(`[data-PROJETId="${id}"]`).remove();
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -304,7 +306,7 @@ $(`[data-action="UpdateFPROSOA"]`).click(function () {
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
-                window.location = urlOrigin + "/SuperAdmin/PROSOAList";
+                window.location = Origin + "/SuperAdmin/PROSOAList";
             }
             if (Datas.type == "login") {
                 alert(Datas.msg);
