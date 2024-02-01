@@ -325,3 +325,27 @@ img.chevron.chevron-right {
     margin-right: 20%;
     vertical-align: middle;
 }
+
+[data-action="SaveV"], [data-action="SaveSIIG"] {
+    position: fixed;
+    bottom: 50px;
+    left: 80.5px;
+    right: 15px;
+    transition: left 0.3s;
+    z-index: 999;
+    width: auto;
+}
+
+.custom-fixed-btn {
+    left: 265px;
+}
+
+@media screen and (min-width:300px) and (max-width: 991px) {
+    [data-action="SaveV"], [data-action="SaveSIIG"] {
+        left: 15px;
+    }
+
+    .custom-fixed-btn {
+        left: 15px;
+    }
+}

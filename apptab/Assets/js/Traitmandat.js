@@ -11,6 +11,10 @@ $(document).ready(() => {
     GetListProjet();
     GetUsers(undefined);
     GetListLOAD();
+
+    $(`[data-widget="pushmenu"]`).on('click', () => {
+        $(`[data-action="SaveV"]`).toggleClass('custom-fixed-btn');
+    });
 });
 
 function GetUsers(id) {

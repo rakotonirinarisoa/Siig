@@ -1,3 +1,9 @@
+$(document).ready(() => {
+    $(`[data-widget="pushmenu"]`).on('click', () => {
+        $(`[data-action="SaveSIIG"]`).toggleClass('custom-fixed-btn');
+    });
+});
+
 let clickedId;
 
 function modalF(id) {
