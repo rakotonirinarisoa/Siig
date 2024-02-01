@@ -153,9 +153,6 @@ function deleteProject(id) {
             console.log(Datas);
             alert(Datas.msg);
             $(`[data-project-id="${id}"]`).remove();
-
-            alert("Suppression avec succès!");
-           
         }
     });
 }
