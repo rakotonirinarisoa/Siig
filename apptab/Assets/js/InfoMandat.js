@@ -326,14 +326,12 @@ function GetListMANDATP() {
                                         <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                                     </td>
                                     </tr>`
-<<<<<<< HEAD
-=======
 
                     for (let j = 0; j < v.M.length; j += 1) {
                         const m = v.M[j];
 
                         contentpaie += `
-                            <tr class="select-text" data-id="${m.No}" data-parent="${v.No}" data-level="2">
+                            <tr class="select-text-child" data-id="${m.No}" data-parent="${v.No}" data-level="2">
                                 <td style="font-weight: bold; text-align:center" data-column="name"></td>
                                 <td style="font-weight: bold; text-align:center">${m.OBJ}</td>
                                 <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
@@ -350,7 +348,6 @@ function GetListMANDATP() {
                             </tr>
                         `
                     }
->>>>>>> 2c6c046332a8ff3a4c43af4d9e2612e1debcfe99
                 });
 
                 $('.traitementPROJET').empty();

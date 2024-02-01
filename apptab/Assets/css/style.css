@@ -167,12 +167,12 @@ body.sidebar-mini.layout-fixed.sidebar-collapse ul.nav-pills.nav-sidebar.flex-co
 
 .thead-accueil1 {
     color: #fff !important;
-    background-color: #969696 !important;
+    background-color: #336193 !important;
 }
 
     .thead-accueil1:hover {
         color: #fff !important;
-        background-color: #969696 !important;
+        background-color: #336193 !important;
     }
 
 body.sidebar-mini.layout-fixed.sidebar-collapse img.brand-image.elevation-0 {
@@ -264,6 +264,20 @@ a.nav-link.Fnav {
     user-select: text;
 }
 
+tr.select-text {
+    background-color: rgb(52 58 64 / 21%) !important;
+}
+
+.select-text-child {
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+tr.select-text-child {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
 /*td, th {
     border: 2px solid black !important;
 }*/
@@ -299,4 +313,15 @@ a.nav-link.Fnav {
 
 .chevron {
     cursor: pointer;
+}
+
+
+img.chevron.chevron-down {
+    margin-right: 20%;
+    vertical-align: middle;
+}
+
+img.chevron.chevron-right {
+    margin-right: 20%;
+    vertical-align: middle;
 }
