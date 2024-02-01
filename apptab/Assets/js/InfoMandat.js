@@ -215,8 +215,8 @@ function renderTree() {
                     class="chevron chevron-right"
                     src="${Origin}/Assets/icons/chevron-right.svg" 
                     alt="chevron-right" 
-                    width="20"
-                    height="20"
+                    width="15"
+                    height="15"
                 />
             `);
 
@@ -334,14 +334,14 @@ function GetListMANDATP() {
                             <tr class="select-text" data-id="${m.No}" data-parent="${v.No}" data-level="2">
                                 <td style="font-weight: bold; text-align:center" data-column="name"></td>
                                 <td style="font-weight: bold; text-align:center">${m.OBJ}</td>
-                                <td style="font-weight: bold; text-align:center">${m.TITUL}</td>
-                                <td style="font-weight: bold; text-align:center"></td>
+                                <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
                                 <td style="font-weight: bold; text-align:center">${m.COMPTE}</td>
                                 <td style="font-weight: bold; text-align:center">${m.PCOP}</td>
                                 <td style="font-weight: bold; text-align:center">${formatCurrency(String(m.MONT).replace(",", "."))}</td>
-                                <td style="font-weight: bold; text-align:center"></td>
-                                <td style="font-weight: bold; text-align:center"></td>
-                                <td style="font-weight: bold; text-align:center"></td>
+                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
                                 <td style="font-weight: bold; text-align:center"></td>
                                 <td style="font-weight: bold; text-align:center"></td>
                                 <td style="font-weight: bold; text-align:center"></td>
