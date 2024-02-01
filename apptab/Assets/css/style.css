@@ -1,6 +1,8 @@
-﻿body{
-    user-select:none;
+﻿body {
+    user-select: none;
+    overflow-y: hidden;
 }
+
 .login-page {
     /*background: center url('../img/bg.jpg') */
     background-color: #fff;
