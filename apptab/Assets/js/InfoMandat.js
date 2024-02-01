@@ -184,6 +184,75 @@ $('#proj').on('change', () => {
     });
 });
 
+function renderTree() {
+    const $table = $('table');
+    const rows = $table.find('tr');
+
+    function reverseHide(table, element) {
+        const $element = $(element);
+        const id = $element.data('id');
+        const children = table.find('tr[data-parent="' + id + '"]');
+
+        if (children.length) {
+            children.each(function (_, e) {
+                reverseHide(table, e);
+            });
+
+            children.hide();
+        }
+    }
+
+    rows.each(function (_, row) {
+        const $row = $(row);
+        const level = $row.data('level');
+        const id = $row.data('id');
+        const $columnName = $row.find('td[data-column="name"]');
+        const children = $table.find('tr[data-parent="' + id + '"]');
+
+        if (children.length) {
+            $columnName.prepend(`
+                <img
+                    class="chevron chevron-right"
+                    src="${Origin}/Assets/icons/chevron-right.svg" 
+                    alt="chevron-right" 
+                    width="15"
+                    height="15"
+                />
+            `);
+
+            children.hide();
+
+            const expander = $columnName.find(`img.chevron`);
+
+            expander.on('click', function (e) {
+                const $target = $(e.target);
+
+                if ($target.hasClass('chevron-right')) {
+                    $target
+                        .removeClass('chevron-right')
+                        .addClass('chevron-down');
+
+                    $target.attr('src', `${Origin}/Assets/icons/chevron-down.svg`)
+
+                    children.show();
+
+                    children.css({ backgroundColor: `${$row.css('backgroundColor')}` });
+                } else {
+                    $target
+                        .removeClass('chevron-down')
+                        .addClass('chevron-right');
+
+                    $target.attr('src', `${Origin}/Assets/icons/chevron-right.svg`)
+
+                    reverseHide($table, $row);
+                }
+            });
+        }
+
+        $columnName.prepend('<span class="treegrid-indent" style="width:' + 15 * level + 'px"></span>');
+    });
+};
+
 //GET LISTE MANDAT PROJET//
 function GetListMANDATP() {
     let formData = new FormData();
@@ -218,8 +287,8 @@ function GetListMANDATP() {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}" class="select-text">
-                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                    <tr compteG-id="${v.No}" class="select-text" data-id="${v.No}" data-parent="0" data-level="1">
+                        <td style="font-weight: bold; text-align:center" data-column="name">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
@@ -256,11 +325,35 @@ function GetListMANDATP() {
                     contentpaie += `<td class="elerfr" style="font-weight: bold; text-align:center">
                                         <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                                     </td>
-                                    </tr>`;
+                                    </tr>`
+
+                    for (let j = 0; j < v.M.length; j += 1) {
+                        const m = v.M[j];
+
+                        contentpaie += `
+                            <tr class="select-text" data-id="${m.No}" data-parent="${v.No}" data-level="2">
+                                <td style="font-weight: bold; text-align:center" data-column="name"></td>
+                                <td style="font-weight: bold; text-align:center">${m.OBJ}</td>
+                                <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                                <td style="font-weight: bold; text-align:center">${m.COMPTE}</td>
+                                <td style="font-weight: bold; text-align:center">${m.PCOP}</td>
+                                <td style="font-weight: bold; text-align:center">${formatCurrency(String(m.MONT).replace(",", "."))}</td>
+                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
+                                <td style="font-weight: bold; text-align:center"></td>
+                                <td style="font-weight: bold; text-align:center"></td>
+                                <td style="font-weight: bold; text-align:center"></td>
+                            </tr>
+                        `
+                    }
                 });
 
                 $('.traitementPROJET').empty();
                 $('.traitementPROJET').html(contentpaie);
+
+                renderTree();
             }
         },
         error: function () {
