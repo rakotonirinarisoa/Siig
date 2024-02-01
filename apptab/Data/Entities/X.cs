@@ -5,6 +5,6 @@ namespace apptab.Data.Entities
 {
     public class X : DATATRPROJET
     {
-        public List<object> M { get; set; }
+        public List<DATATRPROJET> M { get; set; }
     }
 }

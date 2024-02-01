@@ -203,63 +203,9 @@ namespace apptab.Controllers
             return View();
         }
 
-        [HttpPost]
-        public JsonResult EtatMandatProjet(SI_USERS suser)
+        private async Task<List<DATATRPROJET>> GetM(Guid idLiquidation)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
-            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
-
-            try
-            {
-                int crpt = exist.IDPROJET.Value;
-
-                SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
-                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
-                SOFTCONNECTOM tom = new SOFTCONNECTOM();
-
-                List<DATATRPROJET> list = new List<DATATRPROJET>();
-
-                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt) != null)
-                {
-                    foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt).ToList())
-                    {
-                        var sta = "Attente validation";
-                        if (x.ETAT == 1)
-                            sta = "Validée";
-                        else if (x.ETAT == 2)
-                            sta = "Annulée";
-                        else if (x.ETAT == 3)
-                            sta = "Traitée SIIGFP";
-
-                        list.Add(new DATATRPROJET
-                        {
-                            No = x.No,
-                            REF = x.REF,
-                            OBJ = x.OBJ,
-                            TITUL = x.TITUL,
-                            MONT = Data.Cipher.Decrypt(x.MONT, "Oppenheimer").ToString(),
-                            COMPTE = x.COMPTE,
-                            DATE = x.DATEMANDAT.Value.Date,
-                            PCOP = x.PCOP,
-                            DATEDEF = x.DATEDEF.Value.Date,
-                            DATETEF = x.DATETEF.Value.Date,
-                            DATEBE = x.DATEBE.Value.Date,
-                            STAT = sta
-                        });
-                    }
-                }
-
-                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
-            }
-            catch (Exception e)
-            {
-                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
-            }
-        }
-
-        private async Task<List<object>> GetM(Guid idLiquidation)
-        {
-            var res = new List<object>();
+            var res = new List<DATATRPROJET>();
 
             var tom = new SOFTCONNECTOM();
 
@@ -282,7 +228,7 @@ namespace apptab.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> Foo(SI_USERS suser, string listCompte)
+        public async Task<JsonResult> EtatMandatProjet(SI_USERS suser)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
