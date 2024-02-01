@@ -203,11 +203,14 @@ namespace apptab.Controllers
             return View();
         }
 
-        private async Task<List<DATATRPROJET>> GetM(Guid idLiquidation)
+        private async Task<List<DATATRPROJET>> GetM(Guid idLiquidation, int crpt)
         {
             var res = new List<DATATRPROJET>();
 
-            var tom = new SOFTCONNECTOM();
+            SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+
+            SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+            SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
             var ms = await tom.CPTADMIN_MLIQUIDATION.Where(a => a.IDLIQUIDATION == idLiquidation).ToListAsync();
 
@@ -268,7 +271,7 @@ namespace apptab.Controllers
                             DATETEF = x.DATETEF.Value.Date,
                             DATEBE = x.DATEBE.Value.Date,
                             STAT = sta,
-                            M = await GetM((Guid)x.No)
+                            M = await GetM((Guid)x.No, crpt)
                         });
                     }
                 }
