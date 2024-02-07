@@ -34,9 +34,10 @@ namespace apptab.Controllers
         }
 
         [HttpPost]
-        public ActionResult DetailsInfoPro(SI_USERS suser)
+        //public async DetailsInfoPro(SI_USERS suser)
+        public async Task<ActionResult> DetailsInfoPro(SI_USERS suser)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
@@ -183,14 +184,14 @@ namespace apptab.Controllers
 
         //GET ALL PROJET//
         [HttpPost]
-        public ActionResult GetAllPROJET(SI_USERS suser)
+        public async Task<ActionResult> GetAllPROJET(SI_USERS suser)
         {
-            var user = db.SI_PROJETS.Select(a => new
+            var user = await db.SI_PROJETS.Select(a => new
             {
                 PROJET = a.PROJET,
                 ID = a.ID,
                 DELETIONDATE = a.DELETIONDATE,
-            }).Where(a => a.DELETIONDATE == null).ToList();
+            }).Where(a => a.DELETIONDATE == null).ToListAsync();
 
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = user }, settings));
         }
@@ -233,7 +234,7 @@ namespace apptab.Controllers
         [HttpPost]
         public async Task<JsonResult> EtatMandatProjet(SI_USERS suser)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             try
@@ -245,9 +246,9 @@ namespace apptab.Controllers
 
                 var list = new List<DATATRPROJET>();
 
-                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt) != null)
+                if (await db.SI_TRAITPROJET.FirstOrDefaultAsync(a => a.IDPROJET == crpt) != null)
                 {
-                    foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt).ToList())
+                    foreach (var x in await db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt).ToListAsync())
                     {
                         var sta = "Attente validation";
                         if (x.ETAT == 1)

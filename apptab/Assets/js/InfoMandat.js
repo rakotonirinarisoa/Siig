@@ -1,20 +1,25 @@
 ﻿let User;
 let Origin;
 
-$(document).ready(() => {
+$(document).ready(async() => {
     User = JSON.parse(sessionStorage.getItem("user"));
     if (User == null || User === "undefined") window.location = "../";
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
+    
+    await GetListProjet();
+    await GetUsers(undefined);
+    await GetListMANDATP()/*.then(() => { $("#tableRFR").DataTable(); })*/;
 
-    GetListProjet();
-    GetUsers(undefined);
-    GetListMANDATP();
+    //setTimeout(() => {
+
+    //$("#tableRFR").DataTable();
+    //}, 10000)
 });
 //let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
-function GetUsers(id) {
+async function GetUsers(id) {
     let formData = new FormData();
 
     formData.append("suser.LOGIN", User.LOGIN);
@@ -29,6 +34,7 @@ function GetUsers(id) {
 
     $.ajax({
         type: "POST",
+        async : true,
         url: Origin + '/Etat/DetailsInfoPro',
         data: formData,
         cache: false,
@@ -55,7 +61,7 @@ function GetUsers(id) {
     });
 }
 
-function GetListProjet() {
+async function GetListProjet() {
     let formData = new FormData();
 
     formData.append("suser.LOGIN", User.LOGIN);
@@ -66,6 +72,7 @@ function GetListProjet() {
     $.ajax({
         type: "POST",
         url: Origin + '/Etat/GetAllPROJET',
+        async : true,
         data: formData,
         cache: false,
         contentType: false,
@@ -254,7 +261,7 @@ function renderTree() {
 };
 
 //GET LISTE MANDAT PROJET//
-function GetListMANDATP() {
+async function GetListMANDATP() {
     let formData = new FormData();
     //alert(baseName);
     formData.append("suser.LOGIN", User.LOGIN);
@@ -266,6 +273,7 @@ function GetListMANDATP() {
 
     $.ajax({
         type: "POST",
+        async: true,
         url: Origin + '/Etat/EtatMandatProjet',
         data: formData,
         cache: false,
@@ -279,7 +287,6 @@ function GetListMANDATP() {
                 alert(Datas.msg);
                 return;
             }
-            /*<td style="font-weight: bold; text-align:center">${Intl.NumberFormat().format(String(v.MONT).replace(",", "."))}</td>*/
 
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
@@ -287,7 +294,7 @@ function GetListMANDATP() {
                 contentpaie = ``;
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
-                    <tr compteG-id="${v.No}" class="select-text" data-id="${v.No}" data-parent="0" data-level="1">
+                    <tr compteG-id="${v.No}" class="select-text" @*data-id="${v.No}" data-parent="0" data-level="1"*@>
                         <td style="font-weight: bold; text-align:center" data-column="name">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
@@ -327,33 +334,38 @@ function GetListMANDATP() {
                                     </td>
                                     </tr>`
 
-                    for (let j = 0; j < v.M.length; j += 1) {
-                        const m = v.M[j];
+                    //for (let a = 0; a < 100; a += 1) {
+                    //    for (let j = 0; j < v.M.length; j += 1) {
+                    //        const m = v.M[j];
 
-                        contentpaie += `
-                            <tr class="select-text-child" data-id="${m.No}" data-parent="${v.No}" data-level="2">
-                                <td style="font-weight: bold; text-align:center" data-column="name"></td>
-                                <td style="font-weight: bold; text-align:center">${m.OBJ}</td>
-                                <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
-                                <td style="font-weight: bold; text-align:center">${m.COMPTE}</td>
-                                <td style="font-weight: bold; text-align:center">${m.PCOP}</td>
-                                <td style="font-weight: bold; text-align:center">${formatCurrency(String(m.MONT).replace(",", "."))}</td>
-                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
-                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
-                                <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
-                                <td style="font-weight: bold; text-align:center"></td>
-                                <td style="font-weight: bold; text-align:center"></td>
-                                <td style="font-weight: bold; text-align:center"></td>
-                            </tr>
-                        `
-                    }
+                    //        contentpaie += `
+                    //        <tr class="select-text-child" data-id="${m.No}" data-parent="${v.No}" data-level="2">
+                    //            <td style="font-weight: bold; text-align:center" data-column="name"></td>
+                    //            <td style="font-weight: bold; text-align:center">${m.OBJ}</td>
+                    //            <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                    //            <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                    //            <td style="font-weight: bold; text-align:center">${m.COMPTE}</td>
+                    //            <td style="font-weight: bold; text-align:center">${m.PCOP}</td>
+                    //            <td style="font-weight: bold; text-align:center">${formatCurrency(String(m.MONT).replace(",", "."))}</td>
+                    //            <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                    //            <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                    //            <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
+                    //            <td style="font-weight: bold; text-align:center"></td>
+                    //            <td style="font-weight: bold; text-align:center"></td>
+                    //            <td style="font-weight: bold; text-align:center"></td>
+                    //        </tr>
+                    //    `
+                    //    }
+                    //}
+                    
                 });
 
                 $('.traitementPROJET').empty();
                 $('.traitementPROJET').html(contentpaie);
 
                 renderTree();
+
+                $("#tableRFR").DataTable();
             }
         },
         error: function () {

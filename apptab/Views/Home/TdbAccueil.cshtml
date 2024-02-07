@@ -6,12 +6,19 @@
 
 @*<link rel="stylesheet" href="~/Scripts/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />*@
 
+<link href="~/Assets/otherCSS/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Assets/otherJs/jquery-3.7.0.js"></script>
+<script src="~/Assets/otherJs/jquery.dataTables.min.js"></script>
+
+@*<script src="~/Assets/admlte/plugins/datatables/jquery.dataTables.js"></script>
+<script src="~/Assets/admlte/plugins/datatables/jquery.dataTables.min.js"></script>*@
+
 <div class="form-row">
     <div class="input-group mb-3 col">
         <div class="input-group-prepend custom-label">
             <span class="input-group-text text-bold" id="inputGroup-sizing-default">PROJET</span>
         </div>
-        <select class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="proj" data-id="proj-list" disabled="@((Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.Projet || (Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.ORDSEC)">
+        <select class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="proj" data-id="proj-list" disabled="@((Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.Autre)">
         </select>
     </div>
 </div>
@@ -53,7 +60,7 @@
 </div>
 
 <div class="table-responsive mb-3" @*style="max-height: calc(600px - 0.6rem * 2 );"*@ tab="ordsec">
-    <table class="table table-hover table-striped table-bordered">
+    <table class="table table-hover table-striped table-bordered" id="tableRFR">
         <thead style="position:sticky">
             <tr class="thead-accueil1" style="white-space: nowrap;">
                 @*<td style="text-align:right">
@@ -73,23 +80,17 @@
                 <td style="font-weight: bold; text-align: center"></td>
                 <td style="font-weight: bold; text-align: center"></td>
             </tr>
-
         </thead>
-        <tbody class="traitementPROJET"></tbody>
+        <tbody class="traitementPROJET">
+        </tbody>
     </table>
 </div>
 
-@*<script type="text/javascript">
-        var toggler = document.getElementsByClassName("caret");
-        var i;
-
-        for (i = 0; i < toggler.length; i++) {
-            toggler[i].addEventListener("click", function () {
-                this.parentElement.querySelector(".nested").classList.toggle("active");
-                this.classList.toggle("caret-down");
-            });
-        }
-    </script>*@
+@*<script>
+    $(document).ready(function () {
+        $("#tableRFR").DataTable()
+    })
+</script>*@
 
 <!-- Droit.js -->
 <script src="~/Assets/js/InfoMandat.js"></script>
