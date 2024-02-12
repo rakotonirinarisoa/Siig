@@ -95,9 +95,9 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block">
                         <li class="nav-item menu-open">
                             <hr />
-                            <a class="nav-link active" style="background-color: royalblue">
+                            <a class="nav-link active" style="background-color: darkblue">
                                 <p>
-                                    TRAITEMENTS
+                                    PARAMETRAGES
                                 </p>
                             </a>
                         </li>
@@ -153,7 +153,7 @@
                                 <a class="nav-link">
                                     <i class="nav-icon fas fa-cogs"></i>
                                     <p>
-                                        Paramétrages
+                                        Paramétrages des projets
                                     </p>
                                 </a>
                                 <ul style="list-style-type: none; display:block" class="nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -266,7 +266,7 @@
                             </li>
 
                             <li class="nav-item" data-io>
-                                <a href="../Parametre/CorrEtatCreate" class="nav-link">
+                                <a href="../SuperAdmin/DelaisCreate" class="nav-link">
                                     <i class="nav-icon fas fa-clock"></i>
                                     <p>
                                         Délais des traitements
@@ -282,44 +282,53 @@
                                     </p>
                                 </a>
                             </li>
+
+                            <li class="nav-item" data-io>
+                                <a href="../Crypto/CryptoCreate" class="nav-link">
+                                    <i class="nav-icon fas fa-key"></i>
+                                    <p>
+                                        Cryptages
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item" data-io>
+                                <a href="../FTP/FtpCreate" class="nav-link">
+                                    <i class="nav-icon fas fa-paper-plane"></i>
+                                    <p>
+                                        FTP
+                                    </p>
+                                </a>
+                            </li>
                         </ul>
                     }
 
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block" id="menu-accordeon">
-
-                        <li class="nav-item SuperAd" data-io>
-                            <a class="nav-link">
-                                <i class="nav-icon fas fa-tasks"></i>
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block">
+                        <li class="nav-item menu-open">
+                            <hr />
+                            <a class="nav-link active" style="background-color: royalblue">
                                 <p>
-                                    Traitements
+                                    TRAITEMENTS
                                 </p>
                             </a>
-                            @if ((Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.SAdministrateur)
-                            {
-                                <ul style="list-style-type: none; display:block" class="nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                    <li class="nav-item">
-                                        <a href="../Traitement/TraitementPROJET" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>
-                                                Traitement des mandats (PROJET)
-                                            </p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            }
-                            @if ((Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.SAdministrateur)
-                            {
-                                <ul style="list-style-type: none; display:block" class="nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                    <li class="nav-item">
-                                        <a href="../Traitement/TraitementORDSEC" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>
-                                                Traitement des mandats (ORDESEC)
-                                            </p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            }
+                        </li>
+                    </ul>
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block" id="menu-accordeon">
+                        <li class="nav-item">
+                            <a href="../Traitement/TraitementPROJET" class="nav-link">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>
+                                    Traitement des mandats (PROJET)
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../Traitement/TraitementORDSEC" class="nav-link">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>
+                                    Traitement des mandats (ORDESEC)
+                                </p>
+                            </a>
                         </li>
                     </ul>
 

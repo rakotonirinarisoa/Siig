@@ -179,7 +179,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CryptoController.cs" />
     <Compile Include="Controllers\EtatController.cs" />
+    <Compile Include="Controllers\FtpController.cs" />
     <Compile Include="Controllers\GetFileFController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
@@ -207,8 +209,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DATATRPROJET.cs" />
-    <Compile Include="Models\PROSOA.cs" />
     <Compile Include="Models\SI_MAIL.cs" />
+    <Compile Include="Models\OPA_CRYPTO.cs" />
+    <Compile Include="Models\OPA_FTP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\SI_ROLES.cs" />
     <Compile Include="Models\SI_PROJETS.cs" />
@@ -228,9 +231,10 @@
     <Compile Include="Models\RTIERS.cs" />
     <Compile Include="Models\SI_PARAMETAT.cs" />
     <Compile Include="Models\SI_TRAITPROJET.cs" />
+    <Compile Include="Models\SI_DELAISTRAITEMENT.cs" />
     <Compile Include="SOFTCONNECTOM.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
-    <Compile Include="TP_MPIECES_JUSTIFICATIVES.cs" />
+    <Compile Include="Models\TP_MPIECES_JUSTIFICATIVES.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\admlte\dist\css\adminlte.css" />
@@ -2108,15 +2112,15 @@
     <Content Include="Assets\img\df.png" />
     <Content Include="Assets\img\logo-soft.png" />
     <Content Include="Assets\img\LogoS.png" />
+    <Content Include="Assets\js\Crypto.js" />
     <Content Include="Assets\js\javascript.js" />
     <Content Include="Assets\js\CorrEtat.js" />
-    <Content Include="Assets\js\Crypto.js" />
-    <Content Include="Assets\js\DetailCrypto.js" />
     <Content Include="Assets\js\DetailsFPROSOA.js" />
     <Content Include="Assets\js\DetailsFSoaUpdate.js" />
     <Content Include="Assets\js\Ftp.js" />
     <Content Include="Assets\js\InfoMandat.js" />
     <Content Include="Assets\js\Info.js" />
+    <Content Include="Assets\js\DelaisT.js" />
     <Content Include="Assets\js\Mail.js" />
     <Content Include="Assets\js\Mis.js" />
     <Content Include="Assets\js\Min.js" />
@@ -2151,7 +2155,14 @@
     <Content Include="Assets\js\utils.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.min.js" />
+    <Content Include="Assets\otherCSS\buttons.dataTables.min.css" />
+    <Content Include="Assets\otherCSS\colReorder.dataTables.min.css" />
+    <Content Include="Assets\otherCSS\responsive.dataTables.min.css" />
     <Content Include="Assets\otherCSS\jquery.dataTables.min.css" />
+    <Content Include="Assets\otherJs\buttons.colVis.min.js" />
+    <Content Include="Assets\otherJs\dataTables.buttons.min.js" />
+    <Content Include="Assets\otherJs\dataTables.colReorder.min.js" />
+    <Content Include="Assets\otherJs\dataTables.responsive.min.js" />
     <Content Include="Assets\otherJs\jquery-3.7.0.js" />
     <Content Include="Assets\otherJs\jquery.dataTables.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -2324,11 +2335,8 @@
     <Content Include="Views\SuperAdmin\SuperAdmin.cshtml" />
     <Content Include="Views\SuperAdmin\SuperAdminMaPList.cshtml" />
     <Content Include="Views\SuperAdmin\SuperAdminMaPCreate.cshtml" />
-    <Content Include="Views\Crypto\CryptoList.cshtml" />
     <Content Include="Views\Crypto\CryptoCreate.cshtml" />
     <Content Include="Views\DBaseTOM\DBaseTOMCreate.cshtml" />
-    <Content Include="Views\FTPSend\FTPSendList.cshtml" />
-    <Content Include="Views\FTPSend\FTPSendCreate.cshtml" />
     <Content Include="Views\Home\HistoReg.cshtml" />
     <Content Include="Views\User\DetailsUser.cshtml" />
     <Content Include="Views\Admin\DetailsUser.cshtml" />
@@ -2364,6 +2372,8 @@
     <Content Include="Views\Traitement\TraitementORDSEC.cshtml" />
     <Content Include="Views\Etat\EtatMandatP.cshtml" />
     <Content Include="Views\Parametre\CorrEtatCreate.cshtml" />
+    <Content Include="Views\Ftp\FtpCreate.cshtml" />
+    <Content Include="Views\SuperAdmin\DelaisCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

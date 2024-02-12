@@ -5,33 +5,29 @@ $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
     if (User == null || User === "undefined") window.location = "../";
     Origin = User.origin;
-
     $(`[data-id="username"]`).text(User.LOGIN);
     GetUsers();
 });
+
 //let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
-
 function GetUsers() {
     let formData = new FormData();
-
+    
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    /*formData.append("UserId", getUrlParameter("UserId"));*/
-
     $.ajax({
         type: "POST",
-        url: Origin + '/Crypto/DetailsCrypto',
+        url: Origin + '/SuperAdmin/DetailsDelais',
         data: formData,
         cache: false,
         contentType: false,
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -42,8 +38,13 @@ function GetUsers() {
                 window.location = window.location.origin;
                 return;
             }
-
-            /*$("#MDPA").val(Datas.data.CRYPTPWD);*/
+            
+            $("#ParaV").val(Datas.data.DELTV);
+            $("#ParaS").val(Datas.data.DELSIIGFP);
+            $("#ParaPe").val(Datas.data.DELPE);
+            $("#ParaPv").val(Datas.data.DELPV);
+            $("#ParaPp").val(Datas.data.DELPP);
+            $("#ParaPb").val(Datas.data.DELPB);
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -52,18 +53,16 @@ function GetUsers() {
 }
 
 $(`[data-action="UpdateUser"]`).click(function () {
-    let newpwd = $(`#MDPN`).val();
-    let newpwdConf = $(`#MDPC`).val();
-    if(newpwd != newpwdConf){
-        alert("Les mots de passe ne correspondent pas. ");
+    let ParaV = $("#ParaV").val();
+    let ParaS = $("#ParaS").val();
+    let ParaPe = $("#ParaPe").val();
+    let ParaPv = $("#ParaPv").val();
+    let ParaPp = $("#ParaPp").val();
+    let ParaPb = $("#ParaPb").val();
+    if (!ParaV || !ParaS || !ParaPe || !ParaPv || !ParaPp || !ParaPb) {
+        alert("Veuillez renseigner les délais de traitement. ");
         return;
     }
-
-    //let MDPA = $(`#MDPA`).val(); 
-    //if (!MDPA) {
-    //    alert("Veuillez remplir l'ancien mot de passe");
-    //    return;
-    //}
 
     let formData = new FormData();
 
@@ -72,12 +71,16 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    formData.append("user.CRYPTPWD", $(`#MDPN`).val());
-    /*formData.append("MDPA", $(`#MDPA`).val());*/
-    
+    formData.append("param.DELTV", $(`#ParaV`).val());
+    formData.append("param.DELSIIGFP", $(`#ParaS`).val());
+    formData.append("param.DELPE", $(`#ParaPe`).val());
+    formData.append("param.DELPV", $(`#ParaPv`).val());
+    formData.append("param.DELPP", $(`#ParaPp`).val());
+    formData.append("param.DELPB", $(`#ParaPb`).val());
+
     $.ajax({
         type: "POST",
-        url: Origin + '/Crypto/UpdateCRT',
+        url: Origin + '/SuperAdmin/UpdateDelais',
         data: formData,
         cache: false,
         contentType: false,
@@ -91,9 +94,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
-                window.location = urlOrigin + "/Crypto/CryptoList";
-                /*window.history.back();*/
-                /*location.replace(document.referrer);*/
+                return;
             }
             if (Datas.type == "login") {
                 alert(Datas.msg);

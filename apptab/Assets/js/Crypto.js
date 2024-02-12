@@ -7,13 +7,13 @@ $(document).ready(() => {
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
-    GetListUser();
+    GetUsers();
 });
 //let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
-function GetListUser() {
+function GetUsers() {
     let formData = new FormData();
-
+    
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
@@ -21,14 +21,13 @@ function GetListUser() {
 
     $.ajax({
         type: "POST",
-        url: Origin + '/Crypto/FillTable',
+        url: Origin + '/Crypto/DetailsCrypto',
         data: formData,
         cache: false,
         contentType: false,
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -40,24 +39,59 @@ function GetListUser() {
                 return;
             }
 
-            $(`[data-id="ubody"]`).text("");
-
-            var code = ``;
-            $.each(Datas.data, function (k, v) {
-                code += `
-                    <tr data-userId="${v.ID}" class="text-nowrap last-hover">
-                        <td>${v.CRYPTODATE}</td>
-                        <td>${v.CRYPTO}</td>
-                        <td>${v.IDUSER}</td>
-                    </tr>
-                `;
-            });
-
-            $(`[data-id="ubody"]`).append(code);
-
+            $("#Para").val(Datas.data.CRYPTOPWD);
+            /*$("#Code").val(Datas.data.MDP);*/
         },
         error: function () {
             alert("Problème de connexion. ");
         }
     });
 }
+
+$(`[data-action="UpdateUser"]`).click(function () {
+    let user = $("#Para").val();
+    let code = $("#Code").val();
+    if (!user || !code) {
+        alert("Veuillez renseigner l'information sur le mot de passe fichier. ");
+        return;
+    }
+
+    if (user != code) {
+        alert("Les mots de passe ne correspondent pas. ");
+        return;
+    }
+
+    let formData = new FormData();
+
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDPROJET);
+
+    formData.append("param.CRYPTOPWD", $(`#Para`).val());
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Crypto/UpdateCrypto',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+            }
+        },
+    });
+});

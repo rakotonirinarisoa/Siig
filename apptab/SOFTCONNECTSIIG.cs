@@ -28,6 +28,9 @@ namespace apptab
         public virtual DbSet<SI_MAIL> SI_MAIL { get; set; }
         public virtual DbSet<SI_TRAITPROJET> SI_TRAITPROJET { get; set; }
         public virtual DbSet<SI_PARAMETAT> SI_PARAMETAT { get; set; }
+        public virtual DbSet<OPA_CRYPTO> OPA_CRYPTO { get; set; }
+        public virtual DbSet<OPA_FTP> OPA_FTP { get; set; }
+        public virtual DbSet<SI_DELAISTRAITEMENT> SI_DELAISTRAITEMENT { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
         }
