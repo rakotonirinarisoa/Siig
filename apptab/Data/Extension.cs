@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web;
 
 namespace apptab.Data
@@ -38,29 +37,6 @@ namespace apptab.Data
             }
 
             return (CONN);
-        }
-
-        public bool TestMail(string mail)
-        {
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            bool canCreate = true;
-            string[] separators = { ";" };
-
-            var Tomail = mail;
-            if (Tomail != null)
-            {
-                string listUser = Tomail.ToString();
-                string[] mailListe = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (var mailto in mailListe)
-                {
-                    Match match = regex.Match(mailto);
-                    if (!match.Success)
-                        canCreate = false;
-                }
-            }
-
-            return (canCreate);
         }
     }
 }

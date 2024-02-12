@@ -70,9 +70,7 @@ namespace apptab.Controllers
                         {
                             FINANCEMENT = param.FINANCEMENT,
                             CODE = param.CODE,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDPROJET = IdS
                         };
 
                         db.SI_FINANCEMENT.Add(newPara);
@@ -87,9 +85,7 @@ namespace apptab.Controllers
                     {
                         FINANCEMENT = param.FINANCEMENT,
                         CODE = param.CODE,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = IdS
                     };
 
                     db.SI_FINANCEMENT.Add(newPara);
@@ -158,9 +154,7 @@ namespace apptab.Controllers
                         {
                             CONVENTION = param.CONVENTION,
                             CODE = param.CODE,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDPROJET = IdS
                         };
 
                         db.SI_CONVENTION.Add(newPara);
@@ -175,9 +169,7 @@ namespace apptab.Controllers
                     {
                         CONVENTION = param.CONVENTION,
                         CODE = param.CODE,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = IdS
                     };
 
                     db.SI_CONVENTION.Add(newPara);
@@ -246,9 +238,7 @@ namespace apptab.Controllers
                         {
                             CATEGORIE = param.CATEGORIE,
                             CODE = param.CODE,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDPROJET = IdS
                         };
 
                         db.SI_CATEGORIE.Add(newPara);
@@ -263,9 +253,7 @@ namespace apptab.Controllers
                     {
                         CATEGORIE = param.CATEGORIE,
                         CODE = param.CODE,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = IdS
                     };
 
                     db.SI_CATEGORIE.Add(newPara);
@@ -334,9 +322,7 @@ namespace apptab.Controllers
                         {
                             ENGAGEMENT = param.ENGAGEMENT,
                             CODE = param.CODE,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDPROJET = IdS
                         };
 
                         db.SI_ENGAGEMENT.Add(newPara);
@@ -351,9 +337,7 @@ namespace apptab.Controllers
                     {
                         ENGAGEMENT = param.ENGAGEMENT,
                         CODE = param.CODE,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = IdS
                     };
 
                     db.SI_ENGAGEMENT.Add(newPara);
@@ -422,9 +406,7 @@ namespace apptab.Controllers
                         {
                             PROCEDURE = param.PROCEDURE,
                             CODE = param.CODE,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDPROJET = IdS
                         };
 
                         db.SI_PROCEDURE.Add(newPara);
@@ -439,9 +421,7 @@ namespace apptab.Controllers
                     {
                         PROCEDURE = param.PROCEDURE,
                         CODE = param.CODE,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = IdS
                     };
 
                     db.SI_PROCEDURE.Add(newPara);
@@ -510,9 +490,7 @@ namespace apptab.Controllers
                         {
                             MINISTERE = param.MINISTERE,
                             CODE = param.CODE,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDPROJET = IdS
                         };
 
                         db.SI_MINISTERE.Add(newPara);
@@ -527,9 +505,7 @@ namespace apptab.Controllers
                     {
                         MINISTERE = param.MINISTERE,
                         CODE = param.CODE,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = IdS
                     };
 
                     db.SI_MINISTERE.Add(newPara);
@@ -598,9 +574,7 @@ namespace apptab.Controllers
                         {
                             MISSION = param.MISSION,
                             CODE = param.CODE,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDPROJET = IdS
                         };
 
                         db.SI_MISSION.Add(newPara);
@@ -615,9 +589,7 @@ namespace apptab.Controllers
                     {
                         MISSION = param.MISSION,
                         CODE = param.CODE,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = IdS
                     };
 
                     db.SI_MISSION.Add(newPara);
@@ -686,9 +658,7 @@ namespace apptab.Controllers
                         {
                             PROGRAMME = param.PROGRAMME,
                             CODE = param.CODE,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDPROJET = IdS
                         };
 
                         db.SI_PROGRAMME.Add(newPara);
@@ -703,9 +673,7 @@ namespace apptab.Controllers
                     {
                         PROGRAMME = param.PROGRAMME,
                         CODE = param.CODE,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = IdS
                     };
 
                     db.SI_PROGRAMME.Add(newPara);
@@ -774,9 +742,7 @@ namespace apptab.Controllers
                         {
                             ACTIVITE = param.ACTIVITE,
                             CODE = param.CODE,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDPROJET = IdS
                         };
 
                         db.SI_ACTIVITE.Add(newPara);
@@ -791,9 +757,7 @@ namespace apptab.Controllers
                     {
                         ACTIVITE = param.ACTIVITE,
                         CODE = param.CODE,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = IdS
                     };
 
                     db.SI_ACTIVITE.Add(newPara);
@@ -877,9 +841,7 @@ namespace apptab.Controllers
                             DEF = param.DEF,
                             TEF = param.TEF,
                             BE = param.BE,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDPROJET = IdS
                         };
 
                         db.SI_PARAMETAT.Add(newPara);
@@ -895,9 +857,7 @@ namespace apptab.Controllers
                         DEF = param.DEF,
                         TEF = param.TEF,
                         BE = param.BE,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = IdS
                     };
 
                     db.SI_PARAMETAT.Add(newPara);

@@ -102,6 +102,7 @@ namespace SOFTCONNECT.Controllers
 
         public ActionResult Create()
         {
+
             return View();
         }
 
@@ -142,8 +143,6 @@ namespace SOFTCONNECT.Controllers
                         PWD = user.PWD,
                         IDPROJET = exist.IDPROJET,
                         ROLE = user.ROLE,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
                     };
                     db.SI_USERS.Add(newUser);
 
@@ -176,14 +175,13 @@ namespace SOFTCONNECT.Controllers
                 {
                     if (userExist.PWD != oldPassword)
                     {
-                        return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Ancien mot de passe non valide. ", data = user }, settings));
+                        return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Ancien mot de passe erroné!", data = user }, settings));
                     }
 
                     userExist.LOGIN = user.LOGIN;
                     userExist.PWD = user.PWD;
                     userExist.IDPROJET = exist.IDPROJET;
                     userExist.ROLE = user.ROLE;
-                    userExist.IDUSER = exist.ID;
 
                     db.SaveChanges();
 

@@ -14,9 +14,5 @@
 
         [Column(TypeName = "smalldatetime")]
         public DateTime? DELETIONDATE { get; set; }
-
-        public int? IDUSER { get; set; }
-        [Column(TypeName = "smalldatetime")]
-        public DateTime? CREATIONDATE { get; set; }
     }
 }

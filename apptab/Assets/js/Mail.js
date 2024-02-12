@@ -39,13 +39,9 @@ function GetUsers() {
                 return;
             }
 
-            $("#ParaT").val(Datas.data.MAILTE);
-            $("#ParaV").val(Datas.data.MAILTV);
-            $("#ParaPi").val(Datas.data.MAILPI);
-            $("#ParaPe").val(Datas.data.MAILPE);
-            $("#ParaPv").val(Datas.data.MAILPV);
-            $("#ParaPp").val(Datas.data.MAILPP);
-            //$("#ParaPb").val(Datas.data.MAILPB);
+            $("#ParaT").val(Datas.data.MAILTRAI);
+            $("#ParaV").val(Datas.data.MAILVALI);
+            $("#ParaP").val(Datas.data.MAILPAYM);
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -56,12 +52,8 @@ function GetUsers() {
 $(`[data-action="UpdateUser"]`).click(function () {
     let ParaT = $("#ParaT").val();
     let ParaV = $("#ParaV").val();
-    let ParaPi = $("#ParaPi").val();
-    let ParaPe = $("#ParaPe").val();
-    let ParaPv = $("#ParaPv").val();
-    let ParaPp = $("#ParaPp").val();
-    //let ParaPb = $("#ParaPb").val();
-    if (!ParaT || !ParaV || !ParaPi || !ParaPe || !ParaPv || !ParaPp /*|| !ParaPb*/) {
+    let ParaP = $("#ParaP").val();
+    if (!ParaT || !ParaV || !ParaP) {
         alert("Veuillez renseigner les mails. ");
         return;
     }
@@ -73,13 +65,9 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    formData.append("param.MAILTE", $(`#ParaT`).val());
-    formData.append("param.MAILTV", $(`#ParaV`).val());
-    formData.append("param.MAILPI", $(`#ParaPi`).val());
-    formData.append("param.MAILPE", $(`#ParaPe`).val());
-    formData.append("param.MAILPV", $(`#ParaPv`).val());
-    formData.append("param.MAILPP", $(`#ParaPp`).val());
-    //formData.append("param.MAILPB", $(`#ParaPb`).val());
+    formData.append("param.MAILTRAI", $(`#ParaT`).val());
+    formData.append("param.MAILVALI", $(`#ParaV`).val());
+    formData.append("param.MAILPAYM", $(`#ParaP`).val());
 
     $.ajax({
         type: "POST",

@@ -11,7 +11,7 @@ $(document).ready(async() => {
     await GetListProjet();
     await GetUsers(undefined);
     await GetListMANDATP()/*.then(() => { $("#tableRFR").DataTable(); })*/;
-    
+
     //setTimeout(() => {
 
     //$("#tableRFR").DataTable();
@@ -363,15 +363,9 @@ async function GetListMANDATP() {
                 $('.traitementPROJET').empty();
                 $('.traitementPROJET').html(contentpaie);
 
-                //renderTree();
+                renderTree();
 
-                /*$("#tableRFR").DataTable();*/
-                new DataTable('#tableRFR', {
-                    dom: 'Bfrtip',
-                    buttons: ['colvis'],
-                    colReorder: true,
-                    responsive: true
-                });
+                $("#tableRFR").DataTable();
             }
         },
         error: function () {

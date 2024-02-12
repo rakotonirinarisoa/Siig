@@ -9,10 +9,11 @@ $(document).ready(() => {
     $(`[data-id="username"]`).text(User.LOGIN);
     GetUsers();
 });
-//let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetUsers() {
     let formData = new FormData();
+
+    let dbase;
 
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
@@ -21,13 +22,14 @@ function GetUsers() {
 
     $.ajax({
         type: "POST",
-        url: Origin + '/Ftp/DetailsFtp',
+        url: Origin + '/FTPSend/DetailsFTP',
         data: formData,
         cache: false,
         contentType: false,
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
+            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -43,6 +45,7 @@ function GetUsers() {
             $("#Identifiant").val(Datas.data.IDENTIFIANT);
             $("#MDP").val(Datas.data.FTPPWD);
             $("#Path").val(Datas.data.PATH);
+
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -66,14 +69,14 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    formData.append("param.HOTE", $(`#Hote`).val());
-    formData.append("param.IDENTIFIANT", $(`#Identifiant`).val());
-    formData.append("param.FTPPWD", $(`#MDP`).val());
-    formData.append("param.PATH", $(`#Path`).val());
+    formData.append("ftp.HOTE", $(`#Hote`).val());
+    formData.append("ftp.IDENTIFIANT", $(`#Identifiant`).val());
+    formData.append("ftp.FTPPWD", $(`#MDP`).val());
+    formData.append("ftp.PATH", $(`#Path`).val());
 
     $.ajax({
         type: "POST",
-        url: Origin + '/Ftp/UpdateFtp',
+        url: Origin + '/FTPSend/UpdateFTP',
         data: formData,
         cache: false,
         contentType: false,

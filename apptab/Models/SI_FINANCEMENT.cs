@@ -18,9 +18,5 @@
 
         [StringLength(50)]
         public string CODE { get; set; }
-
-        public int? IDUSER { get; set; }
-        [Column(TypeName = "smalldatetime")]
-        public DateTime? CREATIONDATE { get; set; }
     }
 }

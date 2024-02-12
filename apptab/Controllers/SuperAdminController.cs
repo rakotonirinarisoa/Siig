@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
-using Newtonsoft.Json.Schema;
-using apptab.Data;
 
 namespace apptab.Controllers
 {
@@ -192,13 +190,13 @@ namespace apptab.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddSocietePROSOA(SI_USERS suser, SI_PROSOA societe)
+        public JsonResult AddSocietePROSOA(SI_USERS suser, PROSOA societe)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
-            var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.IDPROJET && a.DELETIONDATE == null).ID;
-            var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.IDSOA && a.DELETIONDATE == null).ID;
+            var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.PROJET && a.DELETIONDATE == null).ID;
+            var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.SOA && a.DELETIONDATE == null).ID;
 
             var societeExist = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.DELETIONDATE == null/* || a.IDSOA == Soa*/);
 
@@ -208,8 +206,7 @@ namespace apptab.Controllers
                 {
                     IDPROJET = Projet,
                     IDSOA = Soa,
-                    CREATIONDATE = DateTime.Now,
-                    IDUSER = exist.ID
+                    //DELETIONDATE = null,
                 };
                 db.SI_PROSOA.Add(newSociete);
                 //var eeee = db.GetValidationErrors();
@@ -424,9 +421,7 @@ namespace apptab.Controllers
                         CONNEXION = user.CONNEXION,
                         CONNEXPWD = user.CONNEXPWD,
                         DBASE = user.DBASE,
-                        IDPROJET = user.IDPROJET,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        IDPROJET = user.IDPROJET
                     };
                     db.SI_MAPPAGES.Add(newUser);
                     //var eeee = db.GetValidationErrors();
@@ -513,7 +508,6 @@ namespace apptab.Controllers
                     userupdate.CONNEXPWD = user.CONNEXPWD;
                     userupdate.DBASE = user.DBASE;
                     userupdate.IDPROJET = user.IDPROJET;
-                    userupdate.IDUSER = suser.ID;
 
                     //var eeee = db.GetValidationErrors();
                     db.SaveChanges();
@@ -551,7 +545,7 @@ namespace apptab.Controllers
                         foreach (var p in ProjSoa)
                         {
                             var F_del = db.SI_PROSOA.Where(F_remSoa => F_remSoa.IDSOA == p).FirstOrDefault();
-                            F_del.DELETIONDATE = DateTime.Now;
+                            F_del.DELETIONDATE= DateTime.Now;
                             //db.SI_PROSOA.Remove(F_del);
                         }
 
@@ -671,14 +665,14 @@ namespace apptab.Controllers
         {
             return View();
         }
-        public JsonResult UpdateFPROSOA(SI_USERS suser, SI_PROSOA societe, string idprosoaUp)
+        public JsonResult UpdateFPROSOA(SI_USERS suser, PROSOA societe, string idprosoaUp)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
             int idUp = int.Parse(idprosoaUp);
-            var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.IDPROJET && a.DELETIONDATE == null).ID;
-            var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.IDSOA && a.DELETIONDATE == null).ID;
+            var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.PROJET && a.DELETIONDATE == null).ID;
+            var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.SOA && a.DELETIONDATE == null).ID;
 
             var CorrespondanceExist = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.IDSOA == Soa && a.DELETIONDATE == null);
             var CorrespondanceSOA = db.SI_PROSOA.FirstOrDefault(a => a.IDSOA == Soa && a.DELETIONDATE == null);
@@ -694,13 +688,11 @@ namespace apptab.Controllers
                 {
                     CorrespondancePROJET.DELETIONDATE = DateTime.Now;
                 }
-
                 var newProsoa = new SI_PROSOA()
                 {
                     IDPROJET = Projet,
                     IDSOA = Soa,
-                    CREATIONDATE = DateTime.Now,
-                    IDUSER = exist.ID
+                    //DELETIONDATE = null,
                 };
                 db.SI_PROSOA.Add(newProsoa);
 
@@ -753,21 +745,53 @@ namespace apptab.Controllers
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
-            //Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            //var canCreate = true;
-            //string[] separators = { ";" };
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            var canCreate = true;
+            string[] separators = { ";" };
 
-            bool MAILTE = new Extension().TestMail(param.MAILTE);
-            bool MAILTV = new Extension().TestMail(param.MAILTV);
-            bool MAILPI = new Extension().TestMail(param.MAILPI);
-            bool MAILPE = new Extension().TestMail(param.MAILPE);
-            bool MAILPV = new Extension().TestMail(param.MAILPV);
-            bool MAILPP = new Extension().TestMail(param.MAILPP);
-            //bool MAILPB = new Extension().TestMail(param.MAILPB);
+            var Tomail = param.MAILTRAI;
+            if (Tomail != null)
+            {
+                string listUser = Tomail.ToString();
+                string[] mailListe = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
-            if (MAILTE == false || MAILTV == false
-                || MAILPI == false || MAILPE == false || MAILPV == false || MAILPP == false/* || MAILPB == false*/)
-                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "L'une des adresses mail renseignée n'est pas valide. " }, settings));
+                foreach (var mailto in mailListe)
+                {
+                    Match match = regex.Match(mailto);
+                    if (!match.Success)
+                        canCreate = false;
+                }
+            }
+
+            Tomail = param.MAILVALI;
+            if (Tomail != null)
+            {
+                string listUser = Tomail.ToString();
+                string[] mailListe = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var mailto in mailListe)
+                {
+                    Match match = regex.Match(mailto);
+                    if (!match.Success)
+                        canCreate = false;
+                }
+            }
+
+            Tomail = param.MAILPAYM;
+            if (Tomail != null)
+            {
+                string listUser = Tomail.ToString();
+                string[] mailListe = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var mailto in mailListe)
+                {
+                    Match match = regex.Match(mailto);
+                    if (!match.Success)
+                        canCreate = false;
+                }
+            }
+
+            if (canCreate == false) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "L'une des adresses mail renseignée n'est pas valide. " }, settings));
 
             try
             {
@@ -776,23 +800,16 @@ namespace apptab.Controllers
 
                 if (SExist != null)
                 {
-                    if (SExist.MAILTE != param.MAILTE || SExist.MAILTV != param.MAILTV
-                        || SExist.MAILPI != param.MAILPI || SExist.MAILPE != param.MAILPE || SExist.MAILPV != param.MAILPV || SExist.MAILPP != param.MAILPP || SExist.MAILPB != param.MAILPB)
+                    if (SExist.MAILTRAI != param.MAILTRAI || SExist.MAILVALI != param.MAILVALI || SExist.MAILPAYM != param.MAILPAYM)
                     {
                         SExist.DELETIONDATE = DateTime.Now;
 
                         var newPara = new SI_MAIL()
                         {
-                            MAILTE = param.MAILTE,
-                            MAILTV = param.MAILTV,
-                            MAILPI = param.MAILPI,
-                            MAILPE = param.MAILPE,
-                            MAILPV = param.MAILPV,
-                            MAILPP = param.MAILPP,
-                            //MAILPB = param.MAILPB,
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            MAILTRAI = param.MAILTRAI,
+                            MAILVALI = param.MAILVALI,
+                            MAILPAYM = param.MAILPAYM,
+                            IDPROJET = IdS
                         };
 
                         db.SI_MAIL.Add(newPara);
@@ -805,116 +822,13 @@ namespace apptab.Controllers
                 {
                     var newPara = new SI_MAIL()
                     {
-                        MAILTE = param.MAILTE,
-                        MAILTV = param.MAILTV,
-                        MAILPI = param.MAILPI,
-                        MAILPE = param.MAILPE,
-                        MAILPV = param.MAILPV,
-                        MAILPP = param.MAILPP,
-                        //MAILPB = param.MAILPB,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
+                        MAILTRAI = param.MAILTRAI,
+                        MAILVALI = param.MAILVALI,
+                        MAILPAYM = param.MAILPAYM,
+                        IDPROJET = IdS
                     };
 
                     db.SI_MAIL.Add(newPara);
-                    db.SaveChanges();
-
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
-                }
-            }
-            catch (Exception)
-            {
-                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
-            }
-        }
-
-        //Mailing//
-        public ActionResult DelaisCreate()
-        {
-            ViewBag.Controller = "Paramétrage des délais de traitement";
-
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult DetailsDelais(SI_USERS suser)
-        {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
-            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
-
-            try
-            {
-                int crpt = exist.IDPROJET.Value;
-                var crpto = db.SI_DELAISTRAITEMENT.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null);
-                if (crpto != null)
-                {
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
-                }
-                else
-                {
-                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer les délais de traitement. " }, settings));
-                }
-            }
-            catch (Exception e)
-            {
-                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
-            }
-        }
-
-        [HttpPost]
-        public JsonResult UpdateDelais(SI_USERS suser, SI_DELAISTRAITEMENT param)
-        {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
-            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
-
-            try
-            {
-                int IdS = exist.IDPROJET.Value;
-                var SExist = db.SI_DELAISTRAITEMENT.FirstOrDefault(a => a.IDPROJET == IdS && a.DELETIONDATE == null);
-
-                if (SExist != null)
-                {
-                    if (SExist.DELTV != param.DELTV || SExist.DELSIIGFP != param.DELSIIGFP
-                        || SExist.DELPE != param.DELPE || SExist.DELPV != param.DELPV || SExist.DELPP != param.DELPP || SExist.DELPB != param.DELPB)
-                    {
-                        SExist.DELETIONDATE = DateTime.Now;
-
-                        var newPara = new SI_DELAISTRAITEMENT()
-                        {
-                            DELTV = param.DELTV,//Validation mandat
-                            DELSIIGFP = param.DELSIIGFP,//Traitement SIIGFP
-                            DELPE = param.DELPE,//ENVOI POUR VALIDATION PAIEMENT
-                            DELPV = param.DELPV,//VALIDATION PAIEMENT
-                            DELPP = param.DELPP,//PAIEMENT
-                            DELPB = param.DELPB,//TRAITEMENT BANQUE
-                            IDPROJET = IdS,
-                            CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
-                        };
-
-                        db.SI_DELAISTRAITEMENT.Add(newPara);
-                        db.SaveChanges();
-                    }
-
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
-                }
-                else
-                {
-                    var newPara = new SI_DELAISTRAITEMENT()
-                    {
-                        DELTV = param.DELTV,
-                        DELSIIGFP = param.DELSIIGFP,
-                        DELPE = param.DELPE,
-                        DELPV = param.DELPV,
-                        DELPP = param.DELPP,
-                        DELPB = param.DELPB,
-                        IDPROJET = IdS,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
-                    };
-
-                    db.SI_DELAISTRAITEMENT.Add(newPara);
                     db.SaveChanges();
 
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));

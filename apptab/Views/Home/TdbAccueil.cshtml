@@ -7,19 +7,11 @@
 @*<link rel="stylesheet" href="~/Scripts/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />*@
 
 <link href="~/Assets/otherCSS/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="~/Assets/otherCSS/responsive.dataTables.min.css" rel="stylesheet" />
-<link href="~/Assets/otherCSS/buttons.dataTables.min.css" rel="stylesheet" />
-<link href="~/Assets/otherCSS/colReorder.dataTables.min.css" rel="stylesheet" />
-
 <script src="~/Assets/otherJs/jquery-3.7.0.js"></script>
 <script src="~/Assets/otherJs/jquery.dataTables.min.js"></script>
-<script src="~/Assets/otherJs/dataTables.responsive.min.js"></script>
-<script src="~/Assets/otherJs/dataTables.buttons.min.js"></script>
-<script src="~/Assets/otherJs/buttons.colVis.min.js"></script>
-<script src="~/Assets/otherJs/dataTables.colReorder.min.js"></script>
 
 @*<script src="~/Assets/admlte/plugins/datatables/jquery.dataTables.js"></script>
-    <script src="~/Assets/admlte/plugins/datatables/jquery.dataTables.min.js"></script>*@
+<script src="~/Assets/admlte/plugins/datatables/jquery.dataTables.min.js"></script>*@
 
 <div class="form-row">
     <div class="input-group mb-3 col">
@@ -68,7 +60,7 @@
 </div>
 
 <div class="table-responsive mb-3" @*style="max-height: calc(600px - 0.6rem * 2 );"*@ tab="ordsec">
-    <table class="table table-hover table-striped table-bordered " display responsive nowrap" width="100%" id="tableRFR">
+    <table class="table table-hover table-striped table-bordered" id="tableRFR">
         <thead style="position:sticky">
             <tr class="thead-accueil1" style="white-space: nowrap;">
                 @*<td style="text-align:right">
@@ -95,12 +87,10 @@
 </div>
 
 @*<script>
-        new DataTable('#tableRFR', {
-            buttons: ['colvis'],
-            dom: 'Bfrtip',
-            fixedHeader: true
-        });
-    </script>*@
+    $(document).ready(function () {
+        $("#tableRFR").DataTable()
+    })
+</script>*@
 
 <!-- Droit.js -->
 <script src="~/Assets/js/InfoMandat.js"></script>
