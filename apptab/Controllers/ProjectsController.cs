@@ -23,41 +23,17 @@ namespace apptab.Controllers
             };
         }
 
-        private async Task<ProjectDetails> GetProjectDetails(int id)
-        {
-            var project_ = await (from project in _db.SI_PROJETS
-                                  join user in _db.SI_USERS on project.ID equals user.IDPROJET
-                                  where project.ID == id && project.DELETIONDATE == null
-                                  select new ProjectDetails
-                                  {
-                                      Id = project.ID,
-                                      Title = project.PROJET,
-                                      DeletionDate = project.DELETIONDATE,
-                                      AdminEmail = user.LOGIN
-                                  }
-                           ).FirstOrDefaultAsync();
-
-            return project_;
-        }
-
         public async Task<ActionResult> Details(int id)
         {
-            var adminProject = await GetProjectDetails(id);
+            var project = await _db.SI_PROJETS.Where(x => x.ID == id && x.DELETIONDATE == null).FirstOrDefaultAsync();
 
-            if (adminProject == null)
+            if (project == null)
             {
-                var project = await _db.SI_PROJETS.Where(project_ => project_.ID == id).FirstOrDefaultAsync();
-
-                ViewData["Id"] = id;
-                ViewData["Title"] = project.PROJET;
-                ViewData["AdminEmail"] = "";
-
-                return View();
+                throw new Exception("404");
             }
 
             ViewData["Id"] = id;
-            ViewData["Title"] = adminProject.Title;
-            ViewData["AdminEmail"] = adminProject.AdminEmail;
+            ViewData["Title"] = project.PROJET;
 
             return View();
         }
@@ -72,34 +48,15 @@ namespace apptab.Controllers
                 return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion!" }, _settings));
             }
 
-            var project = await _db.SI_PROJETS.FirstOrDefaultAsync(project_ => project_.ID == projectToUpdate.Id && project_.DELETIONDATE == null);
+            var res = await _db.SI_PROJETS.FirstOrDefaultAsync(project => project.ID == projectToUpdate.Id && project.DELETIONDATE == null);
 
-            if (project != null)
+            if (res != null)
             {
-                var admin = await _db.SI_USERS.FirstOrDefaultAsync(user_ => user_.IDPROJET == projectToUpdate.Id && user_.DELETIONDATE == null);
+                res.DELETIONDATE = DateTime.Now;
 
-                var now = DateTime.Now;
-
-                if (admin != null)
-                {
-                    admin.DELETIONDATE = now;
-                }
-
-                project.DELETIONDATE = now;
-
-                var newProject = new SI_PROJETS
+                _db.SI_PROJETS.Add(new SI_PROJETS
                 {
                     PROJET = projectToUpdate.Title
-                };
-
-                _db.SI_PROJETS.Add(newProject);
-
-                _db.SI_USERS.Add(new SI_USERS
-                {
-                    LOGIN = projectToUpdate.Login == "" ? admin.LOGIN : projectToUpdate.Login,
-                    PWD = admin == null ? "" : admin.PWD,
-                    IDPROJET = newProject.ID,
-                    ROLE = Role.Administrateur,
                 });
 
                 await _db.SaveChangesAsync();

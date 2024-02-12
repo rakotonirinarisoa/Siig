@@ -9,18 +9,6 @@
     </div>
 </div>
 
-<hr style="border:none" />
-<h5>First ADMIN</h5>
-
-<div class="form-row">
-    <div class="input-group mb-3 col">
-        <div class="input-group-prepend custom-label">
-            <span class="input-group-text text-bold" id="inputGroup-sizing-default">Login (Admin)</span>
-        </div>
-        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="admin-email" value="@ViewData["AdminEmail"]" />
-    </div>
-</div>
-
 <div class="form-row">
     <div class="mb-3 col">
         <div class="btn btn-flat bg-gradient-olive col-12" data-action="update-project">
@@ -35,7 +23,6 @@
     let user;
 
     let originalTitle;
-    let originalAdminEmail;
 
     $(document).ready(() => {
         user = JSON.parse(sessionStorage.getItem('user'));
@@ -45,7 +32,6 @@
         }
 
         originalTitle = $('#title').val();
-        originalAdminEmail = $('#admin-email').val();
     });
 
     function successfulRedirect() {
@@ -55,25 +41,19 @@
     }
 
     $('[data-action="update-project"]').on('click', () => {
-        let adminEmail = $('#admin-email').val();
         const title = $('#title').val();
 
         if (title === originalTitle) {
-            if (adminEmail === originalAdminEmail) {
-                successfulRedirect();
+            successfulRedirect();
 
-                return;
-            }
-
-            adminEmail = '';
+            return;
         }
 
         const payload = {
             login: user.LOGIN,
             password: user.PWD,
             id: $('#id_').val(),
-            title,
-            adminEmail
+            title
         }
 
         $.ajax({

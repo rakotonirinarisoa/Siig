@@ -5,15 +5,15 @@ $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
     if (User == null || User === "undefined") window.location = "../";
     Origin = User.origin;
-
     $(`[data-id="username"]`).text(User.LOGIN);
     GetUsers();
 });
+
 //let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
 function GetUsers() {
     let formData = new FormData();
-
+    
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
@@ -21,7 +21,7 @@ function GetUsers() {
 
     $.ajax({
         type: "POST",
-        url: Origin + '/Ftp/DetailsFtp',
+        url: Origin + '/SuperAdmin/DetailsDelais',
         data: formData,
         cache: false,
         contentType: false,
@@ -38,11 +38,13 @@ function GetUsers() {
                 window.location = window.location.origin;
                 return;
             }
-
-            $("#Hote").val(Datas.data.HOTE);
-            $("#Identifiant").val(Datas.data.IDENTIFIANT);
-            $("#MDP").val(Datas.data.FTPPWD);
-            $("#Path").val(Datas.data.PATH);
+            
+            $("#ParaV").val(Datas.data.DELTV);
+            $("#ParaS").val(Datas.data.DELSIIGFP);
+            $("#ParaPe").val(Datas.data.DELPE);
+            $("#ParaPv").val(Datas.data.DELPV);
+            $("#ParaPp").val(Datas.data.DELPP);
+            $("#ParaPb").val(Datas.data.DELPB);
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -51,11 +53,14 @@ function GetUsers() {
 }
 
 $(`[data-action="UpdateUser"]`).click(function () {
-    let user = $("#Hote").val();
-    let db = $("#MDP").val();
-    let inst = $("#Identifiant").val();
-    if (!user || !db || !inst) {
-        alert("Veuillez renseigner les informations sur la connexion FTP. ");
+    let ParaV = $("#ParaV").val();
+    let ParaS = $("#ParaS").val();
+    let ParaPe = $("#ParaPe").val();
+    let ParaPv = $("#ParaPv").val();
+    let ParaPp = $("#ParaPp").val();
+    let ParaPb = $("#ParaPb").val();
+    if (!ParaV || !ParaS || !ParaPe || !ParaPv || !ParaPp || !ParaPb) {
+        alert("Veuillez renseigner les délais de traitement. ");
         return;
     }
 
@@ -66,14 +71,16 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    formData.append("param.HOTE", $(`#Hote`).val());
-    formData.append("param.IDENTIFIANT", $(`#Identifiant`).val());
-    formData.append("param.FTPPWD", $(`#MDP`).val());
-    formData.append("param.PATH", $(`#Path`).val());
+    formData.append("param.DELTV", $(`#ParaV`).val());
+    formData.append("param.DELSIIGFP", $(`#ParaS`).val());
+    formData.append("param.DELPE", $(`#ParaPe`).val());
+    formData.append("param.DELPV", $(`#ParaPv`).val());
+    formData.append("param.DELPP", $(`#ParaPp`).val());
+    formData.append("param.DELPB", $(`#ParaPb`).val());
 
     $.ajax({
         type: "POST",
-        url: Origin + '/Ftp/UpdateFtp',
+        url: Origin + '/SuperAdmin/UpdateDelais',
         data: formData,
         cache: false,
         contentType: false,
