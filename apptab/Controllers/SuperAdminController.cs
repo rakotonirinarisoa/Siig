@@ -212,7 +212,18 @@ namespace apptab.Controllers
                     IDUSER = exist.ID
                 };
                 db.SI_PROSOA.Add(newSociete);
-                //var eeee = db.GetValidationErrors();
+                db.SaveChanges();
+
+                var isElemH = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.IDSOA == Soa && a.DELETIONDATE == null);
+                var newSocieteH = new HSI_PROSOA()
+                {
+                    IDPROJET = isElemH.IDPROJET,
+                    IDSOA = isElemH.IDSOA,
+                    CREATIONDATE = isElemH.CREATIONDATE,
+                    IDUSER = isElemH.IDUSER,
+                    IDPARENT = isElemH.ID
+                };
+                db.HSI_PROSOA.Add(newSocieteH);
                 db.SaveChanges();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = societe }, settings));
@@ -648,13 +659,22 @@ namespace apptab.Controllers
             try
             {
                 int IDPROSOA = int.Parse(PROSOAID);
-                var PROSOA = db.SI_PROSOA.Where(prosoa => prosoa.ID == IDPROSOA && prosoa.DELETIONDATE == null).FirstOrDefault();
-                //var ProjSoa = db.SI_PROSOA.Where(F_ProjetSoa => F_ProjetSoa.IDSOA == IDPROSOA).Select(F_ProjetSoa => F_ProjetSoa.IDSOA).ToList();
+                var PROSOA = db.SI_PROSOA.FirstOrDefault(a => a.ID == IDPROSOA && a.DELETIONDATE == null);
+
+                var elemH = db.HSI_PROSOA.FirstOrDefault(a => a.IDPARENT == IDPROSOA && a.DELETIONDATE == null);
+
                 if (PROSOA != null)
                 {
-                    //db.SI_PROSOA.Remove(PROSOA);
                     PROSOA.DELETIONDATE = DateTime.Now;
+                    PROSOA.IDUSERDEL = exist.ID;
+
+                    if (elemH != null)
+                    {
+                        elemH.DELETIONDATE = DateTime.Now;
+                    }
+
                     db.SaveChanges();
+
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression avec succès. " }, settings));
                 }
                 else
@@ -680,30 +700,35 @@ namespace apptab.Controllers
             var Projet = db.SI_PROJETS.FirstOrDefault(a => a.ID == societe.IDPROJET && a.DELETIONDATE == null).ID;
             var Soa = db.SI_SOAS.FirstOrDefault(a => a.ID == societe.IDSOA && a.DELETIONDATE == null).ID;
 
-            var CorrespondanceExist = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.IDSOA == Soa && a.DELETIONDATE == null);
-            var CorrespondanceSOA = db.SI_PROSOA.FirstOrDefault(a => a.IDSOA == Soa && a.DELETIONDATE == null);
-            var CorrespondancePROJET = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.DELETIONDATE == null);
+            var CorrespondanceExist = db.SI_PROSOA.FirstOrDefault(a => a.ID == idUp && a.DELETIONDATE == null);
 
-            if (CorrespondanceExist == null)
+            var CorrespondanceExistH = db.HSI_PROSOA.FirstOrDefault(a => a.IDPARENT == idUp && a.DELETIONDATE == null);
+
+            if (CorrespondanceExist != null)
             {
-                if (CorrespondanceSOA != null)
+                if (CorrespondanceExist.IDPROJET != Projet || CorrespondanceExist.IDSOA != Soa)
                 {
-                    CorrespondanceSOA.DELETIONDATE = DateTime.Now;
-                }
-                if (CorrespondancePROJET != null)
-                {
-                    CorrespondancePROJET.DELETIONDATE = DateTime.Now;
+                    CorrespondanceExist.IDPROJET = Projet;
+                    CorrespondanceExist.IDSOA = Soa;
+                    db.SaveChanges();
                 }
 
-                var newProsoa = new SI_PROSOA()
+                if (CorrespondanceExistH != null)
                 {
-                    IDPROJET = Projet,
-                    IDSOA = Soa,
+                    CorrespondanceExistH.DELETIONDATE = DateTime.Now;
+                    db.SaveChanges();
+                }
+
+                var isElemH = db.SI_PROSOA.FirstOrDefault(a => a.IDPROJET == Projet && a.IDSOA == Soa && a.DELETIONDATE == null);
+                var newSocieteH = new HSI_PROSOA()
+                {
+                    IDPROJET = isElemH.IDPROJET,
+                    IDSOA = isElemH.IDSOA,
                     CREATIONDATE = DateTime.Now,
-                    IDUSER = exist.ID
+                    IDUSER = exist.ID,
+                    IDPARENT = isElemH.ID
                 };
-                db.SI_PROSOA.Add(newProsoa);
-
+                db.HSI_PROSOA.Add(newSocieteH);
                 db.SaveChanges();
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = societe }, settings));
@@ -779,9 +804,23 @@ namespace apptab.Controllers
                     if (SExist.MAILTE != param.MAILTE || SExist.MAILTV != param.MAILTV
                         || SExist.MAILPI != param.MAILPI || SExist.MAILPE != param.MAILPE || SExist.MAILPV != param.MAILPV || SExist.MAILPP != param.MAILPP || SExist.MAILPB != param.MAILPB)
                     {
-                        SExist.DELETIONDATE = DateTime.Now;
+                        SExist.MAILTE = param.MAILTE;
+                        SExist.MAILTV = param.MAILTV;
+                        SExist.MAILPI = param.MAILPI;
+                        SExist.MAILPE = param.MAILPE;
+                        SExist.MAILPV = param.MAILPV;
+                        SExist.MAILPP = param.MAILPP;
 
-                        var newPara = new SI_MAIL()
+                        db.SaveChanges();
+
+                        var H = db.HSI_MAIL.FirstOrDefault(a => a.IDPARENT == SExist.ID && a.DELETIONDATE == null);
+                        if (H != null)
+                        {
+                            H.DELETIONDATE = DateTime.Now;
+                            db.SaveChanges();
+                        }
+
+                        var newElemH = new HSI_MAIL()
                         {
                             MAILTE = param.MAILTE,
                             MAILTV = param.MAILTV,
@@ -789,13 +828,12 @@ namespace apptab.Controllers
                             MAILPE = param.MAILPE,
                             MAILPV = param.MAILPV,
                             MAILPP = param.MAILPP,
-                            //MAILPB = param.MAILPB,
                             IDPROJET = IdS,
                             CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDUSER = exist.ID,
+                            IDPARENT = SExist.ID
                         };
-
-                        db.SI_MAIL.Add(newPara);
+                        db.HSI_MAIL.Add(newElemH);
                         db.SaveChanges();
                     }
 
@@ -811,13 +849,30 @@ namespace apptab.Controllers
                         MAILPE = param.MAILPE,
                         MAILPV = param.MAILPV,
                         MAILPP = param.MAILPP,
-                        //MAILPB = param.MAILPB,
                         IDPROJET = IdS,
                         CREATIONDATE = DateTime.Now,
                         IDUSER = exist.ID
                     };
 
                     db.SI_MAIL.Add(newPara);
+                    db.SaveChanges();
+
+                    var isElemH = db.SI_MAIL.FirstOrDefault(a => a.IDPROJET == IdS && a.MAILTE == param.MAILTE && a.MAILTV == param.MAILTV && a.MAILPI == param.MAILPI
+                    && a.MAILPE == param.MAILPE && a.MAILPV == param.MAILPV && a.MAILPP == param.MAILPP && a.DELETIONDATE == null);
+                    var newElemH = new HSI_MAIL()
+                    {
+                        MAILTE = isElemH.MAILTE,
+                        MAILTV = isElemH.MAILTV,
+                        MAILPI = isElemH.MAILPI,
+                        MAILPE = isElemH.MAILPE,
+                        MAILPV = isElemH.MAILPV,
+                        MAILPP = isElemH.MAILPP,
+                        IDPROJET = IdS,
+                        CREATIONDATE = isElemH.CREATIONDATE,
+                        IDUSER = isElemH.IDUSER,
+                        IDPARENT = isElemH.ID
+                    };
+                    db.HSI_MAIL.Add(newElemH);
                     db.SaveChanges();
 
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
@@ -878,22 +933,36 @@ namespace apptab.Controllers
                     if (SExist.DELTV != param.DELTV || SExist.DELSIIGFP != param.DELSIIGFP
                         || SExist.DELPE != param.DELPE || SExist.DELPV != param.DELPV || SExist.DELPP != param.DELPP || SExist.DELPB != param.DELPB)
                     {
-                        SExist.DELETIONDATE = DateTime.Now;
+                        SExist.DELTV = param.DELTV;//Validation mandat
+                        SExist.DELSIIGFP = param.DELSIIGFP;//Traitement SIIGFP
+                        SExist.DELPE = param.DELPE;//ENVOI POUR VALIDATION PAIEMENT
+                        SExist.DELPV = param.DELPV;//VALIDATION PAIEMENT
+                        SExist.DELPP = param.DELPP;//PAIEMENT
+                        SExist.DELPB = param.DELPB;//TRAITEMENT BANQUE
 
-                        var newPara = new SI_DELAISTRAITEMENT()
+                        db.SaveChanges();
+
+                        var H = db.HSI_DELAISTRAITEMENT.FirstOrDefault(a => a.IDPARENT == SExist.ID && a.DELETIONDATE == null);
+                        if (H != null)
                         {
-                            DELTV = param.DELTV,//Validation mandat
-                            DELSIIGFP = param.DELSIIGFP,//Traitement SIIGFP
-                            DELPE = param.DELPE,//ENVOI POUR VALIDATION PAIEMENT
-                            DELPV = param.DELPV,//VALIDATION PAIEMENT
-                            DELPP = param.DELPP,//PAIEMENT
-                            DELPB = param.DELPB,//TRAITEMENT BANQUE
+                            H.DELETIONDATE = DateTime.Now;
+                            db.SaveChanges();
+                        }
+
+                        var newElemH = new HSI_DELAISTRAITEMENT()
+                        {
+                            DELTV = param.DELTV,
+                            DELSIIGFP = param.DELSIIGFP,
+                            DELPE = param.DELPE,
+                            DELPV = param.DELPV,
+                            DELPP = param.DELPP,
+                            DELPB = param.DELPB,
                             IDPROJET = IdS,
                             CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDUSER = exist.ID,
+                            IDPARENT = SExist.ID
                         };
-
-                        db.SI_DELAISTRAITEMENT.Add(newPara);
+                        db.HSI_DELAISTRAITEMENT.Add(newElemH);
                         db.SaveChanges();
                     }
 
@@ -915,6 +984,24 @@ namespace apptab.Controllers
                     };
 
                     db.SI_DELAISTRAITEMENT.Add(newPara);
+                    db.SaveChanges();
+
+                    var isElemH = db.SI_DELAISTRAITEMENT.FirstOrDefault(a => a.IDPROJET == IdS && a.DELTV == param.DELTV && a.DELSIIGFP == param.DELSIIGFP && a.DELPE == param.DELPE
+                    && a.DELPV == param.DELPV && a.DELPP == param.DELPP && a.DELPB == param.DELPB && a.DELETIONDATE == null);
+                    var newElemH = new HSI_DELAISTRAITEMENT()
+                    {
+                        DELTV = isElemH.DELTV,
+                        DELSIIGFP = isElemH.DELSIIGFP,
+                        DELPE = isElemH.DELPE,
+                        DELPV = isElemH.DELPV,
+                        DELPP = isElemH.DELPP,
+                        DELPB = isElemH.DELPB,
+                        IDPROJET = IdS,
+                        CREATIONDATE = isElemH.CREATIONDATE,
+                        IDUSER = isElemH.IDUSER,
+                        IDPARENT = isElemH.ID
+                    };
+                    db.HSI_DELAISTRAITEMENT.Add(newElemH);
                     db.SaveChanges();
 
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));

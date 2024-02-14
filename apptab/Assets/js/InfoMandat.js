@@ -10,12 +10,7 @@ $(document).ready(async() => {
     
     await GetListProjet();
     await GetUsers(undefined);
-    await GetListMANDATP()/*.then(() => { $("#tableRFR").DataTable(); })*/;
-    
-    //setTimeout(() => {
-
-    //$("#tableRFR").DataTable();
-    //}, 10000)
+    await GetListMANDATP();
 });
 //let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";
@@ -72,7 +67,7 @@ async function GetListProjet() {
     $.ajax({
         type: "POST",
         url: Origin + '/Etat/GetAllPROJET',
-        async : true,
+        async: true,
         data: formData,
         cache: false,
         contentType: false,
@@ -105,10 +100,10 @@ async function GetListProjet() {
             console.log(e);
             alert("Problème de connexion. ");
         }
-    })
+    });
 }
 
-$('#proj').on('change', () => {
+$('#proj').on('change', async () => {
     const idPROJET = $('#proj').val();
 
     let formData = new FormData();
@@ -122,6 +117,7 @@ $('#proj').on('change', () => {
 
     $.ajax({
         type: "POST",
+        async: true,
         url: Origin + '/Etat/EtatMandatChange',
         data: formData,
         cache: false,
@@ -183,6 +179,26 @@ $('#proj').on('change', () => {
 
                 $('.traitementPROJET').empty();
                 $('.traitementPROJET').html(contentpaie);
+
+                //$('#tableRFR').DataTable(
+                //    {
+                //        dom: 'Bfrtip',
+                //        buttons: ['colvis'],
+                //        colReorder: true,
+                //        responsive: true,
+                //        retrieve: true,
+                //        paging: false
+                //    }
+                //)
+
+                new DataTable(`#tableRFR`, {
+                    dom: 'Bfrtip',
+                    buttons: ['colvis'],
+                    colReorder: true,
+                    responsive: true,
+                    retrieve: true,
+                    paging: false
+                });
             }
         },
         error: function () {
@@ -365,12 +381,13 @@ async function GetListMANDATP() {
 
                 //renderTree();
 
-                /*$("#tableRFR").DataTable();*/
-                new DataTable('#tableRFR', {
+                new DataTable(`#tableRFR`, {
                     dom: 'Bfrtip',
                     buttons: ['colvis'],
                     colReorder: true,
-                    responsive: true
+                    responsive: true,
+                    retrieve: true,
+                    paging: false
                 });
             }
         },
@@ -381,7 +398,7 @@ async function GetListMANDATP() {
 }
 
 //FILTRE PROJET//
-$('[data-action="SearchPROJET"]').click(function () {
+$('[data-action="SearchPROJET"]').click(async function () {
     let dd = $("#dateD").val();
     let df = $("#dateF").val();
     if (!dd || !df) {
@@ -404,6 +421,7 @@ $('[data-action="SearchPROJET"]').click(function () {
 
     $.ajax({
         type: "POST",
+        async: true,
         url: Origin + '/Etat/EtatMandatProjetSEARCH',
         data: formData,
         cache: false,
@@ -465,6 +483,15 @@ $('[data-action="SearchPROJET"]').click(function () {
 
                 $('.traitementPROJET').empty();
                 $('.traitementPROJET').html(contentpaie);
+
+                new DataTable(`#tableRFR`, {
+                    dom: 'Bfrtip',
+                    buttons: ['colvis'],
+                    colReorder: true,
+                    responsive: true,
+                    retrieve: true,
+                    paging: false
+                });
             }
         },
         error: function () {

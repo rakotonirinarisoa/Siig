@@ -4,11 +4,11 @@ $(document).ready(() => {
     });
 });
 
-let clickedId;
+let clickedIdD;
 
-function modalF(id) {
+function modalD(id) {
 
-    clickedId = id;
+    clickedIdD = id;
 
     let formData = new FormData();
 
@@ -17,11 +17,11 @@ function modalF(id) {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    formData.append("IdF", clickedId);
+    formData.append("IdF", clickedIdD);
 
     $.ajax({
         type: "POST",
-        url: Origin + '/Traitement/ModalF',
+        url: Origin + '/Traitement/ModalD',
         data: formData,
         cache: false,
         contentType: false,
@@ -44,13 +44,11 @@ function modalF(id) {
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
                         <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
-                        <td style="font-weight: bold; text-align:center"><a href="${v.LIEN}" target="_blank">${v.LIEN}</a></td>
                     </tr>
                     `                });
-                $('.pjMODAL').empty();
-                $('.pjMODAL').html(contentpaie);
+                $('.LIQUIMODAL').empty();
+                $('.LIQUIMODAL').html(contentpaie);
             }
         },
         error: function () {
@@ -58,5 +56,5 @@ function modalF(id) {
         }
     });
 
-    $('#password-modal').modal('toggle');
+    $('#imputation-modal').modal('toggle');
 }

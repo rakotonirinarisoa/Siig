@@ -14,6 +14,6 @@
 
     public enum Role
     {
-        SAdministrateur, Administrateur, Autre //, ORDSEC, Consultation, PRORDESEC
+        SAdministrateur, Administrateur, Autre, Organe_de_Suivi, Agent_Comptable//, ORDSEC, Consultation, PRORDESEC
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Build.Framework.XamlTypes;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Net;
 using static System.Net.WebRequestMethods;
+using System.IO;
 
 namespace apptab.Controllers
 {
@@ -84,9 +85,21 @@ namespace apptab.Controllers
                 {
                     if (SExist.HOTE != param.HOTE || SExist.IDENTIFIANT != param.IDENTIFIANT || SExist.FTPPWD != param.FTPPWD || SExist.PATH != param.PATH /*|| SExist.PORT != param.PORT*/)
                     {
-                        SExist.DELETIONDATE = DateTime.Now;
+                        SExist.HOTE = param.HOTE;
+                        SExist.IDENTIFIANT = param.IDENTIFIANT;
+                        SExist.FTPPWD = param.FTPPWD;
+                        SExist.PATH = param.PATH;
 
-                        var newPara = new OPA_FTP()
+                        db.SaveChanges();
+
+                        var H = db.HOPA_FTP.FirstOrDefault(a => a.IDPARENT == SExist.ID && a.DELETIONDATE == null);
+                        if (H != null)
+                        {
+                            H.DELETIONDATE = DateTime.Now;
+                            db.SaveChanges();
+                        }
+
+                        var newElemH = new HOPA_FTP()
                         {
                             HOTE = param.HOTE,
                             IDENTIFIANT = param.IDENTIFIANT,
@@ -94,10 +107,10 @@ namespace apptab.Controllers
                             PATH = param.PATH,
                             IDPROJET = IdS,
                             CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDUSER = exist.ID,
+                            IDPARENT = SExist.ID
                         };
-
-                        db.OPA_FTP.Add(newPara);
+                        db.HOPA_FTP.Add(newElemH);
                         db.SaveChanges();
                     }
 
@@ -117,6 +130,21 @@ namespace apptab.Controllers
                     };
 
                     db.OPA_FTP.Add(newPara);
+                    db.SaveChanges();
+
+                    var isElemH = db.OPA_FTP.FirstOrDefault(a => a.IDPROJET == IdS && a.HOTE == param.HOTE && a.IDENTIFIANT == param.IDENTIFIANT && a.FTPPWD == param.FTPPWD && a.PATH == param.PATH && a.DELETIONDATE == null);
+                    var newElemH = new HOPA_FTP()
+                    {
+                        HOTE = param.HOTE,
+                        IDENTIFIANT = param.IDENTIFIANT,
+                        FTPPWD = param.FTPPWD,
+                        PATH = param.PATH,
+                        IDPROJET = IdS,
+                        CREATIONDATE = isElemH.CREATIONDATE,
+                        IDUSER = isElemH.IDUSER,
+                        IDPARENT = isElemH.ID
+                    };
+                    db.HOPA_FTP.Add(newElemH);
                     db.SaveChanges();
 
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));

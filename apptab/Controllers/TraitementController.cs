@@ -50,6 +50,22 @@ namespace apptab.Controllers
         }
 
         [HttpPost]
+        public ActionResult GetIsProjet(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            var isProjet = "";
+
+            if (db.SI_PROJETS.Any(a => a.ID == exist.IDPROJET && a.DELETIONDATE == null))
+            {
+                isProjet = db.SI_PROJETS.FirstOrDefault(a => a.ID == exist.IDPROJET && a.DELETIONDATE == null).PROJET;
+            }
+
+            return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = isProjet }, settings));
+        }
+
+        [HttpPost]
         public ActionResult DetailsInfoPro(SI_USERS suser)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
@@ -459,10 +475,94 @@ namespace apptab.Controllers
                             OBJ = x.RANG.ToString(),
                             TITUL = x.NOMBRE.ToString(),
                             DATE = x.DATECRE.Value.Date,
-                            MONT = Math.Round(x.MONTANT.Value, 2).ToString()
+                            MONT = Math.Round(x.MONTANT.Value, 2).ToString(),
+                            LIEN = "https://www.google.com"
                         });
                     }
                 }
+
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ModalD(SI_USERS suser, Guid IdF)
+        {
+            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+
+                SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM tom = new SOFTCONNECTOM();
+
+                List<DATATRPROJET> list = new List<DATATRPROJET>();
+
+                if (tom.CPTADMIN_MLIQUIDATION.FirstOrDefault(a => a.IDLIQUIDATION == IdF) != null)
+                {
+                    foreach (var x in tom.CPTADMIN_MLIQUIDATION.Where(a => a.IDLIQUIDATION == IdF).ToList())
+                    {
+                        list.Add(new DATATRPROJET
+                        {
+                            REF = x.LIBELLE,
+                            OBJ = x.COGE.ToString(),
+                            TITUL = x.POSTE.ToString(),
+                            MONT = Math.Round(x.MONTANTLOCAL.Value, 2).ToString(),
+                        });
+                    }
+                }
+
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ModalLIAS(SI_USERS suser, Guid IdF)
+        {
+            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+
+                SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM tom = new SOFTCONNECTOM();
+
+                List<DATATRPROJET> list = new List<DATATRPROJET>();
+
+                list.Add(new DATATRPROJET
+                {
+                    REF = "https://www.google.com/",
+                    OBJ = "https://getbootstrap.com/",
+                    TITUL = "https://github.com/"
+                });
+
+                //if (tom.CPTADMIN_MLIQUIDATION.FirstOrDefault(a => a.IDLIQUIDATION == IdF) != null)
+                //{
+                //    foreach (var x in tom.CPTADMIN_MLIQUIDATION.Where(a => a.IDLIQUIDATION == IdF).ToList())
+                //    {
+                //        list.Add(new DATATRPROJET
+                //        {
+                //            REF = x.LIBELLE,
+                //            OBJ = x.COGE.ToString(),
+                //            TITUL = x.POSTE.ToString(),
+                //            MONT = Math.Round(x.MONTANTLOCAL.Value, 2).ToString(),
+                //        });
+                //    }
+                //}
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
             }

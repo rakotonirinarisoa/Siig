@@ -43,6 +43,16 @@
     </div>
 </div>
 
+<div class="form-row" hidden="@((Session["userSession"] as apptab.SI_USERS).ROLE != apptab.Role.SAdministrateur)">
+    <div class="input-group mb-3 col">
+        <div class="input-group-prepend custom-label">
+            <span class="input-group-text text-bold" id="inputGroup-sizing-default">PROJET</span>
+        </div>
+        <select class="form-control selectTOO" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="PROJET" data-id="proj-list" multiple="multiple">
+        </select>
+    </div>
+</div>
+
 <div class="form-row">
     <div class="mb-3 col">
         <div class="btn btn-flat bg-gradient-olive col-12" data-action="AddnewUser">
@@ -82,4 +92,9 @@
         // Toggle the eye and bi-eye icon
         this.classList.toggle('bi-eye');
     });
+
+    $("#PROJET").select2({
+        tags: true,
+        tokenSeparators: [',', ' ']
+    })
 </script>

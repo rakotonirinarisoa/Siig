@@ -191,6 +191,21 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Data\Entities\X.cs" />
     <Compile Include="Data\Cipher.cs" />
+    <Compile Include="Models\HOPA_CRYPTO.cs" />
+    <Compile Include="Models\HOPA_FTP.cs" />
+    <Compile Include="Models\HSI_DELAISTRAITEMENT.cs" />
+    <Compile Include="Models\HSI_MAIL.cs" />
+    <Compile Include="Models\HSI_PARAMETAT.cs" />
+    <Compile Include="Models\HSI_ACTIVITE.cs" />
+    <Compile Include="Models\HSI_CATEGORIE.cs" />
+    <Compile Include="Models\HSI_CONVENTION.cs" />
+    <Compile Include="Models\HSI_ENGAGEMENT.cs" />
+    <Compile Include="Models\HSI_FINANCEMENT.cs" />
+    <Compile Include="Models\HSI_MINISTERE.cs" />
+    <Compile Include="Models\HSI_MISSION.cs" />
+    <Compile Include="Models\HSI_PROCEDURE.cs" />
+    <Compile Include="Models\HSI_PROGRAMME.cs" />
+    <Compile Include="Models\HSI_PROSOA.cs" />
     <Compile Include="Models\CPTADMIN_CHAINETRAITEMENT.cs" />
     <Compile Include="Models\CPTADMIN_COMMENTAIRE.cs" />
     <Compile Include="Models\CPTADMIN_FLIQUIDATION.cs" />
@@ -232,6 +247,7 @@
     <Compile Include="Models\SI_PARAMETAT.cs" />
     <Compile Include="Models\SI_TRAITPROJET.cs" />
     <Compile Include="Models\SI_DELAISTRAITEMENT.cs" />
+    <Compile Include="Models\SI_MAPUSERPROJET.cs" />
     <Compile Include="SOFTCONNECTOM.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
     <Compile Include="Models\TP_MPIECES_JUSTIFICATIVES.cs" />
@@ -2113,6 +2129,7 @@
     <Content Include="Assets\img\logo-soft.png" />
     <Content Include="Assets\img\LogoS.png" />
     <Content Include="Assets\js\Crypto.js" />
+    <Content Include="Assets\js\DetailCrypto.js" />
     <Content Include="Assets\js\javascript.js" />
     <Content Include="Assets\js\CorrEtat.js" />
     <Content Include="Assets\js\DetailsFPROSOA.js" />
@@ -2125,6 +2142,8 @@
     <Content Include="Assets\js\Mis.js" />
     <Content Include="Assets\js\Min.js" />
     <Content Include="Assets\js\Act.js" />
+    <Content Include="Assets\js\TraitmandatLIAS.js" />
+    <Content Include="Assets\js\TraitmandatDOC.js" />
     <Content Include="Assets\js\TraitmandatModal.js" />
     <Content Include="Assets\js\passwords.js" />
     <Content Include="Assets\js\Prog.js" />
@@ -2374,6 +2393,7 @@
     <Content Include="Views\Parametre\CorrEtatCreate.cshtml" />
     <Content Include="Views\Ftp\FtpCreate.cshtml" />
     <Content Include="Views\SuperAdmin\DelaisCreate.cshtml" />
+    <Content Include="Views\Crypto\CryptoList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

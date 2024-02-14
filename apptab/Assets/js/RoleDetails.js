@@ -8,8 +8,9 @@ $(document).ready(() => {
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
+
     GetListRole();
-    GetUsers();
+    GetListProjet();
 });
 
 //let urlOrigin = "http://softwell.cloud/OPAVI";
@@ -60,6 +61,53 @@ function GetListRole() {
     });
 }
 
+function GetListProjet() {
+    let formData = new FormData();
+
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDPROJET);
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/User/GetAllPROJET',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
+
+            $(`[data-id="proj-list"]`).text("");
+            var code = ``;
+            $.each(Datas.data, function (k, v) {
+                code += `
+                    <option value="${v.ID}">${v.PROJET}</option>
+                `;
+            });
+            $(`[data-id="proj-list"]`).append(code);
+
+            GetUsers();
+        },
+        error: function (e) {
+            console.log(e);
+            alert("Problème de connexion. ");
+        }
+    })
+}
+
 function GetUsers() {
     let formData = new FormData();
 
@@ -90,10 +138,12 @@ function GetUsers() {
                 window.location = window.location.origin;
                 return;
             }
-
+            
             $("#Login").val(Datas.data.LOGIN);
-            //$("#MDP").val(Datas.data.PWD);
+            
             $("#Role").val(`${Datas.data.ROLE}`);
+
+            $("#PROJET").val([...Datas.data.PROJET]).change();
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -162,6 +212,12 @@ $(`[data-action="UpdateUser"]`).click(function () {
         return;
     }
 
+    let pr = $("#PROJET").val();
+    if (!pr) {
+        alert("Veuillez sélectionner au moins un projet. ");
+        return;
+    }
+
     let formData = new FormData();
 
     formData.append("suser.LOGIN", User.LOGIN);
@@ -175,6 +231,8 @@ $(`[data-action="UpdateUser"]`).click(function () {
 
     formData.append("oldPassword", $('#old-password').val());
     formData.append("UserId", getUrlParameter("UserId"));
+
+    formData.append("listProjet", $("#PROJET").val());
     
     $.ajax({
         type: "POST",

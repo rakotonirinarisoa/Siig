@@ -4,11 +4,11 @@ $(document).ready(() => {
     });
 });
 
-let clickedId;
+let clickedIdDL;
 
-function modalF(id) {
+function modalLIAS(id) {
 
-    clickedId = id;
+    clickedIdDL = id;
 
     let formData = new FormData();
 
@@ -17,11 +17,11 @@ function modalF(id) {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    formData.append("IdF", clickedId);
+    formData.append("IdF", clickedIdDL);
 
     $.ajax({
         type: "POST",
-        url: Origin + '/Traitement/ModalF',
+        url: Origin + '/Traitement/ModalLIAS',
         data: formData,
         cache: false,
         contentType: false,
@@ -41,16 +41,13 @@ function modalF(id) {
                 $.each(ListResult, function (k, v) {
                     contentpaie += `
                     <tr class="select-text">
-                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
-                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
-                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
-                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
-                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
-                        <td style="font-weight: bold; text-align:center"><a href="${v.LIEN}" target="_blank">${v.LIEN}</a></td>
+                        <td style="font-weight: bold; text-align:center"><a href="${v.REF}" target="_blank">${v.REF}</a></td>
+                        <td style="font-weight: bold; text-align:center"><a href="${v.OBJ}" target="_blank">${v.OBJ}</a></td>
+                        <td style="font-weight: bold; text-align:center"><a href="${v.TITUL}" target="_blank">${v.TITUL}</a></td>
                     </tr>
                     `                });
-                $('.pjMODAL').empty();
-                $('.pjMODAL').html(contentpaie);
+                $('.DOCMODAL').empty();
+                $('.DOCMODAL').html(contentpaie);
             }
         },
         error: function () {
@@ -58,5 +55,5 @@ function modalF(id) {
         }
     });
 
-    $('#password-modal').modal('toggle');
+    $('#document-modal').modal('toggle');
 }

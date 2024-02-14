@@ -78,6 +78,10 @@
     color: #fff;
     background-color: crimson;
 }
+.thead-bleu {
+    color: #fff;
+    background-color: #17a2b8;
+}
 .table-responsive.mb-3 {
     height: calc(62vh - 0.9rem * 2);
 }

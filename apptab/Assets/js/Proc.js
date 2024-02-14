@@ -41,6 +41,8 @@ function GetUsers() {
 
             $("#Para").val(Datas.data.PROCEDURE);
             $("#Code").val(Datas.data.CODE);
+            $("#ParaD").val(Datas.data.PROCEDUREDEG);
+            $("#CodeD").val(Datas.data.CODEDEG);
 
         },
         error: function () {
@@ -52,7 +54,9 @@ function GetUsers() {
 $(`[data-action="UpdateUser"]`).click(function () {
     let user = $("#Para").val();
     let code = $("#Code").val();
-    if (!user || !code) {
+    let userD = $("#ParaD").val();
+    let codeD = $("#CodeD").val();
+    if (!user || !code || !userD || !codeD) {
         alert("Veuillez renseigner l'information sur le procédure. ");
         return;
     }
@@ -66,6 +70,8 @@ $(`[data-action="UpdateUser"]`).click(function () {
 
     formData.append("param.PROCEDURE", $(`#Para`).val());
     formData.append("param.CODE", $(`#Code`).val());
+    formData.append("param.PROCEDUREDEG", $(`#ParaD`).val());
+    formData.append("param.CODEDEG", $(`#CodeD`).val());
 
     $.ajax({
         type: "POST",
