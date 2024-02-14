@@ -4627,12 +4627,9 @@
     <Content Include="Views\Ftp\FtpCreate.cshtml" />
     <Content Include="Views\SuperAdmin\DelaisCreate.cshtml" />
     <Content Include="Views\Crypto\CryptoList.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Home\PaiementValidation.cshtml" />
     <Content Include="Views\Home\TeacherValidation.cshtml" />
     <Content Include="Views\Home\FValidation.cshtml" />
-=======
->>>>>>> 8378215f3bc1eb17f0107c1b3fd908886fbad496
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
