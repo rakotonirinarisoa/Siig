@@ -8,12 +8,9 @@ using System.Web.UI.WebControls;
 using System.Threading.Tasks;
 using apptab.Data.Entities;
 using System.Data.Entity;
-<<<<<<< HEAD
 using apptab.Models;
 using static apptab.Models.OPA_ROLES;
 using static apptab.Models.SI_ROLES;
-=======
->>>>>>> 8378215f3bc1eb17f0107c1b3fd908886fbad496
 using System.Text.RegularExpressions;
 using System.Web;
 

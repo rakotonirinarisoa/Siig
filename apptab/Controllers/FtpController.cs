@@ -12,10 +12,7 @@ using Microsoft.Build.Framework.XamlTypes;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Net;
 using static System.Net.WebRequestMethods;
-<<<<<<< HEAD
 using apptab.Models;
-=======
->>>>>>> 8378215f3bc1eb17f0107c1b3fd908886fbad496
 using System.IO;
 
 namespace apptab.Controllers

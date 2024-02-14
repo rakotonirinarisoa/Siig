@@ -191,14 +191,11 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Data\Entities\X.cs" />
     <Compile Include="Data\Cipher.cs" />
-<<<<<<< HEAD
     <Compile Include="Extension\AFB.cs" />
     <Compile Include="Extension\AFB160.cs" />
     <Compile Include="Extension\DataListTomOP.cs" />
     <Compile Include="Extension\DataListTompaie.cs" />
     <Compile Include="Extension\DataListTompro.cs" />
-=======
->>>>>>> 8378215f3bc1eb17f0107c1b3fd908886fbad496
     <Compile Include="Models\HOPA_CRYPTO.cs" />
     <Compile Include="Models\HOPA_FTP.cs" />
     <Compile Include="Models\HSI_DELAISTRAITEMENT.cs" />
