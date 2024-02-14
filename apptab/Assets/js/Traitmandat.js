@@ -227,13 +227,13 @@ $('[data-action="GenereR"]').click(function () {
                 //$('#TBD_PROJET').DataTable().destroy();
 
                 new DataTable(`#TBD_PROJET`, {
-                    dom: 'Bfrtip',
-                    buttons: ['colvis'],
-                    colReorder: false,
+                    //dom: 'Bfrtip',
+                    //buttons: ['colvis'],
+                    //colReorder: false,
                     responsive: true,
                     retrieve: true,
                     paging: true,
-                    destroy:true
+                    //destroy:true
                 });
 
                 //if (compteur == 1) {
