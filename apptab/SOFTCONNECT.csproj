@@ -191,11 +191,14 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Data\Entities\X.cs" />
     <Compile Include="Data\Cipher.cs" />
+<<<<<<< HEAD
     <Compile Include="Extension\AFB.cs" />
     <Compile Include="Extension\AFB160.cs" />
     <Compile Include="Extension\DataListTomOP.cs" />
     <Compile Include="Extension\DataListTompaie.cs" />
     <Compile Include="Extension\DataListTompro.cs" />
+=======
+>>>>>>> 8378215f3bc1eb17f0107c1b3fd908886fbad496
     <Compile Include="Models\HOPA_CRYPTO.cs" />
     <Compile Include="Models\HOPA_FTP.cs" />
     <Compile Include="Models\HSI_DELAISTRAITEMENT.cs" />
@@ -4627,9 +4630,12 @@
     <Content Include="Views\Ftp\FtpCreate.cshtml" />
     <Content Include="Views\SuperAdmin\DelaisCreate.cshtml" />
     <Content Include="Views\Crypto\CryptoList.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Home\PaiementValidation.cshtml" />
     <Content Include="Views\Home\TeacherValidation.cshtml" />
     <Content Include="Views\Home\FValidation.cshtml" />
+=======
+>>>>>>> 8378215f3bc1eb17f0107c1b3fd908886fbad496
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

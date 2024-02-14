@@ -500,7 +500,11 @@ namespace apptab.Controllers
                 int crpt = exist.IDPROJET.Value;
 
                 SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+<<<<<<< HEAD
                 SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
+=======
+                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+>>>>>>> 8378215f3bc1eb17f0107c1b3fd908886fbad496
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
@@ -538,7 +542,11 @@ namespace apptab.Controllers
                 int crpt = exist.IDPROJET.Value;
 
                 SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+<<<<<<< HEAD
                 SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
+=======
+                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+>>>>>>> 8378215f3bc1eb17f0107c1b3fd908886fbad496
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
