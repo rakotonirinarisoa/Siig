@@ -103,7 +103,7 @@
                         </li>
                     </ul>
 
-                    @if ((Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.SAdministrateur)
+                    @if ((Session["userSession"] as apptab.Models.SI_USERS).ROLE == (int)apptab.Models.Role.SAdministrateur)
                     {
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block" id="menu-accordeon">
                             <li class="nav-item SuperAd" data-io>
@@ -234,7 +234,7 @@
                         </ul>
                     }
 
-                    @if ((Session["userSession"] as apptab.SI_USERS).ROLE == apptab.Role.SAdministrateur)
+                    @if ((Session["userSession"] as apptab.Models.SI_USERS).ROLE == (int)apptab.Models.Role.SAdministrateur)
                     {
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block">
 
@@ -338,6 +338,30 @@
                             <a class="nav-link active" style="background-color: steelblue">
                                 <p>
                                     PAIEMENTS
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../Home/PaiementValidation" class="nav-link">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>
+                                    Attente Validations
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../Home/TeacherValidation" class="nav-link">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>
+                                    Paiements Validations
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../Home/FValidation" class="nav-link">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>
+                                    Validations
                                 </p>
                             </a>
                         </li>

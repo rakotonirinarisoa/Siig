@@ -1,4 +1,5 @@
 ﻿using apptab.Data;
+using apptab.Models;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -1058,7 +1059,7 @@ namespace apptab.Controllers
             if (db.SI_MAPPAGES.FirstOrDefault(a => a.IDPROJET == IdS) == null)
                 return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Le projet n'est pas mappé à une base de données TOM²PRO. " }, settings));
 
-            SOFTCONNECTOM.connex = new Extension().GetCon(IdS);
+            SOFTCONNECTOM.connex = new Data.Extension().GetCon(IdS);
             SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
             if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == param.DEF) == null)

@@ -123,7 +123,7 @@ namespace apptab.Controllers
                 if (db.SI_MAPPAGES.FirstOrDefault(a => a.IDPROJET == crpt) == null)
                     return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Le projet n'est pas mappé à une base de données TOM²PRO. " }, settings));
 
-                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
@@ -237,7 +237,7 @@ namespace apptab.Controllers
                 int crpt = exist.IDPROJET.Value;
 
                 SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
-                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
@@ -285,7 +285,7 @@ namespace apptab.Controllers
                 int crpt = exist.IDPROJET.Value;
 
                 SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
-                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
@@ -333,7 +333,7 @@ namespace apptab.Controllers
                     int crpt = exist.IDPROJET.Value;
 
                     SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
-                    SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                    SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                     SOFTCONNECTOM tom = new SOFTCONNECTOM();
                     var FSauv = new SI_TRAITPROJET();
 
@@ -420,7 +420,7 @@ namespace apptab.Controllers
                     int crpt = exist.IDPROJET.Value;
 
                     SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
-                    SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                    SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                     SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                     List<DATATRPROJET> list = new List<DATATRPROJET>();
@@ -460,7 +460,7 @@ namespace apptab.Controllers
                 int crpt = exist.IDPROJET.Value;
 
                 SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
-                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
@@ -500,7 +500,7 @@ namespace apptab.Controllers
                 int crpt = exist.IDPROJET.Value;
 
                 SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
-                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
@@ -538,7 +538,7 @@ namespace apptab.Controllers
                 int crpt = exist.IDPROJET.Value;
 
                 SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
-                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();

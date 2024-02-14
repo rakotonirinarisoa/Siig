@@ -8,6 +8,9 @@ using System.Web.UI.WebControls;
 using System.Threading.Tasks;
 using apptab.Data.Entities;
 using System.Data.Entity;
+using apptab.Models;
+using static apptab.Models.OPA_ROLES;
+using static apptab.Models.SI_ROLES;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -43,7 +46,7 @@ namespace SOFTCONNECT.Controllers
             {
                 var test = db.SI_USERS.Where(x => x.ROLE == exist.ROLE && x.IDPROJET == exist.IDPROJET && x.DELETIONDATE == null).FirstOrDefault();
                 //var test = db.SI_USERS.Where(x => x.ROLE == suser.ROLE && x.IDPROJET == suser.IDPROJET).FirstOrDefault();
-                if (test.ROLE == Role.SAdministrateur)
+                if (test.ROLE == (int)Role.SAdministrateur)
                 {
                     var users = db.SI_USERS.Where(x => x.ROLE != Role.SAdministrateur).Select(a => new
                     {
@@ -508,7 +511,7 @@ namespace SOFTCONNECT.Controllers
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
-            return Json(JsonConvert.SerializeObject(new { type = "login", msg = "", data = exist.ROLE != Role.SAdministrateur }, settings));
+            return Json(JsonConvert.SerializeObject(new { type = "login", msg = "", data = exist.ROLE != (int)Role.SAdministrateur }, settings));
         }
     }
 }

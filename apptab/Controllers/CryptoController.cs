@@ -10,6 +10,7 @@ using apptab.Data.Entities;
 using System.Data.Entity;
 using Microsoft.Build.Framework.XamlTypes;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using apptab.Models;
 
 namespace apptab.Controllers
 {

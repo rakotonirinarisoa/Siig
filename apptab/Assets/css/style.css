@@ -7,42 +7,10 @@
     /*background: center url('../img/bg.jpg') */
     background-color: #fff;
 }
+.table-responsive.mb-3.OPF {
+    height: auto !important;
+}
 
-/*.btn.btn-flat.bg-gradient-red.col-12 {*/
-    /*position: fixed;
-    bottom: 5%;
-    width: 86%;
-    right: 8px;*/
-/*}*/
-/*@media screen and (min-width:1880px){
-    .table-responsive.mb-3 {
-        height: calc(61vh - 0.6rem * 2) !important;
-    }
-}
-@media screen and (min-width:2040px){
-    .table-responsive.mb-3 {
-        height: calc(64vh - 0.6rem * 2) !important;
-    }
-}
-@media screen and (max-width:1875px) {
-    .table-responsive.mb-3 {
-        height: calc(58vh - 0.6rem * 2) !important;
-    }
-}
-@media screen and (max-width:1832px) {
-    .table-responsive.mb-3 {
-        height: calc(64vh - 0.6rem * 2) !important;
-    }
-}
-@media screen and (max-width:1831px) {
-    .table-responsive.mb-3 {
-        height: calc(62vh - 0.6rem * 2) !important;
-    }
-}
-*/
-/*.table-responsive.mb-3 {
-    height: calc(600px - 0.6rem * 2) ;
-}*/
 @media only screen and (min-width: 4000px) and (min-height: 1846px) {
     .table-responsive.mb-3 {
         height: 89vh !important

@@ -3,6 +3,7 @@ let Origin;
 
 $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
+    console.log(User);
     if (User == null || User === "undefined") window.location = "../";
     Origin = User.origin;
 

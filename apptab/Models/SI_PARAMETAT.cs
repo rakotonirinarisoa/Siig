@@ -1,4 +1,4 @@
-﻿namespace apptab
+namespace apptab.Models
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +20,9 @@
 
         [Column(TypeName = "smalldatetime")]
         public DateTime? DELETIONDATE { get; set; }
+
         public int? IDUSER { get; set; }
+
         [Column(TypeName = "smalldatetime")]
         public DateTime? CREATIONDATE { get; set; }
     }

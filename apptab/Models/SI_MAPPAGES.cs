@@ -1,8 +1,10 @@
-﻿namespace apptab
+namespace apptab.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
     public partial class SI_MAPPAGES
     {
@@ -26,7 +28,9 @@
 
         [Column(TypeName = "smalldatetime")]
         public DateTime? DELETIONDATE { get; set; }
+
         public int? IDUSER { get; set; }
+
         [Column(TypeName = "smalldatetime")]
         public DateTime? CREATIONDATE { get; set; }
     }

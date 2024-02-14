@@ -1,4 +1,4 @@
-﻿namespace apptab
+namespace apptab.Models
 {
     using System;
     using System.Collections.Generic;
@@ -18,8 +18,6 @@
 
         public string TITUL { get; set; }
 
-        //[Column(TypeName = "numeric")]
-        //public decimal? MONT { get; set; }
         public string MONT { get; set; }
 
         public string COMPTE { get; set; }
