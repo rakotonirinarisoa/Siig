@@ -8,6 +8,7 @@ $(document).ready(() => {
 
     $(`[data-id="username"]`).text(User.LOGIN);
     GetListRole();
+    GetListProjet();
 });
 
 //let urlOrigin = "http://softwell.cloud/OPAVI";
@@ -58,6 +59,52 @@ function GetListRole() {
     });
 }
 
+function GetListProjet() {
+    let formData = new FormData();
+
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDPROJET);
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/User/GetAllPROJET',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
+
+            $(`[data-id="proj-list"]`).text("");
+            var code = ``;
+            $.each(Datas.data, function (k, v) {
+                code += `
+                    <option value="${v.ID}">${v.PROJET}</option>
+                `;
+            });
+            $(`[data-id="proj-list"]`).append(code);
+
+        },
+        error: function (e) {
+            console.log(e);
+            alert("Problème de connexion. ");
+        }
+    })
+}
+
 $(`[data-action="AddnewUser"]`).click(function () {
     let newpwd = $(`#MDP`).val();
     let newpwdConf = $(`#MDPC`).val();
@@ -72,6 +119,12 @@ $(`[data-action="AddnewUser"]`).click(function () {
         return;
     }
 
+    let pr = $("#PROJET").val();
+    if (!pr) {
+        alert("Veuillez sélectionner au moins un projet. ");
+        return;
+    }
+
     let formData = new FormData();
 
     formData.append("suser.LOGIN", User.LOGIN);
@@ -82,6 +135,8 @@ $(`[data-action="AddnewUser"]`).click(function () {
     formData.append("user.LOGIN", $(`#Login`).val());
     formData.append("user.ROLE", $(`#Role`).val());
     formData.append("user.PWD", newpwd);
+
+    formData.append("listProjet", $("#PROJET").val());
     
     $.ajax({
         type: "POST",

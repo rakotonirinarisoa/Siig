@@ -51,24 +51,41 @@ function GetListUser() {
                     <tr data-userId="${v.ID}" class="text-nowrap last-hover">
                         <td>${v.PROJET}</td>
                         <td>${v.LOGIN}</td>
-                        <td>${v.ROLE}</td>           
+                        <td>${v.ROLE}</td>
+                        
                         <td>
-                            <img 
-                                src="/Assets/icons/eye.svg" 
-                                width="20" height="20" 
-                                alt="Show password" 
-                                style="cursor: pointer;" 
+                            <img
+                                src="/Assets/icons/eye.svg"
+                                width="20" height="20"
+                                alt="Show password"
+                                style="cursor: pointer;"
                                 onclick="showPassword('${v.ID}')"
                             />
-                        </td>                     
+                        </td>
+
                         <td class="elerfr">
                             <div onclick="DetailUpdateUser('${v.ID}')"><i class="fa fa-pen-alt text-warning"></i></div>
                         </td>
                         <td class="elerfr">
                             <div onclick="deleteUser('${v.ID}')"><i class="fa fa-trash text-danger"></i></div>
                         </td>
-                    </tr>
-                `;
+                    </tr >`;
+
+                //if (v.ROLE != "SAdministrateur") {
+                //    code += `<td class="elerfr">
+                //                <div onclick="linkeo('${v.ID}')"><i class="fa fa-link fa-lg text-primary"></i></div>
+                //            </td>
+                //    </tr >
+                //`;
+                //}
+                //else {
+                //    code += `<td class="elerfr">
+                //                <div><i></i></div>
+                //            </td>
+                //    </tr >
+                //`;
+                //}
+                        
             });
 
             $(`[data-id="ubody"]`).append(code);

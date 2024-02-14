@@ -3,6 +3,7 @@ let Origin;
 
 $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
+    console.log(User);
     if (User == null || User === "undefined") window.location = "../";
     Origin = User.origin;
 
@@ -127,8 +128,8 @@ $(`[data-action="AddnewSociete"]`).click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
-    formData.append("societe.PROJET", $(`#Proj`).val());
-    formData.append("societe.SOA", $(`#Soa`).val());
+    formData.append("societe.IDPROJET", $(`#Proj`).val());
+    formData.append("societe.IDSOA", $(`#Soa`).val());
 
     $.ajax({
         type: "POST",

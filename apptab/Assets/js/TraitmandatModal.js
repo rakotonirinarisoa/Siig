@@ -7,6 +7,7 @@ $(document).ready(() => {
 let clickedId;
 
 function modalF(id) {
+
     clickedId = id;
 
     let formData = new FormData();
@@ -45,10 +46,11 @@ function modalF(id) {
                         <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
                         <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center"><a href="${v.LIEN}" target="_blank">${v.LIEN}</a></td>
                     </tr>
                     `                });
-                $('.afb160MODAL').empty();
-                $('.afb160MODAL').html(contentpaie);
+                $('.pjMODAL').empty();
+                $('.pjMODAL').html(contentpaie);
             }
         },
         error: function () {

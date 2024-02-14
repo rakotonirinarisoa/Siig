@@ -23,6 +23,6 @@ namespace apptab.Models
         public DateTime? DATEDEF { get; set; }
         public DateTime? DATETEF { get; set; }
         public DateTime? DATEBE { get; set; }
-
+        public string LIEN { get; set; }
     }
 }
