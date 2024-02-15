@@ -635,7 +635,7 @@ namespace apptab.Controllers
         }
 
         [HttpPost]
-        public JsonResult AnnulationMandat(SI_USERS suser, Guid IdF, string Comm, string MOTIF)
+        public JsonResult AnnulationMandat(SI_USERS suser, Guid IdF, string Comm, string Motif)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
@@ -658,7 +658,7 @@ namespace apptab.Controllers
                 {
                     No = IdF,
                     DATEANNUL = DateTime.Now,
-                    MOTIF = MOTIF,
+                    MOTIF = Motif,
                     COMMENTAIRE = Comm,
                     IDPROJET = IdS,
                     IDUSER = exist.ID

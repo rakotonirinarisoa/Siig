@@ -41,7 +41,7 @@ function modalREJET(id) {
             ListResult = Datas.data
             $.each(ListResult, function (k, v) {
                 code += `
-                    <option value="${k}" id="${k}">${v.REF}</option>
+                    <option value="${v.REF}" id="${v.REF}">${v.REF}</option>
                 `;
             });
 
@@ -51,6 +51,8 @@ function modalREJET(id) {
             alert("Problème de connexion. ");
         }
     });
+
+    $("#Commentaire").val("");
 
     $('#annuler-modal').modal('toggle');
 }
@@ -71,7 +73,7 @@ $(`[data-action="ANNULMANDAT"]`).click(function () {
 
     formData.append("IdF", clickedANN);
     formData.append("Comm", $(`#Commentaire`).val());
-    formData.append("MOTIF", user);
+    formData.append("Motif", user);
 
     $.ajax({
         type: "POST",
@@ -89,6 +91,11 @@ $(`[data-action="ANNULMANDAT"]`).click(function () {
             }
             if (Datas.type == "success") {
                 alert(Datas.msg);
+
+                $(`[compteG-id="${clickedANN}"]`).remove();
+                
+                $("#annuler-modal").modal("toggle");
+                
                 return;
             }
             if (Datas.type == "login") {
