@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 
-namespace apptab.Models
+namespace apptab
 {
     public partial class Model1 : DbContext
     {

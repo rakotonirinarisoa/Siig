@@ -10,7 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using apptab.Data;
 using apptab.Data.Entities;
-using apptab.Models;
+using apptab;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 
