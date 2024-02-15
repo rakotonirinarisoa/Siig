@@ -109,9 +109,9 @@ namespace apptab.Controllers
         }
 
         [HttpPost]
-        public JsonResult Generation(SI_USERS suser, DateTime DateDebut, DateTime DateFin)
+        public async Task<JsonResult> Generation(SI_USERS suser, DateTime DateDebut, DateTime DateFin)
         {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            var exist = await db.SI_USERS.FirstOrDefaultAsync(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Problème de connexion. " }, settings));
 
             try

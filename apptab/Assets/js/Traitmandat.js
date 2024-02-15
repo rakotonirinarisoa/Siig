@@ -147,7 +147,7 @@ function IsProjet() {
 
 
 //GENERER//
-$('[data-action="GenereR"]').click(function () {
+$('[data-action="GenereR"]').click(async function () {
     let dd = $("#dateD").val();
     let df = $("#dateF").val();
     if (!dd || !df) {
@@ -167,6 +167,7 @@ $('[data-action="GenereR"]').click(function () {
 
     $.ajax({
         type: "POST",
+        async : true,
         url: Origin + '/Traitement/Generation',
         data: formData,
         cache: false,
@@ -228,44 +229,13 @@ $('[data-action="GenereR"]').click(function () {
                 //$('#TBD_PROJET').DataTable().destroy();
 
                 new DataTable(`#TBD_PROJET`, {
-                    //dom: 'Bfrtip',
-                    //buttons: ['colvis'],
-                    //colReorder: false,
+                    dom: 'Bfrtip',
+                    buttons: ['colvis'],
+                    colReorder: true,
                     responsive: true,
                     retrieve: true,
-                    paging: true,
-                    //destroy:true
+                    paging: true
                 });
-
-                //if (compteur == 1) {
-                //    table = $('#TBD_PROJET').DataTable({
-                //        paging: true,
-                //        searching: true,
-
-                //        dom: 'Bfrtip',
-                //        buttons: ['colvis'],
-                //        colReorder: true,
-                //        responsive: true,
-                //        retrieve: true
-                //    });
-
-                //    table.clear();
-                //    //table.reset();
-                //    table.destroy();
-
-                //    table = $('#TBD_PROJET').DataTable({
-                //        paging: true,
-                //        searching: true,
-
-                //        dom: 'Bfrtip',
-                //        buttons: ['colvis'],
-                //        colReorder: true,
-                //        responsive: true,
-                //        retrieve: true
-                //    });
-
-                //    compteur++;
-                //}
             }
         },
         error: function () {
@@ -349,6 +319,7 @@ function GetListLOAD() {
                     responsive: true,
                     retrieve: true,
                     paging: true,
+                    search : true
                     //destroy:true
                 });
             }
@@ -424,6 +395,9 @@ $('[data-action="GenereSIIG"]').click(function () {
                         <td class="elerfr" style="font-weight: bold; text-align:center">
                             <div onclick="modalLIAS('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                         </td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalREJET('${v.No}')"><i class="fa fa-times fa-lg text-dark"></i></div>
+                        </td>
                     </tr>`
                 });
 
@@ -437,6 +411,7 @@ $('[data-action="GenereSIIG"]').click(function () {
                     responsive: true,
                     retrieve: true,
                     paging: true,
+                    search: true
                     //destroy:true
                 });
             }
