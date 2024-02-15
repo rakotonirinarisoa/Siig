@@ -293,7 +293,7 @@ namespace apptab.Controllers
             //	OPAVITOMATE.connex = "Data Source=FID-INF-PC;Initial Catalog=PIC3;User ID=sa;Password=Soft123well!;";
             //}
             //OPAVITOMATE.connex = "Data Source=FID-INF-PC;Initial Catalog=TOMPAIE;User ID=sa;Password=Soft123well!;";
-            SOFTCONNECTOM.connex = "Data Source=DESKTOP-N8EMIRC;Initial Catalog=PIC;Integrated Security=True";
+            SOFTCONNECTOM.connex = "Data Source=RINAH\\MSSQLSERVER17;Initial Catalog=PIC;Integrated Security=True";
             //OPAVITOMATE.connex = "Data Source=NOM-IT-PC;Initial Catalog=PIC3;Integrated Security=True";
             SOFTCONNECTOM __db = new SOFTCONNECTOM();
 

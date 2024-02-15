@@ -884,7 +884,7 @@ namespace apptab.Controllers
             }
         }
 
-        //Mailing//
+        //Délais de traitement//
         public ActionResult DelaisCreate()
         {
             ViewBag.Controller = "Paramétrage des délais de traitement";
@@ -1002,6 +1002,91 @@ namespace apptab.Controllers
                         IDPARENT = isElemH.ID
                     };
                     db.HSI_DELAISTRAITEMENT.Add(newElemH);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Menu Dynamique//
+        public ActionResult MenuCreate()
+        {
+            ViewBag.Controller = "Paramétrage des intitulés des menus";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsMenu(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_MENU.FirstOrDefault();
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer les intitulés des menus. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateMenu(SI_USERS suser, SI_MENU param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                var SExist = db.SI_MENU.FirstOrDefault();
+
+                if (SExist != null)
+                {
+                    if (SExist.MT1 != param.MT1 || SExist.MT2 != param.MT2
+                        || SExist.MP1 != param.MP1 || SExist.MP2 != param.MP2 || SExist.MP3 != param.MP3 || SExist.MP4 != param.MP4)
+                    {
+                        SExist.MT1 = param.MT1;
+                        SExist.MT2 = param.MT2;
+                        SExist.MP1 = param.MP1;
+                        SExist.MP2 = param.MP2;
+                        SExist.MP3 = param.MP3;
+                        SExist.MP4 = param.MP4;
+
+                        db.SaveChanges();
+                    }
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_MENU()
+                    {
+                        MT1 = param.MT1,
+                        MT2 = param.MT2,
+                        MP1 = param.MP1,
+                        MP2 = param.MP2,
+                        MP3 = param.MP3,
+                        MP4 = param.MP4,
+                        CREATIONDATE = DateTime.Now
+                    };
+
+                    db.SI_MENU.Add(newPara);
                     db.SaveChanges();
 
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));

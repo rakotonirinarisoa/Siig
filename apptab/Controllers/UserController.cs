@@ -467,8 +467,19 @@ namespace SOFTCONNECT.Controllers
                 if (test.ROLE != Role.SAdministrateur && test.ROLE != Role.Organe_de_Suivi && test.ROLE != Role.Agent_Comptable)
                     if (String.IsNullOrEmpty(test.IDPROJET.ToString()) || !db.SI_PROJETS.Any(a => a.ID == test.IDPROJET && a.DELETIONDATE == null))
                         return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas rattaché à un projet actif. " }, settings));
-
                 Session["userSession"] = test;
+
+
+                if (db.SI_MENU.Any())
+                {
+                    var isMenu = db.SI_MENU.FirstOrDefault();
+                    Session["MT1"] = isMenu.MT1;
+                    Session["MT2"] = isMenu.MT2;
+                    Session["MP1"] = isMenu.MP1;
+                    Session["MP2"] = isMenu.MP2;
+                    Session["MP3"] = isMenu.MP3;
+                    Session["MP4"] = isMenu.MP4;
+                }
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", Data = new { test.ROLE, test.IDPROJET } }, settings));
             }

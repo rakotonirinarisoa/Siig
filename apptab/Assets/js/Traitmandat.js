@@ -11,9 +11,10 @@ $(document).ready(() => {
 
     //GetListProjet();
     //GetUsers(undefined);
-    //GetListLOAD();
-
+    
     IsProjet();
+
+    GetListLOAD();//Partie ORDSEC
 
     $(`[data-widget="pushmenu"]`).on('click', () => {
         $(`[data-action="SaveV"]`).toggleClass('custom-fixed-btn');
@@ -321,15 +322,35 @@ function GetListLOAD() {
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
-
+                        <td style="font-weight: bold; text-align:center">${v.LIEN}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATECREATION)}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">
-                            <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
+                            <div onclick="modalD('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                        </td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-success"></i></div>
+                        </td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalLIAS('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
+                        </td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalREJET('${v.No}')"><i class="fa fa-times fa-lg text-dark"></i></div>
                         </td>
                     </tr>`
                 });
 
                 $('.traitementORDSEC').empty();
                 $('.traitementORDSEC').html(contentpaie);
+
+                new DataTable(`#TBD_PROJET`, {
+                    //dom: 'Bfrtip',
+                    //buttons: ['colvis'],
+                    //colReorder: false,
+                    responsive: true,
+                    retrieve: true,
+                    paging: true,
+                    //destroy:true
+                });
             }
         },
         error: function () {
@@ -380,7 +401,7 @@ $('[data-action="GenereSIIG"]').click(function () {
                     contentpaie += `
                     <tr compteG-id="${v.No}" class="select-text">
                         <td style="font-weight: bold; text-align:center">
-                            <input type="checkbox" name = "checkprod" compteg-ischecked class="chk" onchange = "checkdel()"/>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked  onchange = "checkdel()"/>
                         </td>
                         <td style="font-weight: bold; text-align:center">${v.REF}</td>
                         <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
@@ -392,14 +413,32 @@ $('[data-action="GenereSIIG"]').click(function () {
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
                         <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.LIEN}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATECREATION)}</td>
                         <td class="elerfr" style="font-weight: bold; text-align:center">
-                            <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
+                            <div onclick="modalD('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                        </td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-success"></i></div>
+                        </td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalLIAS('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
                         </td>
                     </tr>`
                 });
 
                 $('.traitementORDSEC').empty();
                 $('.traitementORDSEC').html(contentpaie);
+
+                new DataTable(`#TBD_PROJET`, {
+                    //dom: 'Bfrtip',
+                    //buttons: ['colvis'],
+                    //colReorder: false,
+                    responsive: true,
+                    retrieve: true,
+                    paging: true,
+                    //destroy:true
+                });
             }
         },
         error: function () {
@@ -410,11 +449,17 @@ $('[data-action="GenereSIIG"]').click(function () {
 
 $('[data-action="SaveV"]').click(function () {
     let CheckList = $(`[compteg-ischecked]:checked`).closest("tr");
+    
     let list = [];
     $.each(CheckList, (k, v) => {
         list.push($(v).attr("compteG-id"));
     });
 
+    if (list.length == 0) {
+        alert("Veuillez sélectionner au moins un mandat afin de l'enregistrer et l'envoyer pour validation. ");
+        return;
+    }
+    
     let formData = new FormData();
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);

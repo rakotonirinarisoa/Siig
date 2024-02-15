@@ -1,4 +1,4 @@
-namespace apptab.Models
+namespace apptab
 {
     using System;
     using System.Collections.Generic;
@@ -30,8 +30,6 @@ namespace apptab.Models
         [Column(TypeName = "smalldatetime")]
         public DateTime? DATECRE { get; set; }
 
-        public int? IDPROJET { get; set; }
-
         [Column(TypeName = "smalldatetime")]
         public DateTime? DATEVALIDATION { get; set; }
 
@@ -51,5 +49,9 @@ namespace apptab.Models
 
         [Column(TypeName = "smalldatetime")]
         public DateTime? DATEBE { get; set; }
+
+        public int? IDPROJET { get; set; }
+
+        public int? IDUSER { get; set; }
     }
 }

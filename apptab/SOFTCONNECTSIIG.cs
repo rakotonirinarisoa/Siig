@@ -38,6 +38,7 @@ namespace apptab
         public virtual DbSet<SI_PROSOA> SI_PROSOA { get; set; }
         public virtual DbSet<SI_ROLES> SI_ROLES { get; set; }
         public virtual DbSet<SI_SOAS> SI_SOAS { get; set; }
+        public virtual DbSet<SI_TRAITANNUL> SI_TRAITANNUL { get; set; }
         public virtual DbSet<SI_TRAITPROJET> SI_TRAITPROJET { get; set; }
         public virtual DbSet<SI_USERS> SI_USERS { get; set; }
         public virtual DbSet<OPA_HISTORIQUEBR> OPA_HISTORIQUEBR { get; set; }
@@ -45,6 +46,10 @@ namespace apptab
         public virtual DbSet<OPA_DROITS> OPA_DROITS { get; set; }
         public virtual DbSet<OPA_VALIDATIONS> OPA_VALIDATIONS { get; set; }
         public virtual DbSet<SI_MAPUSERPROJET> SI_MAPUSERPROJET { get; set; }
+        public virtual DbSet<SI_MENU> SI_MENU { get; set; }
+        public virtual DbSet<HSI_MOTIF> HSI_MOTIF { get; set; }
+        public virtual DbSet<SI_MOTIF> SI_MOTIF { get; set; }
+
 
         public virtual DbSet<HSI_PROSOA> HSI_PROSOA { get; set; }
         public virtual DbSet<HSI_ACTIVITE> HSI_ACTIVITE { get; set; }

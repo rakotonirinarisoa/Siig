@@ -40,5 +40,10 @@ namespace apptab
 
         [StringLength(10)]
         public string USERMAJ { get; set; }
+
+        [StringLength(20)]
+        public string TYPEPIECE { get; set; }
+
+        public string LIEN { get; set; }
     }
 }

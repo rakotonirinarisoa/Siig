@@ -115,6 +115,14 @@
                                 </a>
                                 <ul style="list-style-type: none; display:block" class="nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                     <li class="nav-item">
+                                        <a href="../SuperAdmin/MenuCreate" class="nav-link">
+                                            <i class="nav-icon fas fa-window-maximize"></i>
+                                            <p>
+                                                Paramétrage menus
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="../SuperAdmin/ProjetList" class="nav-link">
                                             <i class="nav-icon fas fa-id-card"></i>
                                             <p>
@@ -143,6 +151,14 @@
                                             <i class="nav-icon fas fa-user-cog"></i>
                                             <p>
                                                 Mappages
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="../Parametre/MotifCreate" class="nav-link">
+                                            <i class="nav-icon fas fa-question"></i>
+                                            <p>
+                                                Motifs de rejet
                                             </p>
                                         </a>
                                     </li>
@@ -318,7 +334,7 @@
                             <a href="../Traitement/TraitementPROJET" class="nav-link">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>
-                                    Traitement des mandats (PROJET)
+                                    @Session["MT1"]
                                 </p>
                             </a>
                         </li>
@@ -326,7 +342,7 @@
                             <a href="../Traitement/TraitementORDSEC" class="nav-link">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>
-                                    Traitement des mandats (ORDESEC)
+                                    @Session["MT2"]
                                 </p>
                             </a>
                         </li>
@@ -345,7 +361,7 @@
                             <a href="../Home/PaiementValidation" class="nav-link">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>
-                                    Attente Validations
+                                    @Session["MP1"]
                                 </p>
                             </a>
                         </li>
@@ -353,7 +369,7 @@
                             <a href="../Home/TeacherValidation" class="nav-link">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>
-                                    Paiements Validations
+                                    @Session["MP2"]
                                 </p>
                             </a>
                         </li>
@@ -361,7 +377,7 @@
                             <a href="../Home/FValidation" class="nav-link">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>
-                                    Validations
+                                    @Session["MP3"]
                                 </p>
                             </a>
                         </li>

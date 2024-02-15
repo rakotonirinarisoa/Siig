@@ -1143,5 +1143,112 @@ namespace apptab.Controllers
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement des informations. " }, settings));
             }
         }
+
+        //MOTIF//
+        public ActionResult MotifCreate()
+        {
+            ViewBag.Controller = "Paramétrage Motifs de rejet";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsMotif(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_MOTIF.FirstOrDefault(a => a.DELETIONDATE == null);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez créer les nouvelles listes des motifs de rejet. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateMotif(SI_USERS suser, SI_MOTIF param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_MOTIF.FirstOrDefault(a => a.DELETIONDATE == null);
+
+                if (SExist != null)
+                {
+                    if (SExist.MOTIFTRAIT != param.MOTIFTRAIT || SExist.MOTIFPAI != param.MOTIFPAI)
+                    {
+                        SExist.MOTIFTRAIT = param.MOTIFTRAIT;
+                        SExist.MOTIFPAI = param.MOTIFPAI;
+                        db.SaveChanges();
+
+                        var H = db.HSI_MOTIF.FirstOrDefault(a => a.IDPARENT == SExist.ID && a.DELETIONDATE == null);
+                        if (H != null)
+                        {
+                            H.DELETIONDATE = DateTime.Now;
+                            db.SaveChanges();
+                        }
+
+                        var newElemH = new HSI_MOTIF()
+                        {
+                            MOTIFTRAIT = param.MOTIFTRAIT,
+                            MOTIFPAI = param.MOTIFPAI,
+                            CREATIONDATE = DateTime.Now,
+                            IDUSER = exist.ID,
+                            IDPARENT = SExist.ID
+                        };
+                        db.HSI_MOTIF.Add(newElemH);
+                        db.SaveChanges();
+                    }
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_MOTIF()
+                    {
+                        MOTIFTRAIT = param.MOTIFTRAIT,
+                        MOTIFPAI = param.MOTIFPAI,
+                        CREATIONDATE = DateTime.Now,
+                        IDUSER = exist.ID
+                    };
+
+                    db.SI_MOTIF.Add(newPara);
+                    db.SaveChanges();
+
+                    var isElemH = db.SI_MOTIF.FirstOrDefault(a => a.MOTIFTRAIT == param.MOTIFTRAIT && a.MOTIFPAI == param.MOTIFPAI && a.DELETIONDATE == null);
+                    var newElemH = new HSI_MOTIF()
+                    {
+                        MOTIFTRAIT = isElemH.MOTIFTRAIT,
+                        MOTIFPAI = isElemH.MOTIFPAI,
+                        CREATIONDATE = isElemH.CREATIONDATE,
+                        IDUSER = isElemH.IDUSER,
+                        IDPARENT = isElemH.ID
+                    };
+                    db.HSI_MOTIF.Add(newElemH);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
     }
 }
