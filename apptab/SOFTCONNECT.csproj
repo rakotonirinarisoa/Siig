@@ -284,6 +284,7 @@
     <Compile Include="Models\SI_PARAMETAT.cs" />
     <Compile Include="Models\SI_TRAITPROJET.cs" />
     <Compile Include="Models\SI_DELAISTRAITEMENT.cs" />
+    <Compile Include="Models\SI_GEDLIEN.cs" />
     <Compile Include="SOFTCONNECTOM.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
     <Compile Include="Models\TP_MPIECES_JUSTIFICATIVES.cs" />
@@ -2183,6 +2184,7 @@
     <Content Include="Assets\js\Motif.js" />
     <Content Include="Assets\js\TeacherValidations.js" />
     <Content Include="Assets\js\TraitmandatDOC.js" />
+    <Content Include="Assets\js\TraitmandatANNUL.js" />
     <Content Include="Assets\js\TraitmandatLIAS.js" />
     <Content Include="Assets\js\TraitmandatModal.js" />
     <Content Include="Assets\js\passwords.js" />

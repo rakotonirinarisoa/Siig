@@ -481,6 +481,12 @@ namespace SOFTCONNECT.Controllers
                     Session["MP4"] = isMenu.MP4;
                 }
 
+                if (db.SI_GEDLIEN.Any())
+                {
+                    var isMenu = db.SI_GEDLIEN.FirstOrDefault();
+                    Session["GED"] = isMenu.LIEN;
+                }
+
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", Data = new { test.ROLE, test.IDPROJET } }, settings));
             }
             catch (Exception ex)
