@@ -10,6 +10,7 @@ using apptab.Data.Entities;
 using System.Data.Entity;
 using Microsoft.Build.Framework.XamlTypes;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using apptab.Models;
 
 namespace apptab.Controllers
 {
@@ -70,17 +71,26 @@ namespace apptab.Controllers
                 {
                     if (SExist.CRYPTOPWD != param.CRYPTOPWD)
                     {
-                        SExist.DELETIONDATE = DateTime.Now;
+                        SExist.CRYPTOPWD = param.CRYPTOPWD;
 
-                        var newPara = new OPA_CRYPTO()
+                        db.SaveChanges();
+
+                        var H = db.HOPA_CRYPTO.FirstOrDefault(a => a.IDPARENT == SExist.ID && a.DELETIONDATE == null);
+                        if (H != null)
+                        {
+                            H.DELETIONDATE = DateTime.Now;
+                            db.SaveChanges();
+                        }
+
+                        var newElemH = new HOPA_CRYPTO()
                         {
                             CRYPTOPWD = param.CRYPTOPWD,
                             IDPROJET = IdS,
                             CREATIONDATE = DateTime.Now,
-                            IDUSER = exist.ID
+                            IDUSER = exist.ID,
+                            IDPARENT = SExist.ID
                         };
-
-                        db.OPA_CRYPTO.Add(newPara);
+                        db.HOPA_CRYPTO.Add(newElemH);
                         db.SaveChanges();
                     }
 
@@ -97,6 +107,18 @@ namespace apptab.Controllers
                     };
 
                     db.OPA_CRYPTO.Add(newPara);
+                    db.SaveChanges();
+
+                    var isElemH = db.OPA_CRYPTO.FirstOrDefault(a => a.IDPROJET == IdS && a.CRYPTOPWD == param.CRYPTOPWD && a.DELETIONDATE == null);
+                    var newElemH = new HOPA_CRYPTO()
+                    {
+                        CRYPTOPWD = isElemH.CRYPTOPWD,
+                        IDPROJET = IdS,
+                        CREATIONDATE = isElemH.CREATIONDATE,
+                        IDUSER = isElemH.IDUSER,
+                        IDPARENT = isElemH.ID
+                    };
+                    db.HOPA_CRYPTO.Add(newElemH);
                     db.SaveChanges();
 
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));

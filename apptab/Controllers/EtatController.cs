@@ -210,7 +210,7 @@ namespace apptab.Controllers
 
             SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
 
-            SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+            SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
             SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
             var ms = await tom.CPTADMIN_MLIQUIDATION.Where(a => a.IDLIQUIDATION == idLiquidation).ToListAsync();
@@ -242,7 +242,7 @@ namespace apptab.Controllers
                 int crpt = exist.IDPROJET.Value;
 
                 var db = new SOFTCONNECTSIIG();
-                var connex = new Extension().GetCon(crpt);
+                var connex = new Data.Extension().GetCon(crpt);
 
                 var list = new List<DATATRPROJET>();
 
@@ -296,7 +296,7 @@ namespace apptab.Controllers
                 int crpt = IdPROJET;
 
                 SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
-                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
@@ -354,7 +354,7 @@ namespace apptab.Controllers
                     crpt = suser.IDPROJET.Value;
 
                 SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
-                SOFTCONNECTOM.connex = new Extension().GetCon(crpt);
+                SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();

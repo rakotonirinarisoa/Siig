@@ -8,6 +8,11 @@ using System.Web.UI.WebControls;
 using System.Threading.Tasks;
 using apptab.Data.Entities;
 using System.Data.Entity;
+using apptab.Models;
+using static apptab.Models.OPA_ROLES;
+using static apptab.Models.SI_ROLES;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace SOFTCONNECT.Controllers
 {
@@ -41,30 +46,34 @@ namespace SOFTCONNECT.Controllers
             {
                 var test = db.SI_USERS.Where(x => x.ROLE == exist.ROLE && x.IDPROJET == exist.IDPROJET && x.DELETIONDATE == null).FirstOrDefault();
                 //var test = db.SI_USERS.Where(x => x.ROLE == suser.ROLE && x.IDPROJET == suser.IDPROJET).FirstOrDefault();
-                if (test.ROLE == Role.SAdministrateur)
+                if (test.ROLE == (int)Role.SAdministrateur)
                 {
-                    var users = db.SI_USERS.Select(a => new
+                    var users = db.SI_USERS.Where(x => x.ROLE != Role.SAdministrateur).Select(a => new
                     {
                         a.LOGIN,
                         a.PWD,
-                        ROLE = a.ROLE.ToString(), //db.OPA_ROLES.Where(x => x.ID == a.ROLE).FirstOrDefault().INTITULES,
+                        ROLE = a.ROLE.ToString(),
                         ID = a.ID,
-                        PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET,
-                        DELETONDATE = a.DELETIONDATE
-                    }).Where(a => a.DELETONDATE == null).ToList();
+                        PROJET = a.IDPROJET == 0 ? "MULTIPLES" : db.SI_PROJETS.Where(z => z.ID == a.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET,
+                        DELETONDATE = a.DELETIONDATE,
+                        //STAT = a.DELETIONDATE == null ? "ACTIF" : "INACTIF",
+                        CREAT = a.CREATIONDATE
+                    }).Where(a => a.PROJET != null && a.DELETONDATE == null).OrderBy(a => a.CREAT).ToList();
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
                 }
                 else
                 {
-                    var users = db.SI_USERS.Where(x => x.ROLE != Role.SAdministrateur && x.IDPROJET == exist.IDPROJET && x.DELETIONDATE == null).Select(a => new
+                    var users = db.SI_USERS.Where(x => x.ROLE != Role.SAdministrateur && x.ROLE != Role.Organe_de_Suivi && x.ROLE != Role.Agent_Comptable && x.IDPROJET == exist.IDPROJET && x.DELETIONDATE == null).Select(a => new
                     {
                         a.LOGIN,
                         a.PWD,
-                        ROLE = a.ROLE.ToString(), //db.OPA_ROLES.Where(x => x.ID == a.ROLE).FirstOrDefault().INTITULES,
+                        ROLE = a.ROLE.ToString(),
                         ID = a.ID,
                         PROJET = db.SI_PROJETS.Where(z => z.ID == exist.IDPROJET && z.DELETIONDATE == null).FirstOrDefault().PROJET,
-                        DELETONDATE = a.DELETIONDATE
-                    }).Where(a => a.DELETONDATE == null).ToList();
+                        DELETONDATE = a.DELETIONDATE,
+                        //STAT = "ACTIF",
+                        CREAT = a.CREATIONDATE
+                    }).OrderBy(a => a.CREAT).Where(a => a.DELETONDATE == null).ToList();
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
                 }
             }
@@ -106,27 +115,54 @@ namespace SOFTCONNECT.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetAllRole()
+        public ActionResult GetAllRole(SI_USERS suser)
         {
-            //var role = db.SI_ROLES.Where(a => a.INTITULES != "SAdministrateur").Select(a => new
-            //{
-            //    INTITULE = a.INTITULES,
-            //    ID = a.ID,
-            //}).ToList();
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
             var enumlist = Enum.GetValues(typeof(Role));
 
             var roles = new Dictionary<int, string>();
 
-            foreach (var item in enumlist)
+            if (exist.ROLE != Role.SAdministrateur)
             {
-                if (item.ToString() != "SAdministrateur")
-                    roles.Add((int)item, Enum.GetName(typeof(Role), item));
+                foreach (var item in enumlist)
+                {
+                    if (item.ToString() != "SAdministrateur" && item.ToString() != "Organe_de_Suivi" && item.ToString() != "Agent_Comptable")
+                        roles.Add((int)item, Enum.GetName(typeof(Role), item));
+                }
+            }
+            else
+            {
+                foreach (var item in enumlist)
+                {
+                    //roles.Add((int)item, Enum.GetName(typeof(Role), item));
+                    if (item.ToString() != "SAdministrateur")
+                        roles.Add((int)item, Enum.GetName(typeof(Role), item));
+                }
             }
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = roles }, settings));
         }
 
+        //GET ALL PROJET//
         [HttpPost]
-        public JsonResult AddUser(SI_USERS suser, SI_USERS user)
+        public ActionResult GetAllPROJET(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            var user = db.SI_PROJETS.Select(a => new
+            {
+                PROJET = a.PROJET,
+                ID = a.ID,
+                DELETIONDATE = a.DELETIONDATE,
+            }).Where(a => a.DELETIONDATE == null).ToList();
+
+            return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = user }, settings));
+        }
+
+        [HttpPost]
+        public JsonResult AddUser(SI_USERS suser, SI_USERS user, string listProjet)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
@@ -134,20 +170,80 @@ namespace SOFTCONNECT.Controllers
             try
             {
                 var userExist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == user.LOGIN && a.DELETIONDATE == null/* && a.IDPROJET == exist.IDPROJET*/);
+                var test = db.SI_USERS.Where(x => x.ROLE == exist.ROLE && x.IDPROJET == exist.IDPROJET && x.DELETIONDATE == null).FirstOrDefault();
                 if (userExist == null)
                 {
-                    var newUser = new SI_USERS()
+                    if (test.ROLE == Role.SAdministrateur)
                     {
-                        LOGIN = user.LOGIN,
-                        PWD = user.PWD,
-                        IDPROJET = exist.IDPROJET,
-                        ROLE = user.ROLE,
-                        CREATIONDATE = DateTime.Now,
-                        IDUSER = exist.ID
-                    };
-                    db.SI_USERS.Add(newUser);
+                        if (listProjet == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Veuillez sélectionner au moins un projet. " }, settings));
 
-                    db.SaveChanges();
+                        if (user.ROLE == Role.Administrateur || user.ROLE == Role.Autre)
+                        {
+                            var newUser = new SI_USERS()
+                            {
+                                LOGIN = user.LOGIN,
+                                PWD = user.PWD,
+                                IDPROJET = int.Parse(listProjet),
+                                ROLE = user.ROLE,
+                                CREATIONDATE = DateTime.Now,
+                                IDUSER = exist.ID
+                            };
+                            db.SI_USERS.Add(newUser);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            var newUser = new SI_USERS()
+                            {
+                                LOGIN = user.LOGIN,
+                                PWD = user.PWD,
+                                IDPROJET = 0,
+                                ROLE = user.ROLE,
+                                CREATIONDATE = DateTime.Now,
+                                IDUSER = exist.ID
+                            };
+                            db.SI_USERS.Add(newUser);
+                            db.SaveChanges();
+
+                            var userExistTest = db.SI_USERS.FirstOrDefault(a => a.LOGIN == user.LOGIN && a.PWD == user.PWD && a.IDPROJET == 0 && a.ROLE == user.ROLE && a.DELETIONDATE == null/* && a.IDPROJET == exist.IDPROJET*/);
+
+                            string[] separators = { "," };
+                            var pro = listProjet;
+                            if (pro != null)
+                            {
+                                string listUser = pro.ToString();
+                                string[] lst = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                                foreach (var a in lst)
+                                {
+                                    var newRel = new SI_MAPUSERPROJET()
+                                    {
+                                        IDUS = userExistTest.ID,
+                                        IDPROJET = int.Parse(a),
+                                        CREATIONDATE = DateTime.Now,
+                                        IDUSER = exist.ID
+                                    };
+                                    db.SI_MAPUSERPROJET.Add(newRel);
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var newUser = new SI_USERS()
+                        {
+                            LOGIN = user.LOGIN,
+                            PWD = user.PWD,
+                            IDPROJET = exist.IDPROJET,
+                            ROLE = user.ROLE,
+                            CREATIONDATE = DateTime.Now,
+                            IDUSER = exist.ID
+                        };
+                        db.SI_USERS.Add(newUser);
+
+                        db.SaveChanges();
+                    }
 
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = user }, settings));
                 }
@@ -163,7 +259,7 @@ namespace SOFTCONNECT.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateUser(SI_USERS suser, SI_USERS user, string oldPassword, string UserId)
+        public JsonResult UpdateUser(SI_USERS suser, SI_USERS user, string oldPassword, string UserId, string listProjet)
         {
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
@@ -172,20 +268,74 @@ namespace SOFTCONNECT.Controllers
             {
                 int userId = int.Parse(UserId);
                 var userExist = db.SI_USERS.FirstOrDefault(a => a.ID == userId && a.DELETIONDATE == null);
+                var test = db.SI_USERS.Where(x => x.ROLE == exist.ROLE && x.IDPROJET == exist.IDPROJET && x.DELETIONDATE == null).FirstOrDefault();
                 if (userExist != null)
                 {
-                    if (userExist.PWD != oldPassword)
+                    if (userExist.PWD != oldPassword) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Ancien mot de passe non valide. ", data = user }, settings));
+
+                    if (test.ROLE == Role.SAdministrateur)
                     {
-                        return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Ancien mot de passe non valide. ", data = user }, settings));
+                        if (user.ROLE == Role.Administrateur || user.ROLE == Role.Autre)
+                        {
+                            userExist.LOGIN = user.LOGIN;
+                            userExist.PWD = user.PWD;
+                            userExist.IDPROJET = int.Parse(listProjet);
+                            userExist.ROLE = user.ROLE;
+                            userExist.IDUSER = exist.ID;
+
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            userExist.LOGIN = user.LOGIN;
+                            userExist.PWD = user.PWD;
+                            userExist.IDPROJET = 0;
+                            userExist.ROLE = user.ROLE;
+                            userExist.IDUSER = exist.ID;
+
+                            db.SaveChanges();
+
+                            if (db.SI_MAPUSERPROJET.Any(a => a.IDUS == userId))
+                            {
+                                foreach (var x in db.SI_MAPUSERPROJET.Where(a => a.IDUS == userId).ToList())
+                                {
+                                    db.SI_MAPUSERPROJET.Remove(x);
+                                    db.SaveChanges();
+                                }
+                            }
+
+                            string[] separators = { "," };
+                            var pro = listProjet;
+                            if (pro != null)
+                            {
+                                string listUser = pro.ToString();
+                                string[] lst = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                                foreach (var a in lst)
+                                {
+                                    var newRel = new SI_MAPUSERPROJET()
+                                    {
+                                        IDUS = userId,
+                                        IDPROJET = int.Parse(a),
+                                        CREATIONDATE = DateTime.Now,
+                                        IDUSER = exist.ID
+                                    };
+                                    db.SI_MAPUSERPROJET.Add(newRel);
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
                     }
+                    else
+                    {
+                        userExist.LOGIN = user.LOGIN;
+                        userExist.PWD = user.PWD;
+                        userExist.IDPROJET = exist.IDPROJET;
+                        userExist.ROLE = user.ROLE;
+                        userExist.IDUSER = exist.ID;
 
-                    userExist.LOGIN = user.LOGIN;
-                    userExist.PWD = user.PWD;
-                    userExist.IDPROJET = exist.IDPROJET;
-                    userExist.ROLE = user.ROLE;
-                    userExist.IDUSER = exist.ID;
-
-                    db.SaveChanges();
+                        db.SaveChanges();
+                    }
 
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = user }, settings));
                 }
@@ -274,9 +424,21 @@ namespace SOFTCONNECT.Controllers
                 int useID = int.Parse(UserId);
                 var user = db.SI_USERS.FirstOrDefault(a => a.ID == useID && a.DELETIONDATE == null);
 
+                var proj = new List<int>();
+                if (user.IDPROJET == 0)
+                {
+                    if (db.SI_MAPUSERPROJET.Any(a => a.IDUS == useID))
+                    {
+                        foreach (var x in db.SI_MAPUSERPROJET.Where(a => a.IDUS == useID).ToList())
+                        {
+                            proj.Add(x.IDPROJET.Value);
+                        }
+                    }
+                }
+
                 if (user != null)
                 {
-                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = user }, settings));
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = new { LOGIN = user.LOGIN, ROLE = user.ROLE, PROJET = proj } }, settings));
                 }
                 else
                 {
@@ -302,10 +464,22 @@ namespace SOFTCONNECT.Controllers
                 var test = db.SI_USERS.FirstOrDefault(x => x.LOGIN == Users.LOGIN && x.PWD == Users.PWD && x.DELETIONDATE == null);
                 if (test == null) return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vérifiez vos identifiants. " }, settings));
 
-                if (String.IsNullOrEmpty(test.IDPROJET.ToString()) || !db.SI_PROJETS.Any(a => a.ID == test.IDPROJET && a.DELETIONDATE == null))
-                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas rattaché à un projet actif. " }, settings));
-
+                if (test.ROLE != Role.SAdministrateur && test.ROLE != Role.Organe_de_Suivi && test.ROLE != Role.Agent_Comptable)
+                    if (String.IsNullOrEmpty(test.IDPROJET.ToString()) || !db.SI_PROJETS.Any(a => a.ID == test.IDPROJET && a.DELETIONDATE == null))
+                        return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas rattaché à un projet actif. " }, settings));
                 Session["userSession"] = test;
+
+
+                if (db.SI_MENU.Any())
+                {
+                    var isMenu = db.SI_MENU.FirstOrDefault();
+                    Session["MT1"] = isMenu.MT1;
+                    Session["MT2"] = isMenu.MT2;
+                    Session["MP1"] = isMenu.MP1;
+                    Session["MP2"] = isMenu.MP2;
+                    Session["MP3"] = isMenu.MP3;
+                    Session["MP4"] = isMenu.MP4;
+                }
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", Data = new { test.ROLE, test.IDPROJET } }, settings));
             }
@@ -348,7 +522,7 @@ namespace SOFTCONNECT.Controllers
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDPROJET == suser.IDPROJET*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
-            return Json(JsonConvert.SerializeObject(new { type = "login", msg = "", data = exist.ROLE != Role.SAdministrateur }, settings));
+            return Json(JsonConvert.SerializeObject(new { type = "login", msg = "", data = exist.ROLE != (int)Role.SAdministrateur }, settings));
         }
     }
 }

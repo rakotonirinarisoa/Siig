@@ -1,8 +1,10 @@
-﻿namespace apptab
+﻿namespace apptab.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
     public partial class SI_USERS
     {
@@ -14,16 +16,17 @@
         [StringLength(50)]
         public string PWD { get; set; }
 
-        //public int? ROLE { get; set; }
+        public Role ROLE { get; set; }
 
         public int? IDPROJET { get; set; }
 
-        public Role ROLE { get; set; }
-
         [Column(TypeName = "smalldatetime")]
         public DateTime? DELETIONDATE { get; set; }
+
         public int? IDUSER { get; set; }
+
         [Column(TypeName = "smalldatetime")]
         public DateTime? CREATIONDATE { get; set; }
+
     }
 }

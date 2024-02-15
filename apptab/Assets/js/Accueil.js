@@ -25,26 +25,27 @@ $(document).ready(() => {
 
     $(`[data-id="username"]`).text(User.LOGIN);
 
-    $(`[tab="autre"]`).hide();
+    //$(`[tab="autre"]`).hide();
 
     /*console.log($(`[tab="autre"]`).hide());*/
     
     GetUR();
-    //GetListCodeJournal();
+    GetListCodeJournal("2");
     //GetListCompG();
 });
 
-function GetListCompG() {
+function GetListCompG(id) {
     let formData = new FormData();
 
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDSOCIETE", User.IDSOCIETE);
+    formData.append("baseName", id);
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Home/GetCompteG',
+        url: Origin + '/Home/GetCompteG',
         data: formData,
         cache: false,
         contentType: false,
@@ -72,7 +73,7 @@ function GetListCompG() {
                     <option value="${v.COGE}">${v.COGE}</option>
                 `;
             });
-
+            $(`[compG-list]`).html('');
             $(`[compG-list]`).append(code);
 
             FillAUXI();
@@ -87,13 +88,14 @@ function GetListCompG() {
 function FillAUXI() {
     var list = ListCompteG.filter(x => x.COGE == $(`[compG-list]`).val()).pop();
     console.log(list);
-    let code = "";
+    let code = `<option value="Tous"> Tous</option> `;
     $.each(list.AUXI, function (k, v) {
         code += `
                     <option value="${v}">${v}</option>
                 `;
     });
 
+    $(`[auxi-list]`).html('');
     $(`[auxi-list]`).html(code);
 }
 function GetEtat() {
@@ -105,7 +107,7 @@ function GetEtat() {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Home/GetEtat',
+        url: Origin + '/Home/GetEtat',
         data: formData,
         cache: false,
         contentType: false,
@@ -119,13 +121,13 @@ function GetEtat() {
             if (Datas.type == "login") {
                 return;
             }
-
+            etaCode = `<option value = "Tous" > Tous</option> `;
             $.each(listEtat, function (k, v) {
                 etaCode += `
                     <option value="${v}">${v}</option>
                 `;
             });
-
+            $(`[ETAT-list]`).html('');
             $(`[ETAT-list]`).append(etaCode);
 
         },
@@ -148,18 +150,17 @@ $(document).on("change", "[auxi-list]", () => {
     FillCompteName();
 });
 
-function GetListCodeJournal() {
+function GetListCodeJournal(id) {
     let formData = new FormData();
-
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
-    formData.append("suser.IDSOCIETE", User.IDSOCIETE);
-    formData.append("baseName", baseName);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+    formData.append("baseName", id);
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Home/GetCODEJournal',
+        url: Origin + '/Home/GetCODEJournal',
         data: formData,
         cache: false,
         contentType: false,
@@ -195,7 +196,7 @@ function GetListCodeJournal() {
             alert("Problème de connexion. ");
         }
     }).done(function (res) {
-        GetListCompG();
+        GetListCompG(id);
     });
 }
 $(document).on("change", "[codej-list]", () => {
@@ -225,40 +226,6 @@ $(document).on("click", "[data-target]", function () {
 });
 $(`[data-action="CreateTxt"]`).click(function () {
     getelementTXT(0);
-    //let formData = new FormData();
-
-    //formData.append("suser.LOGIN", User.LOGIN);
-    //formData.append("suser.PWD", User.PWD);
-    //formData.append("suser.ROLE", User.ROLE);
-    //formData.append("suser.IDSOCIETE", User.IDSOCIETE);
-
-    //$.ajax({
-    //    type: "POST",
-    //    url: urlOrigin + '/Home/CreateZipFile',
-    //    data: formData,
-    //    cache: false,
-    //    contentType: false,
-    //    processData: false,
-    //    success: function (result) {
-    //        var Datas = JSON.parse(result);
-    //        console.log(Datas);
-
-    //        if (Datas.type == "error") {
-    //            alert(Datas.msg);
-    //            return;
-    //        }
-    //        if (Datas.type == "login") {
-    //            alert(Datas.msg);
-    //            window.location = window.location.origin;
-    //            return;
-    //        }
-
-    //        /*$("#MDPA").val(Datas.data.CRYPTPWD);*/
-    //    },
-    //    error: function () {
-    //        alert("Problème de connexion. ");
-    //    }
-    //});
 })
 $(`[data-action="CreateTxtCrypter"]`).click(function () {
     getelementTXT(1);
@@ -269,7 +236,19 @@ $(`[data-action="CreateTxtSend"]`).click(function () {
 $(`[data-action="CreateTxtFTPCrypter"]`).click(function () {
     getelementTXT(3);
 })
+$('.Checkall').change(function () {
 
+    if ($('.Checkall').prop("checked") == true) {
+
+        $('[compteg-ischecked]').prop("checked", true);
+    } else {
+        $('[compteg-ischecked]').prop("checked", false);
+    }
+
+});
+function checkdel(id) {
+    $('.Checkall').prop("checked", false);
+}
 
 $('[data-action="ChargerJs"]').click(function () {
     let formData = new FormData();
@@ -279,66 +258,7 @@ $('[data-action="ChargerJs"]').click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDSOCIETE", User.IDSOCIETE);
     formData.append("ChoixBase", baseName);
-    if (baseName == 1) {
-        //Paie
-        formData.append("mois", $('#Pmois').val());
-        formData.append("journal", $('#commercial').val());
-        formData.append("annee", $('#Pannee').val());
-        formData.append("matr1", $('#Pmat1').val());
-        formData.append("matr2", $('#Pmat2').val());
-        formData.append("datePaie", $('#dpaie').val());
-        $.ajax({
-            type: "POST",
-            url: urlOrigin + '/Home/getelementjsPaie',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                var Datas = JSON.parse(result);
-                console.log(Datas);
-
-                if (Datas.type == "error") {
-                    alert(Datas.msg);
-                    return;
-                }
-                if (Datas.type == "success") {
-                    //window.location = window.location.origin;
-                    ListResult = Datas.data
-                    contentpaie = ``;
-                    $.each(ListResult, function (k, v) {
-                        contentpaie += `
-                    <tr compteG-id="${v.No}">
-                        <td>
-                            <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                        </td><td>${v.No}</td>
-                        <td>${v.Matricule}</td>
-                        <td>${v.Nom}</td>
-                        <td>${v.Mois}</td>
-                        <td>${v.Annee}</td>
-                        <td>${v.Libelle}</td>
-                        <td>${v.Montant}</td>
-                        <td>${v.Cin}</td>
-                        <td>${v.Banque}</td>
-                        <td>${v.CodeBanque}</td>
-                        <td>${v.Guichet}</td>
-                        <td>${v.CompteBanque}</td>
-                        <td>${v.CleRIB}</td>
-                    </tr>`
-
-                    });
-                    $('.afb160Paie').empty();
-                    $('.afb160Paie').html(contentpaie);
-                }
-
-
-            },
-            error: function () {
-                alert("Problème de connexion. ");
-            }
-        });
-
-    } else if (baseName == 2) {
+    if (baseName == 2) {
         //compta
         formData.append("datein", $('#Pdu').val());
         formData.append("dateout", $('#Pau').val());
@@ -347,12 +267,16 @@ $('[data-action="ChargerJs"]').click(function () {
         formData.append("auxi", $('#auxi').val());
         formData.append("auxi1", $('#auxi').val());
         formData.append("dateP", $('#Pay').val());
-
-        //alert(formData);
-
+        
+        if ($('#ChkDevise').prop("checked") == true) {
+            formData.append("devise", true);
+        } else {
+            formData.append("devise", false);
+        }
+        
         $.ajax({
             type: "POST",
-            url: urlOrigin + '/Home/getelementjs',
+            url: Origin + '/Home/getelementjs',
             data: formData,
             cache: false,
             contentType: false,
@@ -372,7 +296,7 @@ $('[data-action="ChargerJs"]').click(function () {
                         content += `
                     <tr compteG-id="${v.No}">
                         <td>
-                            <input type="checkbox" name = "checkprod" compteg-ischecked/>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked onchange = "checkdel()"/>
                         </td><td>${v.No}</td>
                         <td>${v.DateOrdre}</td>
                         <td>${v.NoPiece}</td>
@@ -412,12 +336,16 @@ $('[data-action="ChargerJs"]').click(function () {
         formData.append("auxi1", $('#auxi').val());
         formData.append("dateP", $('#Pay').val());
         formData.append("etat", $('#etat').val());
-        formData.append("devise", false);
+        if ($('#ChkDevise').prop("checked") == true) {
+            formData.append("devise", true);
+        } else {
+            formData.append("devise", false);
+        }
 
 
         $.ajax({
             type: "POST",
-            url: urlOrigin + '/Home/getelementjsBR',
+            url: Origin + '/Home/getelementjsBR',
             data: formData,
             cache: false,
             contentType: false,
@@ -438,7 +366,7 @@ $('[data-action="ChargerJs"]').click(function () {
                         content += `
                     <tr compteG-id="${v.No}">
                         <td>
-                            <input type="checkbox" name = "checkprod" compteg-ischecked/>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked onchange = "checkdel()"/>
                         </td><td>${v.No}</td>
                         <td>${v.Date}</td>
                         <td>${v.NoPiece}</td>
@@ -487,113 +415,36 @@ $('[data-action="GetElementChecked"]').click(function () {
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
-    formData.append("suser.IDSOCIETE", User.IDSOCIETE);
+    formData.append("suser.IDPROJET", User.IDPROJET);
     formData.append("listCompte", list);
     formData.append("baseName", baseName);
     formData.append("journal", $('#commercial').val());
-    formData.append("etat", $('#etat').val());
     formData.append("devise", false);
-
     let listid = list.splice(',');
-    alert(listid);
-    if (baseName == "1") {
-        formData.append("mois", $('#Pmois').val());
-        formData.append("journal", $('#commercial').val());
-        formData.append("annee", $('#Pannee').val());
-        formData.append("matriculeD", $('#Pmat1').val());
-        formData.append("matriculeF", $('#Pmat2').val());
-        formData.append("dateP", $('#dpaie').val());
-        formData.append("baseName", baseName);
-        $.ajax({
-            type: "POST",
-            url: urlOrigin + '/Home/GetCheckedComptePaie',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                var Datas = JSON.parse(result);
-                reglementresult = Datas.data;
-                console.log(reglementresult);
-                //alert(baseName);
-                validate = "",
-                    content = ``,
-                    $.each(listid, function (k, x) {
-                        $.each(reglementresult, function (k, v) {
-                            if (v.No == x) {
-                                validate += `
-                            <tr compteG-id="${v.No}">
-                                <td>${v.No}</td>
-                                <td>${v.Matricule}</td>
-                                <td>${v.Nom}</td>
-                                <td>${v.Mois}</td>
-                                <td>${v.Annee}</td>
-                                <td>${v.Libelle}</td>
-                                <td>${v.Montant}</td>
-                                <td>${v.Cin}</td>
-                                <td>${v.Banque}</td>
-                                <td>${v.CodeBanque}</td>
-                                <td>${v.Guichet}</td>
-                                <td>${v.CompteBanque}</td>
-                                <td>${v.CleRIB}</td>
-                            </tr>`
-                            } else {
-                                content += `
-                            <tr compteG-id="${v.No}"><td>
-                                    <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                               </td>
-                                <td>${v.No}</td>
-                                <td>${v.Matricule}</td>
-                                <td>${v.Nom}</td>
-                                <td>${v.Mois}</td>
-                                <td>${v.Annee}</td>
-                                <td>${v.Libelle}</td>
-                                <td>${v.Montant}</td>
-                                <td>${v.Cin}</td>
-                                <td>${v.Banque}</td>
-                                <td>${v.CodeBanque}</td>
-                                <td>${v.Guichet}</td>
-                                <td>${v.CompteBanque}</td>
-                                <td>${v.CleRIB}</td>
-                            </tr>`
-                            }
-                        });
-                        $('.afb160Paie').empty();
-                        $('.afb160Paie').html(content);
-                        $('.afbpaie').html(validate);
-                    });
-            },
-            error: function () {
-                alert("Problème de connexion. ");
-            }
-        });
-    } else {
-        formData.append("datein", $('#Pdu').val());
-        formData.append("dateout", $('#Pau').val());
-        formData.append("comptaG", $('#comptaG').val());
-        formData.append("auxi", $('#auxi').val());
-        formData.append("auxi1", $('#auxi').val());
-        formData.append("dateP", $('#Pay').val());
-        formData.append("etat", $('#etat').val());
-
-
-        $.ajax({
-            type: "POST",
-            url: urlOrigin + '/Home/GetCheckedCompte',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                var Datas = JSON.parse(result);
-                reglementresult = ``;
-                reglementresult = Datas.data;
-                console.log(reglementresult);
-                $.each(listid, function (k, x) {
-                    $.each(reglementresult, function (k, v) {
-                        if (v != null) {
-                            if (v.No == x) {
-                                validate += `
+    formData.append("datein", $('#Pdu').val());
+    formData.append("dateout", $('#Pau').val());
+    formData.append("comptaG", $('#comptaG').val());
+    formData.append("auxi", $('#auxi').val());
+    formData.append("auxi1", $('#auxi').val());
+    formData.append("dateP", $('#Pay').val());
+    formData.append("etat", $('#etat').val());
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Home/GetCheckedCompte',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            reglementresult = ``;
+            reglementresult = Datas.data;
+            console.log(reglementresult);
+            $.each(listid, function (k, x) {
+                $.each(reglementresult, function (k, v) {
+                    if (v != null) {
+                        if (v.No == x) {
+                            validate += `
                                     <tr compteG-id="${v.No}">
                                     </td ><td>${v.No}</td>
                                     <td>${v.Date}</td>
@@ -613,8 +464,8 @@ $('[data-action="GetElementChecked"]').click(function () {
                                     <td>${v.Status}</td>
                                 </tr>`;
 
-                            } else {
-                                content += `
+                        } else {
+                            content += `
                             <tr compteG-id="${v.No}"><td>
                                     <input type="checkbox" name = "checkprod" compteg-ischecked/>
                                </td><td>${v.No}</td>
@@ -634,186 +485,19 @@ $('[data-action="GetElementChecked"]').click(function () {
                                 <td>${v.Marche}</td>
                                 <td>${v.Status}</td>
                             </tr>`
-                            }
                         }
-                    });
-                    $('.afb160').empty();
-                    $('.afb160').html(content);
-                    $('#afb').html(validate);
+                    }
                 });
-            },
-            error: function () {
-                alert("Problème de connexion. ");
-            }
-        });
-    }
-    //$.ajax({
-    //    type: "POST",
-    //    url: urlOrigin + '/Home/GetCheckedCompte',
-    //    data: formData,
-    //    cache: false,
-    //    contentType: false,
-    //    processData: false,
-    //    success: function (result) {
-    //        var Datas = JSON.parse(result);
-    //        reglementresult = Datas.data;
-    //        console.log(reglementresult);
-    //        //ListResult
-    //        if (baseName == "1") {
-    //            //alert(baseName);
-    //            $.each(listid, function (k, x) {
-    //                $.each(reglementresult, function (k, v) {
-    //                    if (v.No == x) {
-    //                        validate += `
-    //                <tr compteG-id="${v.No}">
-    //                    <td>${v.No}</td>
-    //                    <td>${v.Matricule}</td>
-    //                    <td>${v.Nom}</td>
-    //                    <td>${v.Mois}</td>
-    //                    <td>${v.Annee}</td>
-    //                    <td>${v.Libelle}</td>
-    //                    <td>${v.Montant}</td>
-    //                    <td>${v.Cin}</td>
-    //                    <td>${v.Banque}</td>
-    //                    <td>${v.CodeBanque}</td>
-    //                    <td>${v.Guichet}</td>
-    //                    <td>${v.CompteBanque}</td>
-    //                    <td>${v.CleRIB}</td>
-    //                </tr>`
-    //                    } else {
-    //                        content += `
-    //                <tr compteG-id="${v.No}">
-    //                    <td>${v.No}</td>
-    //                    <td>${v.Matricule}</td>
-    //                    <td>${v.Nom}</td>
-    //                    <td>${v.Mois}</td>
-    //                    <td>${v.Annee}</td>
-    //                    <td>${v.Libelle}</td>
-    //                    <td>${v.Montant}</td>
-    //                    <td>${v.Cin}</td>
-    //                    <td>${v.Banque}</td>
-    //                    <td>${v.CodeBanque}</td>
-    //                    <td>${v.Guichet}</td>
-    //                    <td>${v.CompteBanque}</td>
-    //                    <td>${v.CleRIB}</td>
-    //                </tr>`
-    //                    }
-    //                });
-    //                $('.afb160Paie').empty();
-    //                $('.afb160Paie').html(content);
-    //                $('#afbpaie').html(validate);
-    //            });
-    //        } else if (baseName == "3") {
-    //            $.each(listid, function (k, x) {
-    //                $.each(reglementresult, function (k, v) {
-    //                    if (v != null) {
-    //                        if (v.No == x) {
-    //                            validate += `
-    //                                <tr compteG-id="${v.No}">
-    //                                </td ><td>${v.No}</td>
-    //                                <td>${v.Date}</td>
-    //                                <td>${v.NoPiece}</td>
-    //                                <td>${v.Compte}</td>
-    //                                <td>${v.Libelle}</td>
-    //                                <td>${v.Montant}</td>
-    //                                <td>${v.MontantDevise}</td>
-    //                                <td>${v.Mon}</td>
-    //                                <td>${v.Rang}</td>
-    //                                <td>${v.Poste}</td>
-    //                                <td>${v.FinancementCategorie}</td>
-    //                                <td>${v.Commune}</td>
-    //                                <td>${v.Plan6}</td>
-    //                                <td>${v.Journal}</td>
-    //                                <td>${v.Marche}</td>
-    //                                <td>${v.Status}</td>
-    //                            </tr>`;
-
-    //                            } else {
-    //                                content += `
-    //                        <tr compteG-id="${v.No}"><td>
-    //                                <input type="checkbox" name = "checkprod" compteg-ischecked/>
-    //                           </td><td>${v.No}</td>
-    //                            <td>${v.Date}</td>
-    //                            <td>${v.NoPiece}</td>
-    //                            <td>${v.Compte}</td>
-    //                            <td>${v.Libelle}</td>
-    //                            <td>${v.Montant}</td>
-    //                            <td>${v.MontantDevise}</td>
-    //                            <td>${v.Mon}</td>
-    //                            <td>${v.Rang}</td>
-    //                            <td>${v.Poste}</td>
-    //                            <td>${v.FinancementCategorie}</td>
-    //                            <td>${v.Commune}</td>
-    //                            <td>${v.Plan6}</td>
-    //                            <td>${v.Journal}</td>
-    //                            <td>${v.Marche}</td>
-    //                            <td>${v.Status}</td>
-    //                        </tr>`
-    //                        }
-    //                    }
-    //                });
-    //                $('.afb160').empty();
-    //                $('.afb160').html(content);
-    //                $('#afb').html(validate);
-    //            });
-    //        } else {
-    //            //Compta
-    //            $.each(listid, function (k, x) {
-    //                $.each(ListResult, function (k, v) {
-    //                    if (v.No == x) {
-    //                        validate += `
-    //                <tr compteG-id="${v.No}">
-    //                    <td>
-    //                        <input type="checkbox" name = "ProduitCheck" compteg-select/>
-    //                    </td><td>${v.No}</td>
-    //                    <td>${v.DateOrdre}</td>
-    //                    <td>${v.NoPiece}</td>
-    //                    <td>${v.Compte}</td>
-    //                    <td>${v.Libelle}</td>
-    //                    <td>${v.Debit}</td>
-    //                    <td>${v.Credit}</td>
-    //                    <td>${v.MontantDevise}</td>
-    //                    <td>${v.Mon}</td>
-    //                    <td>${v.Rang}</td>
-    //                    <td>${v.FinancementCategorie}</td>
-    //                    <td>${v.Commune}</td>
-    //                    <td>${v.Plan6}</td>
-    //                    <td>${v.Journal}</td>
-    //                    <td>${v.Marche}</td>
-    //                </tr>`
-    //                    } else {
-    //                        content += `
-    //                <tr compteG-id="${v.No}">
-    //                    <td>
-    //                        <input type="checkbox" name = "checkprod" compteg-ischecked/>
-    //                    </td><td>${v.No}</td>
-    //                    <td>${v.DateOrdre}</td>
-    //                    <td>${v.NoPiece}</td>
-    //                    <td>${v.Compte}</td>
-    //                    <td>${v.Libelle}</td>
-    //                    <td>${v.Debit}</td>
-    //                    <td>${v.Credit}</td>
-    //                    <td>${v.MontantDevise}</td>
-    //                    <td>${v.Mon}</td>
-    //                    <td>${v.Rang}</td>
-    //                    <td>${v.FinancementCategorie}</td>
-    //                    <td>${v.Commune}</td>
-    //                    <td>${v.Plan6}</td>
-    //                    <td>${v.Journal}</td>
-    //                    <td>${v.Marche}</td>
-    //                </tr>`
-    //                    }
-    //                });
-    //                $('.afb160').empty();
-    //                $('.afb160').html(content);
-    //                $('#afb').html(validate);
-    //            });
-    //        }
-    //    },
-    //    error: function () {
-    //        alert("Problème de connexion. ");
-    //    }
-    //});
+                $('.afb160').empty();
+                $('.afb160').html(content);
+                //$('#afb').html(validate);
+            });
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+  
 });
 
 $('[data-action="GetAnomalieListes"]').click(function () {
@@ -827,7 +511,7 @@ $('[data-action="GetAnomalieListes"]').click(function () {
 
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Home/GetAnomalieBack',
+        url: Origin + '/Home/GetAnomalieBack',
         data: formData,
         cache: false,
         contentType: false,
@@ -957,7 +641,7 @@ function getelementTXT(a) {
     formData.append("intbasetype", a);
     $.ajax({
         type: "POST",
-        url: urlOrigin + '/Home/CreateZipFile',
+        url: Origin + '/Home/CreateZipFile',
         data: formData,
         cache: false,
         contentType: false,
@@ -977,24 +661,21 @@ function getelementTXT(a) {
         }
     });
 }
-$(`[tab="autre"]`).hide();
-var baseName = "1";
+//$(`[tab="autre"]`).hide();
+var baseName = "2";
 $(`[name="options"]`).on("change", (k, v) => {
-
+    
     var baseId = $(k.target).attr("data-id");
-    baseName = baseId;
-    if (baseId == "1") {
-        $(`[tab="paie"]`).show();
-        $(`[tab="autre"]`).hide();
-        //GetListCodeJournal();
+    if (baseId == 0) {
+        baseName = "2"
     } else {
-        $(`[tab="autre"]`).show();
-        $(`[tab="paie"]`).hide();
-        $('.afb160').empty();
-        $('#afb').empty();
-        //GetListCodeJournal();
+        baseName = baseId;
     }
-
+    alert(baseName)
+    $(`[tab="autre"]`).show();
+    $('.afb160').empty();
+    $('#afb').empty();
+    GetListCodeJournal(baseName);
 });
 
 let urlOrigin = Origin;

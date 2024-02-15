@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using apptab.Data.Entities;
 using System.Data.Entity;
 using System;
+using apptab.Models;
 
 namespace apptab.Controllers
 {
