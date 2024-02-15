@@ -1,6 +1,7 @@
 ﻿let User;
 let Origin;
 let compteur = 1;
+let table;
 
 $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
@@ -175,7 +176,6 @@ $('[data-action="GenereR"]').click(async function () {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -228,13 +228,25 @@ $('[data-action="GenereR"]').click(async function () {
                 //$('#TBD_PROJET').DataTable().clear();
                 //$('#TBD_PROJET').DataTable().destroy();
 
+                //new DataTable(`#TBD_PROJET`, {
+                //    dom: 'Bfrtip',
+                //    buttons: ['colvis'],
+                //    colReorder: true,
+                //    responsive: true,
+                //    retrieve: true,
+                //    paging: true
+                //});
+
                 new DataTable(`#TBD_PROJET`, {
-                    dom: 'Bfrtip',
-                    buttons: ['colvis'],
-                    colReorder: true,
+                    //dom: 'Bfrtip',
+                    //buttons: ['colvis'],
+                    //colReorder: false,
+                    
                     responsive: true,
                     retrieve: true,
-                    paging: true
+                    paging: true,
+                    search: true
+                    //destroy:true
                 });
             }
         },
@@ -316,10 +328,11 @@ function GetListLOAD() {
                     //dom: 'Bfrtip',
                     //buttons: ['colvis'],
                     //colReorder: false,
+
                     responsive: true,
                     retrieve: true,
                     paging: true,
-                    search : true
+                    search: true
                     //destroy:true
                 });
             }
@@ -408,6 +421,7 @@ $('[data-action="GenereSIIG"]').click(function () {
                     //dom: 'Bfrtip',
                     //buttons: ['colvis'],
                     //colReorder: false,
+
                     responsive: true,
                     retrieve: true,
                     paging: true,
