@@ -103,7 +103,7 @@
                         </li>
                     </ul>
 
-                    @if ((Session["userSession"] as apptab.Models.SI_USERS).ROLE == (int)apptab.Models.Role.SAdministrateur)
+                    @if ((Session["userSession"] as apptab.SI_USERS).ROLE == (int)apptab.Role.SAdministrateur)
                     {
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block" id="menu-accordeon">
                             <li class="nav-item SuperAd" data-io>
@@ -250,7 +250,7 @@
                         </ul>
                     }
 
-                    @if ((Session["userSession"] as apptab.Models.SI_USERS).ROLE == (int)apptab.Models.Role.SAdministrateur)
+                    @if ((Session["userSession"] as apptab.SI_USERS).ROLE == (int)apptab.Role.SAdministrateur)
                     {
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block">
 

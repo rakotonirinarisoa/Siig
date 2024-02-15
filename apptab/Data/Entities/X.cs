@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using apptab.Models;
+using apptab;
 
 namespace apptab.Data.Entities
 {
