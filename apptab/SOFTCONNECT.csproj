@@ -192,6 +192,11 @@
     <Compile Include="Data\Entities\ProjectDetails.cs" />
     <Compile Include="Data\Entities\X.cs" />
     <Compile Include="Data\Cipher.cs" />
+    <Compile Include="Extension\AFB.cs" />
+    <Compile Include="Extension\AFB160.cs" />
+    <Compile Include="Extension\DataListTomOP.cs" />
+    <Compile Include="Extension\DataListTompaie.cs" />
+    <Compile Include="Extension\DataListTompro.cs" />
     <Compile Include="Models\CPTADMIN_CHAINETRAITEMENT.cs" />
     <Compile Include="Models\CPTADMIN_COMMENTAIRE.cs" />
     <Compile Include="Models\CPTADMIN_FLIQUIDATION.cs" />
@@ -2434,7 +2439,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Extension\" />
     <Folder Include="Views\GetFileF\" />
   </ItemGroup>
   <ItemGroup>
