@@ -271,7 +271,7 @@ namespace apptab.Controllers
                             DATEDEF = x.DATEDEF.Value.Date,
                             DATETEF = x.DATETEF.Value.Date,
                             DATEBE = x.DATEBE.Value.Date,
-                            LIEN = db.SI_USERS.FirstOrDefault(a => a.ID == x.IDUSER).LOGIN,
+                            LIEN = db.SI_USERS.FirstOrDefault(a => a.ID == x.IDUSERCREATE).LOGIN,
                             DATECREATION = x.DATECRE.Value.Date,
                         });
                     }
@@ -327,7 +327,7 @@ namespace apptab.Controllers
                             DATEDEF = x.DATEDEF.Value.Date,
                             DATETEF = x.DATETEF.Value.Date,
                             DATEBE = x.DATEBE.Value.Date,
-                            LIEN = db.SI_USERS.FirstOrDefault(a => a.ID == x.IDUSER).LOGIN,
+                            LIEN = db.SI_USERS.FirstOrDefault(a => a.ID == x.IDUSERCREATE).LOGIN,
                             DATECREATION = x.DATECRE.Value.Date,
                         });
                     }
@@ -413,7 +413,7 @@ namespace apptab.Controllers
                                 DATEBE = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == FF.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE).DATECA,
                                 DATECRE = DateTime.Now,
                                 ETAT = 0,
-                                IDUSER = exist.ID
+                                IDUSERCREATE = exist.ID
                             };
 
                             db.SI_TRAITPROJET.Add(newT);
@@ -462,6 +462,7 @@ namespace apptab.Controllers
                         isModified.ETAT = 1;
                         isModified.DATEVALIDATION = DateTime.Now;
                         isModified.DATEANNUL = null;
+                        isModified.IDUSERVALIDATE = exist.ID;
                         db.SaveChanges();
 
                         return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitement avec succès. ", data = "" }, settings));

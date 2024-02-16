@@ -61,7 +61,7 @@
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="~/Assets/img/df.gif" alt="AdminLTELogo" @*style="width:5% !important"*@>
+            <img class="animation__shake" src="~/Assets/img/df.gif" alt="AdminLTELogo" style="width:5% !important; height:10% !important">
         </div>
 
         <!-- Navbar -->
@@ -77,7 +77,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link d-flex" style="align-items: center;" data-toggle="dropdown" href="#">
-                        <i class="far fa-user-circle"></i><div data-id="username" style="padding-left:5px;"></div>
+                        <i class="far fa-user-circle fa-2x">@*@Session["UserName"]*@</i><div data-id="username" style="padding-left:5px;"></div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
@@ -419,14 +419,14 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a href="../Etat/EtatMandatP" class="nav-link">
                                 <i class="nav-icon fas fa-file-archive"></i>
                                 <p>
                                     Mandats
                                 </p>
                             </a>
-                        </li>
+                        </li>*@
                     </ul>
 
                     <hr />

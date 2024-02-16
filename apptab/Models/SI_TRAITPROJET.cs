@@ -1,4 +1,4 @@
-namespace apptab
+﻿namespace apptab
 {
     using System;
     using System.Collections.Generic;
@@ -52,6 +52,7 @@ namespace apptab
 
         public int? IDPROJET { get; set; }
 
-        public int? IDUSER { get; set; }
+        public int? IDUSERCREATE { get; set; }
+        public int? IDUSERVALIDATE { get; set; }
     }
 }
