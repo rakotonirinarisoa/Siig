@@ -58,7 +58,7 @@ namespace SOFTCONNECT.Controllers
                         DELETONDATE = a.DELETIONDATE,
                         //STAT = a.DELETIONDATE == null ? "ACTIF" : "INACTIF",
                         CREAT = a.CREATIONDATE
-                    }).Where(a => a.PROJET != null && a.DELETONDATE == null).OrderBy(a => a.CREAT).ToList();
+                    }).Where(a => a.PROJET != null && a.DELETONDATE == null).OrderBy(a => a.PROJET).OrderBy(a => a.CREAT).ToList();
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
                 }
                 else
