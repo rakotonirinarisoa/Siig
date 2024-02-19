@@ -1,17 +1,10 @@
-﻿using apptab;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using System.Text.RegularExpressions;
-using System.Security.Cryptography;
-using Newtonsoft.Json.Schema;
-using apptab.Data;
 
 namespace apptab.Controllers
 {
@@ -25,77 +18,6 @@ namespace apptab.Controllers
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
-        //PROJETS LISTE//
-        public ActionResult ProjetList()
-        {
-            ViewBag.Controller = "Liste des PROJETS";
-
-            return View();
-        }
-
-        public async Task<JsonResult> FillTable(SI_USERS suser)
-        {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
-            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
-
-            try
-            {
-                var societe = await db.SI_PROJETS.Where(x => x.DELETIONDATE == null).ToListAsync();
-
-                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = societe }, settings));
-            }
-            catch (Exception e)
-            {
-                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
-            }
-        }
-
-        //PROJETS CREATE//
-        public ActionResult SuperAdmin()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> AddSociete(SI_USERS suser, SI_PROJETS societe, SI_USERS user)
-        {
-            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
-            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
-
-            var societeExist = await db.SI_PROJETS.FirstOrDefaultAsync(a => a.PROJET == societe.PROJET && a.DELETIONDATE == null);
-
-            if (societeExist == null)
-            {
-                var newSociete = new SI_PROJETS()
-                {
-                    PROJET = societe.PROJET
-                };
-                db.SI_PROJETS.Add(newSociete);
-                //var eeee = db.GetValidationErrors();
-                db.SaveChanges();
-
-                //First ADMIN//
-                int IDSOC = db.SI_PROJETS.FirstOrDefault(a => a.PROJET == societe.PROJET && a.DELETIONDATE == null).ID;
-                var newFirstAdmin = new SI_USERS()
-                {
-                    LOGIN = user.LOGIN,
-                    PWD = user.PWD,
-                    ROLE = Role.Administrateur,// db.OPA_ROLES.Where(a => a.INTITULES == "Administrateur").FirstOrDefault().ID,
-                    IDPROJET = IDSOC
-                };
-                db.SI_USERS.Add(newFirstAdmin);
-                //var eeee = db.GetValidationErrors();
-                db.SaveChanges();
-
-                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = societe }, settings));
-            }
-            else
-            {
-                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Projet déjà existant. " }, settings));
-            }
-        }
-
-        //SOA LISTE//
         public ActionResult SOAList()
         {
             ViewBag.Controller = "Liste des PROJETS";
@@ -1058,9 +980,10 @@ namespace apptab.Controllers
 
                 if (SExist != null)
                 {
-                    if (SExist.MT1 != param.MT1 || SExist.MT2 != param.MT2
+                    if (SExist.MT0 != param.MT0 || SExist.MT1 != param.MT1 || SExist.MT2 != param.MT2
                         || SExist.MP1 != param.MP1 || SExist.MP2 != param.MP2 || SExist.MP3 != param.MP3 || SExist.MP4 != param.MP4)
                     {
+                        SExist.MT0 = param.MT0;
                         SExist.MT1 = param.MT1;
                         SExist.MT2 = param.MT2;
                         SExist.MP1 = param.MP1;
@@ -1077,6 +1000,7 @@ namespace apptab.Controllers
                 {
                     var newPara = new SI_MENU()
                     {
+                        MT0 = param.MT0,
                         MT1 = param.MT1,
                         MT2 = param.MT2,
                         MP1 = param.MP1,

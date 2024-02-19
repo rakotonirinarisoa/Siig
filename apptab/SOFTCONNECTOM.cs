@@ -2,11 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
-using apptab;
 
 namespace apptab
 {
@@ -343,11 +339,6 @@ namespace apptab
                 .Property(e => e.INCREMENTATIONAUTO)
                 .HasPrecision(10, 0);
 
-            modelBuilder.Entity<RJL1>()
-                .HasMany(e => e.MCOMPTA)
-                .WithOptional(e => e.RJL1)
-                .HasForeignKey(e => e.JL);
-
             modelBuilder.Entity<RPROJET>()
                 .Property(e => e.IDPROJET)
                 .HasPrecision(30, 9);
@@ -544,6 +535,330 @@ namespace apptab
             modelBuilder.Entity<tpa_salaries>()
                 .Property(e => e.taux5)
                 .HasPrecision(18, 3);
+            modelBuilder.Entity<MCOMPTA>()
+    .Property(e => e.NUMENREG)
+    .HasPrecision(30, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.MONTANT)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.MONTDEV)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.MTREPORT)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NLET)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NBORD)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.RELEVE)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.ANCIENDRF)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NOUVDRF)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.MONTEMIS)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NPRELET)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.QTE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.PU)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.COURSREP)
+                .HasPrecision(18, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.COURSDEV)
+                .HasPrecision(18, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NUMENGAG)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NOUVDRFCAA)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.IMPORTIDH)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NUMENREGSITE)
+                .HasPrecision(30, 0);
+            modelBuilder.Entity<FCOMPTA>()
+    .Property(e => e.NUMEROCHEQUE)
+    .HasPrecision(18, 0);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANT)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTTOTALOPAVECOPENCOURSEXO)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTTOTALOPSANSOPENCOURSEXO)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTBUDGETDISPOEXO)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTBUDGETDISPOEXOAVANTOP)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTBUDGETDISPOPERIODE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTBUDGETDISPOPERIODEAVANTOP)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTBUDGETDISPOSURMARCHE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTMARCHEDISPOSUROP)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTMARCHEDISPOSUROPPERIODE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTCOMMISSION)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.TAXECOMMISSION)
+                .HasPrecision(18, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.COURSRAP)
+                .HasPrecision(18, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.COURSDEV)
+                .HasPrecision(18, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTRAP)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTDEV)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.ENGAGEMENTSANTERIEURS)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTBUDGETPERIODE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTTOTALOPSANSOPENCOURSPERIODE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTTOTALOPAVECOPENCOURSPERIODE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MONTANTBUDGETEXO)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MARCHEMONTANTINITIAL)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MARCHEMONTANTOPANTERIEUR)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MARCHEMONTANTOPCUMULE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<FOP>()
+                .Property(e => e.MARCHESOLDEAPAYER)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NUMENREG)
+                .HasPrecision(30, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.MONTANT)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.MONTDEV)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.MTREPORT)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NLET)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NBORD)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.RELEVE)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.ANCIENDRF)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NOUVDRF)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.MONTEMIS)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NPRELET)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.QTE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.PU)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.COURSREP)
+                .HasPrecision(18, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.COURSDEV)
+                .HasPrecision(18, 6);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NUMENGAG)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NOUVDRFCAA)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.IMPORTIDH)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<MCOMPTA>()
+                .Property(e => e.NUMENREGSITE)
+                .HasPrecision(30, 0);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTLOC)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTDEV)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTRAP)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTTVA)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTAUTRETAXE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTRETENUE)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTTVADEV)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTTVARAP)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTAUTRETAXEDEV)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTAUTRETAXERAP)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTRETENUEDEV)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTRETENUERAP)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.MONTANTCOMMISSION)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<MOP>()
+                .Property(e => e.TAXECOMMISSION)
+                .HasPrecision(30, 6);
+
+            modelBuilder.Entity<RJL1>()
+                .Property(e => e.NUMEROBR)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<RJL1>()
+                .Property(e => e.INCREMENTATIONAUTO)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<RJL1>()
+                .HasMany(e => e.MCOMPTA)
+                .WithOptional(e => e.RJL1)
+                .HasForeignKey(e => e.JL);
         }
     }
+    
 }

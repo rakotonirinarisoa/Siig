@@ -337,6 +337,7 @@ tr.select-text-child {
     cursor: pointer;
 }
 
+
 img.chevron.chevron-down {
     margin-right: 20%;
     vertical-align: middle;
@@ -345,17 +346,6 @@ img.chevron.chevron-down {
 img.chevron.chevron-right {
     margin-right: 20%;
     vertical-align: middle;
-}
-
-#tableRFR tr {
-    -webkit-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-}
-
-#tableRFR td {
-    font-weight: bold;
-    text-align: center;
 }
 
 /*[data-action="SaveV"], [data-action="SaveSIIG"] {
@@ -384,4 +374,24 @@ img.chevron.chevron-right {
 
 .table th, .table td {
     vertical-align: middle;
+}
+
+/*.topnav a:hover {
+    background-color: red;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: orange;
+    color: white;
+}*/
+
+li.active {
+    background-color: red;
+    text-transform: uppercase;
+}
+
+li.active a {
+    color: white;
+    text-transform: uppercase;
 }

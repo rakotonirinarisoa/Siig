@@ -1,13 +1,9 @@
-﻿using apptab;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Configuration.Provider;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web;
 using System.Windows.Forms;
 
 namespace apptab.Extension

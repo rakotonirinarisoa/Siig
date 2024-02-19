@@ -437,11 +437,11 @@ $('[data-action="GetElementChecked"]').click(function () {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            reglementresult = ``;
-            reglementresult = Datas.data;
-            console.log(reglementresult);
+            //reglementresult = ``;
+            //reglementresult = Datas.data;
+            //console.log(reglementresult);
             $.each(listid, function (k, x) {
-                $.each(reglementresult, function (k, v) {
+                $.each(ListResult, function (k, v) {
                     if (v != null) {
                         if (v.No == x) {
                             validate += `
@@ -462,6 +462,7 @@ $('[data-action="GetElementChecked"]').click(function () {
                                     <td>${v.Journal}</td>
                                     <td>${v.Marche}</td>
                                     <td>${v.Status}</td>
+
                                 </tr>`;
 
                         } else {
@@ -488,6 +489,10 @@ $('[data-action="GetElementChecked"]').click(function () {
                         }
                     }
                 });
+                $.each(listid, (k, v) => {
+                    $(`[compteG-id="${v}"]`).remove();
+                });
+               
                 $('.afb160').empty();
                 $('.afb160').html(content);
                 //$('#afb').html(validate);

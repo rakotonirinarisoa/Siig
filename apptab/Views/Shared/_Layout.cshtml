@@ -104,7 +104,7 @@
             </a>
 
             <!-- Sidebar -->
-            <div class="sidebar">
+            <div class="sidebar topnav">
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
 
@@ -130,7 +130,7 @@
                                     </p>
                                 </a>
                                 <ul style="list-style-type: none; display:block" class="nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                    <li class="nav-item">
+                                    <li class="nav-item" @*id="MANDA"*@>
                                         <a href="../SuperAdmin/MenuCreate" class="nav-link">
                                             <i class="nav-icon fas fa-window-maximize"></i>
                                             <p>
@@ -139,7 +139,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../SuperAdmin/ProjetList" class="nav-link">
+                                        <a href="../Projects/AllProjects" class="nav-link">
                                             <i class="nav-icon fas fa-id-card"></i>
                                             <p>
                                                 Gestion PROJETS
@@ -347,6 +347,14 @@
                     </ul>
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="display:block" id="menu-accordeon">
                         <li class="nav-item">
+                            <a href="../Traitement/TraitementORDSECOTHER" class="nav-link">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>
+                                    @Session["MT0"]
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="../Traitement/TraitementPROJET" class="nav-link">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>
@@ -383,6 +391,14 @@
                         </li>
                         <li class="nav-item">
                             <a href="../Home/TeacherValidation" class="nav-link">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>
+                                    Envoye Validations
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../Home/BonPourPaiement" class="nav-link">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>
                                     @Session["MP2"]
@@ -527,5 +543,14 @@
    @* <script src="~/Assets/js/Accueil.js"></script>*@
 
     <script src="~/Scripts/dayjs.min.js"></script>
+
+    @*<script>
+        $('#MANDA').removeClass('active');
+        $('#MANDA').toggleClass('active');
+        //$('#MANDA').on('click', function(){
+            
+        //})
+    </script>*@
+
 </body>
 </html>

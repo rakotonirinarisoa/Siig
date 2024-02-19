@@ -1,10 +1,8 @@
 namespace apptab
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("MCOMPTA")]
     public partial class MCOMPTA
@@ -218,9 +216,6 @@ namespace apptab
 
         [StringLength(20)]
         public string NUMDECLARATIONFISCAL { get; set; }
-
-        [StringLength(36)]
-        public string TABLEID { get; set; }
 
         [StringLength(20)]
         public string NUMDECLARATIONTMP { get; set; }

@@ -1,10 +1,8 @@
 namespace apptab
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class OP_CHAINETRAITEMENT
     {
@@ -39,6 +37,9 @@ namespace apptab
 
         public bool? MODIFICATION { get; set; }
 
+        [StringLength(10)]
+        public string COULEUR { get; set; }
+
         public bool? REJET { get; set; }
 
         [StringLength(100)]
@@ -49,8 +50,5 @@ namespace apptab
 
         [StringLength(100)]
         public string CODE_SIGNATAIRE { get; set; }
-
-        [StringLength(10)]
-        public string COULEUR { get; set; }
     }
 }

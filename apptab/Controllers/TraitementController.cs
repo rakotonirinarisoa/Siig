@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Drawing;
 using System.Linq;
-using System.Numerics;
-using System.Runtime;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using apptab.Data;
-using apptab.Data.Entities;
-using apptab;
-using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 namespace apptab.Controllers
 {
@@ -31,7 +22,7 @@ namespace apptab.Controllers
         //Traitement mandats PROJET//
         public ActionResult TraitementPROJET()
         {
-            ViewBag.Controller = "Traitement MANDATS";
+            ViewBag.Controller = "Traitement MANDATS par PROJET";
 
             return View();
         }
@@ -225,7 +216,7 @@ namespace apptab.Controllers
         //Traitement mandats ORDSEC//
         public ActionResult TraitementORDSEC()
         {
-            ViewBag.Controller = "Traitement MANDATS";
+            ViewBag.Controller = "MANDATS à valider par ORDSEC";
 
             return View();
         }
@@ -254,7 +245,7 @@ namespace apptab.Controllers
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
 
-                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.IDPROJET == crpt && a.DATEMANDAT >= DateDebut && a.DATEMANDAT <= DateFin && a.ETAT == 0) != null)
+                if (db.SI_TRAITPROJET.Any(a => a.IDPROJET == crpt && a.DATEMANDAT >= DateDebut && a.DATEMANDAT <= DateFin && a.ETAT == 0))
                 {
                     foreach (var x in db.SI_TRAITPROJET.Where(a => a.IDPROJET == crpt && a.DATEMANDAT >= DateDebut && a.DATEMANDAT <= DateFin && a.ETAT == 0).OrderBy(a => a.DATECRE).OrderBy(a => a.DATEMANDAT).ToList())
                     {
@@ -672,6 +663,260 @@ namespace apptab.Controllers
             catch (Exception)
             {
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
+
+        //Traitement mandats ORDSECOTHER//
+        public ActionResult TraitementORDSECOTHER()
+        {
+            ViewBag.Controller = "Traitement MANDATS";
+
+            return View();
+        }
+
+        //GENERATION SIIGLOADOTHER//
+        [HttpPost]
+        public JsonResult GenerationSIIGLOADOTHER(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+
+                if (exist.IDPROJET == 0)
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas autorisés à effectuer cette opération. " }, settings));
+
+                int crpt = exist.IDPROJET.Value;
+                //Check si le projet est mappé à une base de données TOM²PRO//
+                if (db.SI_MAPPAGES.FirstOrDefault(a => a.IDPROJET == crpt) == null)
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Le projet n'est pas mappé à une base de données TOM²PRO. " }, settings));
+
+                SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
+                SOFTCONNECTOM tom = new SOFTCONNECTOM();
+
+                List<DATATRPROJET> list = new List<DATATRPROJET>();
+
+                decimal MTN = 0;
+                decimal MTNPJ = 0;
+                var PCOP = "";
+
+                //Check si la correspondance des états est OK//
+                var numCaEtapAPP = db.SI_PARAMETAT.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null);
+                if (numCaEtapAPP == null) return Json(JsonConvert.SerializeObject(new { type = "PEtat", msg = "Veuillez paramétrer la correspondance des états. " }, settings));
+                //TEST si les états dans les paramètres dans cohérents avec ceux de TOM²PRO//
+                if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == numCaEtapAPP.DEF) == null)
+                    return Json(JsonConvert.SerializeObject(new { type = "Prese", msg = "L'état DEF n'est pas paramétré sur TOM²PRO. " }, settings));
+                if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == numCaEtapAPP.TEF) == null)
+                    return Json(JsonConvert.SerializeObject(new { type = "Prese", msg = "L'état TEF n'est pas paramétré sur TOM²PRO. " }, settings));
+                if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == numCaEtapAPP.BE) == null)
+                    return Json(JsonConvert.SerializeObject(new { type = "Prese", msg = "L'état BE n'est pas paramétré sur TOM²PRO. " }, settings));
+
+                if (tom.CPTADMIN_FLIQUIDATION.Any())
+                {
+                    foreach (var x in tom.CPTADMIN_FLIQUIDATION.OrderBy(a => a.DATELIQUIDATION).ToList())
+                    {
+                        //Get total MTN dans CPTADMIN_MLIQUIDATION pour vérification du SOMMES MTN M = SOMMES MTN MPJ//
+                        if (tom.CPTADMIN_MLIQUIDATION.Any(a => a.IDLIQUIDATION == x.ID))
+                        {
+                            foreach (var y in tom.CPTADMIN_MLIQUIDATION.Where(a => a.IDLIQUIDATION == x.ID).ToList())
+                            {
+                                MTN += y.MONTANTLOCAL.Value;
+
+                                if (String.IsNullOrEmpty(PCOP))
+                                    PCOP = y.POSTE;
+                            }
+                        }
+
+                        //TEST SI SOMMES MTN M = SOMMES MTN MPJ//
+                        var IDString = x.ID.ToString();
+                        if (tom.TP_MPIECES_JUSTIFICATIVES.Any(a => a.NUMERO_FICHE == IDString))
+                        {
+                            foreach (var y in tom.TP_MPIECES_JUSTIFICATIVES.Where(a => a.NUMERO_FICHE == IDString).ToList())
+                            {
+                                MTNPJ += y.MONTANT.Value;
+                            }
+                        }
+
+                        //MathRound 3 satria kely kokoa ny marge d'erreur no le 2//
+                        if (Math.Round(MTN, 3) == Math.Round(MTNPJ, 3))
+                        {
+                            //Check si F a déjà passé les 3 étapes (DEF, TEF et BE) pour avoir les dates => BE étape finale//
+                            var canBeDEF = true;
+                            var canBeTEF = true;
+                            var canBeBE = true;
+                            if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF) == null)
+                                canBeDEF = false;
+                            if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF) == null)
+                                canBeTEF = false;
+                            if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE) == null)
+                                canBeBE = false;
+
+                            //TEST que F n'est pas encore traité ou F a été annulé// ETAT annulé = 2//
+                            if (canBeDEF == false || canBeTEF == false || canBeBE == false)
+                            {
+                                var titulaire = "";
+                                if (tom.RTIERS.Any(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE))
+                                    titulaire = tom.RTIERS.FirstOrDefault(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE).NOM;
+
+                                DateTime? DATEDEF = null;
+                                if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF))
+                                    DATEDEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF).DATECA;
+                                DateTime? DATETEF = null;
+                                if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF))
+                                    DATETEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF).DATECA;
+                                DateTime? DATEBE = null;
+                                if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE))
+                                    DATEBE = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE).DATECA;
+
+                                list.Add(new DATATRPROJET
+                                {
+                                    No = x.ID,
+                                    REF = x.NUMEROCA,
+                                    OBJ = x.DESCRIPTION,
+                                    TITUL = titulaire,
+                                    MONT = Math.Round(MTN, 2).ToString(),
+                                    COMPTE = x.COGEBENEFICIAIRE,
+                                    DATE = x.DATELIQUIDATION.Value.Date,
+                                    PCOP = PCOP,
+                                    DATEDEF = DATEDEF,
+                                    DATETEF = DATETEF,
+                                    DATEBE = DATEBE
+                                });
+                            }
+                        }
+                    }
+                }
+
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        //GENERATION SIIGLOADOTHER//
+        [HttpPost]
+        public JsonResult GenerationSIIGOTHER(SI_USERS suser, DateTime DateDebut, DateTime DateFin)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                SOFTCONNECTSIIG db = new SOFTCONNECTSIIG();
+
+                if (exist.IDPROJET == 0)
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas autorisés à effectuer cette opération. " }, settings));
+
+                int crpt = exist.IDPROJET.Value;
+                //Check si le projet est mappé à une base de données TOM²PRO//
+                if (db.SI_MAPPAGES.FirstOrDefault(a => a.IDPROJET == crpt) == null)
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Le projet n'est pas mappé à une base de données TOM²PRO. " }, settings));
+
+                SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
+                SOFTCONNECTOM tom = new SOFTCONNECTOM();
+
+                List<DATATRPROJET> list = new List<DATATRPROJET>();
+
+                decimal MTN = 0;
+                decimal MTNPJ = 0;
+                var PCOP = "";
+
+                //Check si la correspondance des états est OK//
+                var numCaEtapAPP = db.SI_PARAMETAT.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null);
+                if (numCaEtapAPP == null) return Json(JsonConvert.SerializeObject(new { type = "PEtat", msg = "Veuillez paramétrer la correspondance des états. " }, settings));
+                //TEST si les états dans les paramètres dans cohérents avec ceux de TOM²PRO//
+                if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == numCaEtapAPP.DEF) == null)
+                    return Json(JsonConvert.SerializeObject(new { type = "Prese", msg = "L'état DEF n'est pas paramétré sur TOM²PRO. " }, settings));
+                if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == numCaEtapAPP.TEF) == null)
+                    return Json(JsonConvert.SerializeObject(new { type = "Prese", msg = "L'état TEF n'est pas paramétré sur TOM²PRO. " }, settings));
+                if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == numCaEtapAPP.BE) == null)
+                    return Json(JsonConvert.SerializeObject(new { type = "Prese", msg = "L'état BE n'est pas paramétré sur TOM²PRO. " }, settings));
+
+                if (tom.CPTADMIN_FLIQUIDATION.Any(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin))
+                {
+                    foreach (var x in tom.CPTADMIN_FLIQUIDATION.Where(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).OrderBy(a => a.DATELIQUIDATION).ToList())
+                    {
+                        //Get total MTN dans CPTADMIN_MLIQUIDATION pour vérification du SOMMES MTN M = SOMMES MTN MPJ//
+                        if (tom.CPTADMIN_MLIQUIDATION.Any(a => a.IDLIQUIDATION == x.ID))
+                        {
+                            foreach (var y in tom.CPTADMIN_MLIQUIDATION.Where(a => a.IDLIQUIDATION == x.ID).ToList())
+                            {
+                                MTN += y.MONTANTLOCAL.Value;
+
+                                if (String.IsNullOrEmpty(PCOP))
+                                    PCOP = y.POSTE;
+                            }
+                        }
+
+                        //TEST SI SOMMES MTN M = SOMMES MTN MPJ//
+                        var IDString = x.ID.ToString();
+                        if (tom.TP_MPIECES_JUSTIFICATIVES.Any(a => a.NUMERO_FICHE == IDString))
+                        {
+                            foreach (var y in tom.TP_MPIECES_JUSTIFICATIVES.Where(a => a.NUMERO_FICHE == IDString).ToList())
+                            {
+                                MTNPJ += y.MONTANT.Value;
+                            }
+                        }
+
+                        //MathRound 3 satria kely kokoa ny marge d'erreur no le 2//
+                        if (Math.Round(MTN, 3) == Math.Round(MTNPJ, 3))
+                        {
+                            //Check si F a déjà passé les 3 étapes (DEF, TEF et BE) pour avoir les dates => BE étape finale//
+                            var canBeDEF = true;
+                            var canBeTEF = true;
+                            var canBeBE = true;
+                            if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF) == null)
+                                canBeDEF = false;
+                            if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF) == null)
+                                canBeTEF = false;
+                            if (tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE) == null)
+                                canBeBE = false;
+
+                            //TEST que F n'est pas encore traité ou F a été annulé// ETAT annulé = 2//
+                            if (canBeDEF == false || canBeTEF == false || canBeBE == false)
+                            {
+                                var titulaire = "";
+                                if (tom.RTIERS.Any(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE))
+                                    titulaire = tom.RTIERS.FirstOrDefault(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE).NOM;
+
+                                DateTime? DATEDEF = null;
+                                if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF))
+                                    DATEDEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF).DATECA;
+                                DateTime? DATETEF = null;
+                                if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF))
+                                    DATETEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF).DATECA;
+                                DateTime? DATEBE = null;
+                                if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE))
+                                    DATEBE = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE).DATECA;
+
+                                list.Add(new DATATRPROJET
+                                {
+                                    No = x.ID,
+                                    REF = x.NUMEROCA,
+                                    OBJ = x.DESCRIPTION,
+                                    TITUL = titulaire,
+                                    MONT = Math.Round(MTN, 2).ToString(),
+                                    COMPTE = x.COGEBENEFICIAIRE,
+                                    DATE = x.DATELIQUIDATION.Value.Date,
+                                    PCOP = PCOP,
+                                    DATEDEF = DATEDEF,
+                                    DATETEF = DATETEF,
+                                    DATEBE = DATEBE
+                                });
+                            }
+                        }
+                    }
+                }
+
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
             }
         }
     }

@@ -1,10 +1,6 @@
-namespace apptab
+namespace apptab.Models
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class OPA_VALIDATIONS
     {
@@ -27,5 +23,21 @@ namespace apptab
         public DateTime? DateP { get; set; }
 
         public string Journal { get; set; }
+
+        public DateTime? DATECREA { get; set; }
+
+        public DateTime? DATESEND { get; set; }
+
+        public DateTime? DATEVAL { get; set; }
+
+        public DateTime? DATEACCEPT { get; set; }
+
+        public string MOTIF { get; set; }
+
+        public string COMS { get; set; }
+
+        public DateTime? DATEANNULER { get; set; }
+
+        public int? IDUSER { get; set; }
     }
 }
