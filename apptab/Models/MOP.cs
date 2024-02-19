@@ -133,12 +133,12 @@ namespace apptab
         [Column(TypeName = "numeric")]
         public decimal? MONTANTRETENUERAP { get; set; }
 
+        public bool? PAYE { get; set; }
+
         [Column(TypeName = "numeric")]
         public decimal? MONTANTCOMMISSION { get; set; }
 
         [Column(TypeName = "numeric")]
         public decimal? TAXECOMMISSION { get; set; }
-
-        public bool? PAYE { get; set; }
     }
 }

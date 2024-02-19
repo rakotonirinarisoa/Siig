@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using apptab;
+using apptab.Models;
 
 namespace apptab
 {
@@ -44,7 +45,6 @@ namespace apptab
         public virtual DbSet<OPA_HISTORIQUEBR> OPA_HISTORIQUEBR { get; set; }
         public virtual DbSet<OPA_ROLES> OPA_ROLES { get; set; }
         public virtual DbSet<OPA_DROITS> OPA_DROITS { get; set; }
-        public virtual DbSet<OPA_VALIDATIONS> OPA_VALIDATIONS { get; set; }
         public virtual DbSet<SI_MAPUSERPROJET> SI_MAPUSERPROJET { get; set; }
         public virtual DbSet<SI_MENU> SI_MENU { get; set; }
         public virtual DbSet<HSI_MOTIF> HSI_MOTIF { get; set; }
@@ -67,6 +67,8 @@ namespace apptab
         public virtual DbSet<HSI_DELAISTRAITEMENT> HSI_DELAISTRAITEMENT { get; set; }
         public virtual DbSet<HSI_MAIL> HSI_MAIL { get; set; }
         public virtual DbSet<HSI_PARAMETAT> HSI_PARAMETAT { get; set; }
+        public virtual DbSet<OPA_VALIDATIONS> OPA_VALIDATIONS { get; set; }
+        public virtual DbSet<OPA_HCANCEL> OPA_HCANCEL { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OPA_ANOMALIE>()

@@ -63,7 +63,7 @@ function GetListCompG() {
                 window.location = window.location.origin;
                 return;
             }
-            let code = `<option value = "Tous" > Tous</option> `;
+            let code = ``;
             let codeAuxi = ``;
             ListCompteG = Datas.data;
             
@@ -294,6 +294,8 @@ $('[data-action="ChargerJs"]').click(function () {
                         <td>${v.Plan6}</td>
                         <td>${v.Journal}</td>
                         <td>${v.Marche}</td>
+                        <td></td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.No})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
                     </tr>`
 
                     });
@@ -380,7 +382,106 @@ $('[data-action="ChargerJs"]').click(function () {
     }
 
 });
+function Refuser(id) {
+    
+    if (confirm("Voullez vous supprimer")) {
+        $('#F-modal').modal('toggle');
+        $('#F-modal').attr("data-id", id);
+        modalREJET(id);
+    }
+    
+}
+function modalREJET(id) {
 
+    clickedANN = id;
+
+    let formData = new FormData();
+
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDPROJET);
+
+    formData.append("IdF", clickedANN);
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/GetIsMotif',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+
+            $(`[data-id="MOTIF-list"]`).text("");
+
+            var code = ``;
+            ListResult = Datas.data
+            $.each(ListResult, function (k, v) {
+                code += `
+                    <option value="${v.REF}" id="${k}">${v.REF}</option>
+                `;
+            });
+            
+            $(`[data-id="MOTIF-list"]`).append(code);
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+
+    $('#F-modal').modal('toggle');
+}
+function AcceptRefuser() {
+    const id = $('#F-modal').attr("data-id"); 
+    let motif = $("#Motif").val();
+    let commentaire = $("#Commentaire").val();
+
+    let formData = new FormData();
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDPROJET);
+    formData.append("baseName", baseName);
+    formData.append("id", id);
+    formData.append("motif", motif);
+    formData.append("commentaire", commentaire);
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Home/CancelEcriture',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            ListResultAnomalie = "";
+            contentAnomalies = ``;
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+            }
+            $(`[compteG-id="${id}"]`).remove();
+            $('#F-modal').modal('toggle');
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+
+}
 $('[data-action="GetElementChecked"]').click(function () {
     let CheckList = $(`[compteg-ischecked]:checked`).closest("tr");
     let list = [];
@@ -416,59 +517,9 @@ $('[data-action="GetElementChecked"]').click(function () {
         success: function (result) {
             var Datas = JSON.parse(result);
             reglementresult = ``;
-            reglementresult = Datas.data;
-            console.log(reglementresult);
-            $.each(listid, function (k, x) {
-                $.each(reglementresult, function (k, v) {
-                    if (v != null) {
-                        if (v.No == x) {
-                            validate += `
-                                    <tr compteG-id="${v.No}">
-                                    </td ><td>${v.No}</td>
-                                    <td>${v.Date}</td>
-                                    <td>${v.NoPiece}</td>
-                                    <td>${v.Compte}</td>
-                                    <td>${v.Libelle}</td>
-                                    <td>${v.Montant}</td>
-                                    <td>${v.MontantDevise}</td>
-                                    <td>${v.Mon}</td>
-                                    <td>${v.Rang}</td>
-                                    <td>${v.Poste}</td>
-                                    <td>${v.FinancementCategorie}</td>
-                                    <td>${v.Commune}</td>
-                                    <td>${v.Plan6}</td>
-                                    <td>${v.Journal}</td>
-                                    <td>${v.Marche}</td>
-                                    <td>${v.Status}</td>
-                                </tr>`;
 
-                        } else {
-                            content += `
-                            <tr compteG-id="${v.No}"><td>
-                                    <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                               </td><td>${v.No}</td>
-                                <td>${v.Date}</td>
-                                <td>${v.NoPiece}</td>
-                                <td>${v.Compte}</td>
-                                <td>${v.Libelle}</td>
-                                <td>${v.Montant}</td>
-                                <td>${v.MontantDevise}</td>
-                                <td>${v.Mon}</td>
-                                <td>${v.Rang}</td>
-                                <td>${v.Poste}</td>
-                                <td>${v.FinancementCategorie}</td>
-                                <td>${v.Commune}</td>
-                                <td>${v.Plan6}</td>
-                                <td>${v.Journal}</td>
-                                <td>${v.Marche}</td>
-                                <td>${v.Status}</td>
-                            </tr>`
-                        }
-                    }
-                });
-                $('.afb160').empty();
-                $('.afb160').html(content);
-                //$('#afb').html(validate);
+            $.each(listid, (k, v) => {
+                $(`[compteG-id="${v}"]`).remove();
             });
         },
         error: function () {
