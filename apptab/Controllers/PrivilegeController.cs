@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net.Sockets;
 using System.Runtime;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -109,6 +112,55 @@ namespace apptab.Controllers
             {
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
             }
+        }
+
+        [HttpPost]
+        public JsonResult AddPRIVILEGE(SI_USERS suser, SI_PRIVILEGE privilege, int UserId)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            var societeExist = db.SI_PRIVILEGE.FirstOrDefault(a => a.IDUSERPRIV == UserId);
+
+            if (societeExist != null)
+            {
+                db.SI_PRIVILEGE.Remove(societeExist);
+                db.SaveChanges();
+            }
+
+            var newPrivilege = new SI_PRIVILEGE()
+            {
+                IDUSERPRIV = UserId,
+                IDUSER = exist.ID,
+                CREATIONDATE = DateTime.Now,
+
+                MENUPAR1 = privilege.MENUPAR1,
+                MENUPAR2 = privilege.MENUPAR2,
+                MENUPAR3 = privilege.MENUPAR3,
+                MENUPAR4 = privilege.MENUPAR4,
+                MENUPAR5 = privilege.MENUPAR5,
+                MENUPAR6 = privilege.MENUPAR6,
+                MENUPAR7 = privilege.MENUPAR7,
+                MENUPAR8 = privilege.MENUPAR8,
+
+                MT0 = privilege.MT0,
+                MT1 = privilege.MT1,
+                MT2 = privilege.MT2,
+
+                MP1 = privilege.MP1,
+                MP2 = privilege.MP2,
+                MP3 = privilege.MP3,
+                MP4 = privilege.MP4,
+
+                TDB0 = privilege.TDB0,
+
+                GED = privilege.GED
+            };
+
+            db.SI_PRIVILEGE.Add(newPrivilege);
+            db.SaveChanges();
+
+            return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = privilege }, settings));
         }
     }
 }

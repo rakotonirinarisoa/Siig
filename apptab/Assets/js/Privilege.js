@@ -333,13 +333,13 @@ function GetListUser() {
                         
                         <td text-align:center>
                             <div class="form-check form-check-inline">
-                                <input type="radio" id="noneGED" name="droneGED" value="0" ${GEDN}/><label class="ml-1" for="noneGED" style="font-weight:normal">None</label>
+                                <input type="radio" id="noneGED${v.ID}" name="droneGED${v.ID}" value="0" ${GEDN}/><label class="ml-1" for="noneGED${v.ID}" style="font-weight:normal">None</label>
                             </div></br>
                             <div class="form-check form-check-inline">
-                                <input type="radio" id="readGED" name="droneGED" value="1" ${GEDR}/><label class="ml-1" for="readGED" style="font-weight:normal">Read</label>
+                                <input type="radio" id="readGED${v.ID}" name="droneGED${v.ID}" value="1" ${GEDR}/><label class="ml-1" for="readGED${v.ID}" style="font-weight:normal">Read</label>
                             </div></br>
                             <div class="form-check form-check-inline">
-                                <input type="radio" id="writeGED" name="droneGED" value="2" ${GEDA}/><label class="ml-1" for="writeGED" style="font-weight:normal">All</label>
+                                <input type="radio" id="writeGED${v.ID}" name="droneGED${v.ID}" value="2" ${GEDA}/><label class="ml-1" for="writeGED${v.ID}" style="font-weight:normal">All</label>
                             </div>
                         </td>
                         
@@ -368,32 +368,51 @@ function SavePRIV(id) {
     formData.append("UserId", id);
 
     formData.append("privilege.MENUPAR1", $(`input[name="droneMENUPAR1${id}"]:checked`).val());
+    formData.append("privilege.MENUPAR2", $(`input[name="droneMENUPAR2${id}"]:checked`).val());
+    formData.append("privilege.MENUPAR3", $(`input[name="droneMENUPAR3${id}"]:checked`).val());
+    formData.append("privilege.MENUPAR4", $(`input[name="droneMENUPAR4${id}"]:checked`).val());
+    formData.append("privilege.MENUPAR5", $(`input[name="droneMENUPAR5${id}"]:checked`).val());
+    formData.append("privilege.MENUPAR6", $(`input[name="droneMENUPAR6${id}"]:checked`).val());
+    formData.append("privilege.MENUPAR7", $(`input[name="droneMENUPAR7${id}"]:checked`).val());
+    formData.append("privilege.MENUPAR8", $(`input[name="droneMENUPAR8${id}"]:checked`).val());
 
-    //$.ajax({
-    //    type: "POST",
-    //    url: Origin + '/User/DeleteUser',
-    //    data: formData,
-    //    cache: false,
-    //    contentType: false,
-    //    processData: false,
-    //    success: function (result) {
-    //        var Datas = JSON.parse(result);
-    //        console.log(Datas);
+    formData.append("privilege.MT0", $(`input[name="droneMT0${id}"]:checked`).val());
+    formData.append("privilege.MT1", $(`input[name="droneMT1${id}"]:checked`).val());
+    formData.append("privilege.MT2", $(`input[name="droneMT2${id}"]:checked`).val());
+    
+    formData.append("privilege.MP1", $(`input[name="droneMP1${id}"]:checked`).val());
+    formData.append("privilege.MP2", $(`input[name="droneMP2${id}"]:checked`).val());
+    formData.append("privilege.MP3", $(`input[name="droneMP3${id}"]:checked`).val());
+    formData.append("privilege.MP4", $(`input[name="droneMP4${id}"]:checked`).val());
 
-    //        if (Datas.type == "error") {
-    //            alert(Datas.msg);
-    //            return;
-    //        }
-    //        if (Datas.type == "success") {
-    //            alert(Datas.msg);
-    //            $(`[data-userId="${id}"]`).remove();
-    //            return;
-    //        }
-    //    },
-    //    error: function () {
-    //        alert("Connexion Problems");
-    //    }
-    //});
+    formData.append("privilege.TDB0", $(`input[name="droneTDB0${id}"]:checked`).val());
+
+    formData.append("privilege.GED", $(`input[name="droneGED${id}"]:checked`).val());
+    
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Privilege/AddPRIVILEGE',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                alert(Datas.msg);
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
+        },
+    });
 }
 
 
