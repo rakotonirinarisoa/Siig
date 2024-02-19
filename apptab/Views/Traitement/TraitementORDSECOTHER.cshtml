@@ -1,6 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Traitement MANDATS par PROJET";
-    ViewData["Controller"] = "Traitement MANDATS par PROJET";
+    ViewBag.Title = "Traitement MANDATS";
+    ViewData["Controller"] = "Traitement MANDATS";
     /*Layout = "~/Views/Shared/_Layout.cshtml";*/
 }
 
@@ -42,18 +42,18 @@
 
 <div class="form-row mb-3">
     <div class="input-group mb-3 col">
-        <div class="btn btn-flat bg-gradient-success col-12" data-action="GenereR">
+        <div class="btn btn-flat bg-gradient-success col-12" data-action="GenereSIIGOTHER">
             <i class="fa fa-download"></i> Générer
         </div>
     </div>
-    <div class="input-group mb-3 col">
-        <div class="btn btn-flat bg-gradient-red col-12" data-action="SaveV">
-            <i class="fa fa-check-double"></i> Enregistrer et envoyer pour validation
+    @*<div class="input-group mb-3 col">
+        <div class="btn btn-flat bg-gradient-red col-12 custom-fixed-btn" data-action="SaveSIIG">
+            <i class="fa fa-check-double"></i> Enregistrer et envoyer vers SIIGFP
         </div>
-    </div>
+    </div>*@
 </div>
 
-<div class="table-responsive mb-3" @*style="max-height: calc(600px - 0.6rem * 2 ); "*@ tab="paie">
+<div class="table-responsive mb-3" @*style=" max-height: calc(600px - 0.6rem * 2  );"*@ tab="ordsecOTHER">
     <table class="table table-hover table-striped table-bordered" display responsive nowrap" width="100%" id="TBD_PROJET">
         <thead style="position:sticky">
             <tr class="thead-accueil1" style="white-space: nowrap;">
@@ -75,14 +75,14 @@
                 <td style="font-weight: bold; text-align: center">Document</td>
             </tr>
         </thead>
-        <tbody class="afb160Paie"></tbody>
+        <tbody class="traitementORDSECOTHER"></tbody>
     </table>
 </div>
 
-@*<div class="form-row mb-3 alignment-bottom">
+@*<div class="form-row mb-3">
         <div class="input-group mb-3 col">
-            <div class="btn btn-flat bg-gradient-red col-12 custom-fixed-btn" data-action="SaveV">
-                <i class="fa fa-check-double"></i> Enregistrer et envoyer pour validation
+            <div class="btn btn-flat bg-gradient-red col-12 custom-fixed-btn" data-action="SaveSIIG">
+                <i class="fa fa-check-double"></i> Enregistrer et envoyer vers SIIGFP
             </div>
         </div>
     </div>*@
@@ -91,7 +91,7 @@
 <script src="~/Assets/js/utils.js"></script>
 
 
-<div class="modal fade" tabindex="-1" role="dialog" id="password-modal">
+<<div class="modal fade" tabindex="-1" role="dialog" id="password-modal">
     <div class="modal-dialog modal-xl" role="document" @*style="width:fit-content"*@>
         <div class="modal-content" @*style="width:fit-content"*@>
             <div class="modal-header">

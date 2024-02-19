@@ -39,6 +39,9 @@ namespace apptab
 
         public bool? MODIFICATION { get; set; }
 
+        [StringLength(10)]
+        public string COULEUR { get; set; }
+
         public bool? REJET { get; set; }
 
         [StringLength(100)]
@@ -49,8 +52,5 @@ namespace apptab
 
         [StringLength(100)]
         public string CODE_SIGNATAIRE { get; set; }
-
-        [StringLength(10)]
-        public string COULEUR { get; set; }
     }
 }

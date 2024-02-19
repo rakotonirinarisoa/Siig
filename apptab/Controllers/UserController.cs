@@ -58,7 +58,7 @@ namespace SOFTCONNECT.Controllers
                         DELETONDATE = a.DELETIONDATE,
                         //STAT = a.DELETIONDATE == null ? "ACTIF" : "INACTIF",
                         CREAT = a.CREATIONDATE
-                    }).Where(a => a.PROJET != null && a.DELETONDATE == null).OrderBy(a => a.CREAT).ToList();
+                    }).Where(a => a.PROJET != null && a.DELETONDATE == null).OrderBy(a => a.PROJET).OrderBy(a => a.CREAT).ToList();
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = users }, settings));
                 }
                 else
@@ -467,18 +467,28 @@ namespace SOFTCONNECT.Controllers
                 if (test.ROLE != Role.SAdministrateur && test.ROLE != Role.Organe_de_Suivi && test.ROLE != Role.Agent_Comptable)
                     if (String.IsNullOrEmpty(test.IDPROJET.ToString()) || !db.SI_PROJETS.Any(a => a.ID == test.IDPROJET && a.DELETIONDATE == null))
                         return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Vous n'êtes pas rattaché à un projet actif. " }, settings));
+
                 Session["userSession"] = test;
+
+                Session["UserName"] = test.LOGIN;
 
 
                 if (db.SI_MENU.Any())
                 {
                     var isMenu = db.SI_MENU.FirstOrDefault();
+                    Session["MT0"] = isMenu.MT1;
                     Session["MT1"] = isMenu.MT1;
                     Session["MT2"] = isMenu.MT2;
                     Session["MP1"] = isMenu.MP1;
                     Session["MP2"] = isMenu.MP2;
                     Session["MP3"] = isMenu.MP3;
                     Session["MP4"] = isMenu.MP4;
+                }
+
+                if (db.SI_GEDLIEN.Any())
+                {
+                    var isMenu = db.SI_GEDLIEN.FirstOrDefault();
+                    Session["GED"] = isMenu.LIEN;
                 }
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", Data = new { test.ROLE, test.IDPROJET } }, settings));

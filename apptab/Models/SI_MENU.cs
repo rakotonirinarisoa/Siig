@@ -10,6 +10,7 @@
     {
         public int ID { get; set; }
 
+        public string MT0 { get; set; }
         public string MT1 { get; set; }
 
         public string MT2 { get; set; }

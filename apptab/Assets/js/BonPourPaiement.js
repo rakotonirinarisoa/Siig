@@ -222,18 +222,7 @@ $(document).on("click", "[data-target]", function () {
 
     }
 });
-$(`[data-action="CreateTxt"]`).click(function () {
-    getelementTXT(0);
-})
-$(`[data-action="CreateTxtCrypter"]`).click(function () {
-    getelementTXT(1);
-})
-$(`[data-action="CreateTxtSend"]`).click(function () {
-    getelementTXT(2);
-})
-$(`[data-action="CreateTxtFTPCrypter"]`).click(function () {
-    getelementTXT(3);
-})
+
 $('.Checkall').change(function () {
 
     if ($('.Checkall').prop("checked") == true) {
@@ -269,7 +258,7 @@ $('[data-action="ChargerJs"]').click(function () {
         
         $.ajax({
             type: "POST",
-            url: Origin + '/Home/EnvoyeValidatioF',
+            url: Origin + '/Home/GetAcceptecriture',
             data: formData,
             cache: false,
             contentType: false,
@@ -305,6 +294,7 @@ $('[data-action="ChargerJs"]').click(function () {
                         <td>${v.Plan6}</td>
                         <td>${v.Journal}</td>
                         <td>${v.Marche}</td>
+                         <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.No})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
                     </tr>`
 
                     });
@@ -334,7 +324,7 @@ $('[data-action="ChargerJs"]').click(function () {
 
         $.ajax({
             type: "POST",
-            url: Origin + '/Home/GetElementAvalider',
+            url: Origin + '/Home/GetAcceptecriture',
             data: formData,
             cache: false,
             contentType: false,
@@ -372,6 +362,7 @@ $('[data-action="ChargerJs"]').click(function () {
                         <td>${v.Journal}</td>
                         <td>${v.Marche}</td>
                         <td>${v.Status}</td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.No})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
                     </tr>`
 
                     });
@@ -391,6 +382,107 @@ $('[data-action="ChargerJs"]').click(function () {
     }
 
 });
+function Refuser(id) {
+
+    if (confirm("Voullez vous supprimer")) {
+        $('#F-modal').modal('toggle');
+        $('#F-modal').attr("data-id", id);
+        modalREJET(id);
+    }
+
+}
+function modalREJET(id) {
+
+    clickedANN = id;
+
+    let formData = new FormData();
+
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDPROJET);
+
+    formData.append("IdF", clickedANN);
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/GetIsMotif',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+
+            $(`[data-id="MOTIF-list"]`).text("");
+
+            var code = ``;
+            ListResult = Datas.data
+            $.each(ListResult, function (k, v) {
+                code += `
+                    <option value="${v.REF}" id="${k}">${v.REF}</option>
+                `;
+            });
+
+            $(`[data-id="MOTIF-list"]`).append(code);
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+
+    $('#annuler-modal').modal('toggle');
+}
+function AcceptRefuser() {
+    const id = $('#F-modal').attr("data-id");
+    let motif = $("#Motif").val();
+    let commentaire = $("#Commentaire").val();
+
+    let formData = new FormData();
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDSOCIETE", User.IDSOCIETE);
+    formData.append("baseName", baseName);
+    formData.append("id", id);
+    formData.append("motif", motif);
+    formData.append("commentaire", commentaire);
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Home/CancelEcriture',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            ListResultAnomalie = "";
+            contentAnomalies = ``;
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                $(`[compteG-id="${id}"]`).remove();
+                $('#F-modal').modal('toggle');
+            }
+
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+
+}
 
 $('[data-action="GetElementChecked"]').click(function () {
     let CheckList = $(`[compteg-ischecked]:checked`).closest("tr");
@@ -419,7 +511,7 @@ $('[data-action="GetElementChecked"]').click(function () {
     formData.append("etat", $('#etat').val());
     $.ajax({
         type: "POST",
-        url: Origin + '/Home/ValidationsEcrituresF',
+        url: Origin + '/Home/GetAcceptecritureF',
         data: formData,
         cache: false,
         contentType: false,
@@ -432,39 +524,7 @@ $('[data-action="GetElementChecked"]').click(function () {
             $.each(listid, (k, v) => {
                 $(`[compteG-id="${v}"]`).remove();
             });
-            
-            $.each(listid, function (k, x) {
-                $.each(reglementresult, function (k, v) {
-                    if (v != null) {
-                        if (v.No == x) {
-                            validate += `
-                                    <tr compteG-id="${v.No}">
-                                    </td ><td>${v.No}</td>
-                                    <td>${v.Date}</td>
-                                    <td>${v.NoPiece}</td>
-                                    <td>${v.Compte}</td>
-                                    <td>${v.Libelle}</td>
-                                    <td>${v.Montant}</td>
-                                    <td>${v.MontantDevise}</td>
-                                    <td>${v.Mon}</td>
-                                    <td>${v.Rang}</td>
-                                    <td>${v.Poste}</td>
-                                    <td>${v.FinancementCategorie}</td>
-                                    <td>${v.Commune}</td>
-                                    <td>${v.Plan6}</td>
-                                    <td>${v.Journal}</td>
-                                    <td>${v.Marche}</td>
-                                    <td>${v.Status}</td>
-                                </tr>`;
-
-                        }
-                       
-                    }
-                });
-                $('.afb160').empty();
-                $('.afb160').html(content);
-                $('#afb').html(validate);
-            });
+           
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -534,39 +594,7 @@ $('[data-action="GetAnomalieListes"]').click(function () {
     });
 })
 
-function getelementTXT(a) {
-    let formData = new FormData();
-    formData.append("suser.LOGIN", User.LOGIN);
-    formData.append("suser.ID", User.ID);
-    formData.append("suser.PWD", User.PWD);
-    formData.append("suser.ROLE", User.ROLE);
-    formData.append("suser.IDSOCIETE", User.IDSOCIETE);
-    formData.append("baseName", baseName);
-    formData.append("codeJ", $('#commercial').val());
-    formData.append("devise", false);
-    formData.append("intbasetype", a);
-    $.ajax({
-        type: "POST",
-        url: Origin + '/Home/CreateZipFile',
-        data: formData,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (result) {
-            var Datas = JSON.parse(result);
-            alert(Datas.data)
-            if (Datas.type == "error") {
-                return;
-            }
 
-            window.location = '/Home/GetFile?file=' + Datas.data;
-
-        },
-        error: function () {
-            alert("Problème de connexion. ");
-        }
-    });
-}
 //$(`[tab="autre"]`).hide();
 var baseName = "2";
 $(`[name="options"]`).on("change", (k, v) => {
@@ -586,37 +614,6 @@ $(`[name="options"]`).on("change", (k, v) => {
     }
 
 });
-function exportTableToExcel(tableID, filename = 'RAS') {
-    var downloadLink;
-    var dataType = 'application/vnd.ms-excel';
-    var tableSelect = document.getElementById(tableID);
-    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
 
-    // Specify file name
-    filename = filename ? filename + '.xls' : 'excel_data.xls';
-
-    // Create download link element
-    downloadLink = document.createElement("a");
-
-    document.body.appendChild(downloadLink);
-    if (confirm("Télécharger") == true) {
-        if (navigator.msSaveOrOpenBlob) {
-            var blob = new Blob(['\ufeff', tableHTML], {
-                type: dataType
-            });
-            navigator.msSaveOrOpenBlob(blob, filename);
-        } else {
-            // Create a link to the file
-            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-
-            // Setting the file name
-            downloadLink.download = filename;
-
-            //triggering the function
-            downloadLink.click();
-        }
-    }
-
-}
 let urlOrigin = Origin;
 //let urlOrigin = "http://softwell.cloud/OPAVI";

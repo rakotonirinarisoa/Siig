@@ -1058,9 +1058,10 @@ namespace apptab.Controllers
 
                 if (SExist != null)
                 {
-                    if (SExist.MT1 != param.MT1 || SExist.MT2 != param.MT2
+                    if (SExist.MT0 != param.MT0 || SExist.MT1 != param.MT1 || SExist.MT2 != param.MT2
                         || SExist.MP1 != param.MP1 || SExist.MP2 != param.MP2 || SExist.MP3 != param.MP3 || SExist.MP4 != param.MP4)
                     {
+                        SExist.MT0 = param.MT0;
                         SExist.MT1 = param.MT1;
                         SExist.MT2 = param.MT2;
                         SExist.MP1 = param.MP1;
@@ -1077,6 +1078,7 @@ namespace apptab.Controllers
                 {
                     var newPara = new SI_MENU()
                     {
+                        MT0 = param.MT0,
                         MT1 = param.MT1,
                         MT2 = param.MT2,
                         MP1 = param.MP1,

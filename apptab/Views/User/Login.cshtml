@@ -52,7 +52,7 @@
                     <div class="row">
                         <!-- /.col -->
                         <div class="col-12">
-                            <div class="btn bg-gradient-olive btn-block btn-flat" login_connect>Se connecter</div>
+                            <div class="btn bg-gradient-olive btn-block btn-flat" login_connect @*id="btnCon"*@>Se connecter</div>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -79,6 +79,19 @@
 
     <!-- Login.js -->
     <script src="~/Assets/js/Login.js"></script>
+
+    @*<script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'login_user');
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'login_mdp');
+            /*new google.translate.TranslateElement({ pageLanguage: 'en' }, 'btnCon');*/
+        }
+    </script>
+
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>*@
+
 </body>
 
 </html>
+
+

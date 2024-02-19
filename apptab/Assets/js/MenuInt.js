@@ -39,6 +39,7 @@ function GetUsers() {
                 return;
             }
             
+            $("#ParaV0").val(Datas.data.MT0);
             $("#ParaV").val(Datas.data.MT1);
             $("#ParaS").val(Datas.data.MT2);
             $("#ParaPe").val(Datas.data.MP1);
@@ -53,6 +54,7 @@ function GetUsers() {
 }
 
 $(`[data-action="UpdateUser"]`).click(function () {
+    let ParaV0 = $("#ParaV0").val();
     let ParaV = $("#ParaV").val();
     let ParaS = $("#ParaS").val();
     let ParaPe = $("#ParaPe").val();
@@ -71,6 +73,7 @@ $(`[data-action="UpdateUser"]`).click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
 
+    formData.append("param.MT0", $(`#ParaV0`).val());
     formData.append("param.MT1", $(`#ParaV`).val());
     formData.append("param.MT2", $(`#ParaS`).val());
     formData.append("param.MP1", $(`#ParaPe`).val());
