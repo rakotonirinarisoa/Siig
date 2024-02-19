@@ -293,8 +293,6 @@
     <Compile Include="Models\TP_MPIECES_JUSTIFICATIVES.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\admlte\dist\css\adminlte.css" />
-    <Content Include="Assets\admlte\dist\css\adminlte.min.css" />
     <Content Include="Assets\admlte\dist\css\alt\adminlte.components.css" />
     <Content Include="Assets\admlte\dist\css\alt\adminlte.components.min.css" />
     <Content Include="Assets\admlte\dist\css\alt\adminlte.core.css" />
@@ -305,29 +303,6 @@
     <Content Include="Assets\admlte\dist\css\alt\adminlte.pages.min.css" />
     <Content Include="Assets\admlte\dist\css\alt\adminlte.plugins.css" />
     <Content Include="Assets\admlte\dist\css\alt\adminlte.plugins.min.css" />
-    <Content Include="Assets\admlte\dist\css\jquery.rprogessbar.css" />
-    <Content Include="Assets\admlte\dist\css\jquery.rprogessbar.min.css" />
-    <Content Include="Assets\admlte\dist\img\AdminLTELogo.png" />
-    <Content Include="Assets\admlte\dist\img\boxed-bg.jpg" />
-    <Content Include="Assets\admlte\dist\img\boxed-bg.png" />
-    <Content Include="Assets\admlte\dist\img\cloud.png" />
-    <Content Include="Assets\admlte\dist\img\credit\american-express.png" />
-    <Content Include="Assets\admlte\dist\img\credit\cirrus.png" />
-    <Content Include="Assets\admlte\dist\img\credit\mastercard.png" />
-    <Content Include="Assets\admlte\dist\img\credit\paypal.png" />
-    <Content Include="Assets\admlte\dist\img\credit\paypal2.png" />
-    <Content Include="Assets\admlte\dist\img\credit\visa.png" />
-    <Content Include="Assets\admlte\dist\img\default-150x150.png" />
-    <Content Include="Assets\admlte\dist\img\folder-plus-solid.svg" />
-    <Content Include="Assets\admlte\dist\img\icons.png" />
-    <Content Include="Assets\admlte\dist\img\icons8-add-50.png" />
-    <Content Include="Assets\admlte\dist\img\icons8-add-folder-64.png" />
-    <Content Include="Assets\admlte\dist\img\icons8-partager-50.png" />
-    <Content Include="Assets\admlte\dist\js\adminlte.js" />
-    <Content Include="Assets\admlte\dist\js\adminlte.min.js" />
-    <Content Include="Assets\admlte\dist\js\jquery-3.6.1.js" />
-    <Content Include="Assets\admlte\dist\js\jQuery.rProgressbar.js" />
-    <Content Include="Assets\admlte\dist\js\jQuery.rProgressbar.min.js" />
     <Content Include="Assets\admlte\plugins\bootstrap-colorpicker\css\bootstrap-colorpicker.css" />
     <Content Include="Assets\admlte\plugins\bootstrap-colorpicker\css\bootstrap-colorpicker.min.css" />
     <Content Include="Assets\admlte\plugins\bootstrap-colorpicker\js\bootstrap-colorpicker.js" />
@@ -4261,8 +4236,6 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Assets\admlte\dist\css\adminlte.css.map" />
-    <Content Include="Assets\admlte\dist\css\adminlte.min.css.map" />
     <Content Include="Assets\admlte\dist\css\alt\adminlte.components.css.map" />
     <Content Include="Assets\admlte\dist\css\alt\adminlte.components.min.css.map" />
     <Content Include="Assets\admlte\dist\css\alt\adminlte.core.css.map" />
@@ -4273,9 +4246,6 @@
     <Content Include="Assets\admlte\dist\css\alt\adminlte.pages.min.css.map" />
     <Content Include="Assets\admlte\dist\css\alt\adminlte.plugins.css.map" />
     <Content Include="Assets\admlte\dist\css\alt\adminlte.plugins.min.css.map" />
-    <Content Include="Assets\admlte\dist\js\.eslintrc.json" />
-    <Content Include="Assets\admlte\dist\js\adminlte.js.map" />
-    <Content Include="Assets\admlte\dist\js\adminlte.min.js.map" />
     <Content Include="Assets\admlte\plugins\bootstrap-colorpicker\css\bootstrap-colorpicker.css.map" />
     <Content Include="Assets\admlte\plugins\bootstrap-colorpicker\css\bootstrap-colorpicker.min.css.map" />
     <Content Include="Assets\admlte\plugins\bootstrap-colorpicker\js\bootstrap-colorpicker.js.map" />
@@ -4590,6 +4560,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Assets\admlte\dist\img\credit\" />
+    <Folder Include="Assets\admlte\dist\js\" />
     <Folder Include="Views\GetFileF\" />
   </ItemGroup>
   <ItemGroup>
