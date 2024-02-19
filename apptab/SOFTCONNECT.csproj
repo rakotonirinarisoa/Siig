@@ -185,6 +185,7 @@
     <Compile Include="Controllers\GetFileFController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
+    <Compile Include="Controllers\PrivilegeController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TraitementController.cs" />
@@ -284,6 +285,8 @@
     <Compile Include="Models\SI_PARAMETAT.cs" />
     <Compile Include="Models\SI_TRAITPROJET.cs" />
     <Compile Include="Models\SI_DELAISTRAITEMENT.cs" />
+    <Compile Include="Models\SI_GEDLIEN.cs" />
+    <Compile Include="Models\SI_PRIVILEGE.cs" />
     <Compile Include="SOFTCONNECTOM.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
     <Compile Include="Models\TP_MPIECES_JUSTIFICATIVES.cs" />
@@ -2183,6 +2186,7 @@
     <Content Include="Assets\js\Motif.js" />
     <Content Include="Assets\js\TeacherValidations.js" />
     <Content Include="Assets\js\TraitmandatDOC.js" />
+    <Content Include="Assets\js\TraitmandatANNUL.js" />
     <Content Include="Assets\js\TraitmandatLIAS.js" />
     <Content Include="Assets\js\TraitmandatModal.js" />
     <Content Include="Assets\js\passwords.js" />
@@ -2210,6 +2214,7 @@
     <Content Include="Assets\js\MaPS.js" />
     <Content Include="Assets\js\SOA.js" />
     <Content Include="Assets\js\Traitmandat.js" />
+    <Content Include="Assets\js\Privilege.js" />
     <Content Include="Assets\js\User.js" />
     <Content Include="Assets\js\utils.js" />
     <Content Include="Assets\microsoft\signalr\dist\browser\signalr.js" />
@@ -2436,6 +2441,7 @@
     <Content Include="Views\Home\TeacherValidation.cshtml" />
     <Content Include="Views\Parametre\MotifCreate.cshtml" />
     <Content Include="Views\SuperAdmin\MenuCreate.cshtml" />
+    <Content Include="Views\Privilege\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -381,3 +381,7 @@ img.chevron.chevron-right {
         left: 15px;
     }
 }*/
+
+.table th, .table td {
+    vertical-align: middle;
+}

@@ -45,6 +45,7 @@ namespace apptab.Controllers
         public ActionResult FValidation() {
             return View();
         }
+
         [HttpPost]
         public JsonResult FillTable(SI_USERS suser)
         {
@@ -68,6 +69,7 @@ namespace apptab.Controllers
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
             }
         }
+
         [HttpPost]
         public JsonResult CreateZipFile_old(SI_USERS suser, string list)
         {

@@ -65,22 +65,22 @@ namespace apptab.Controllers
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
 
-            //String uploadUrl = String.Format("{0}/{1}/", "ftp://" + param.HOTE, param.PATH);
-            //FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uploadUrl);
-            //request.Method = WebRequestMethods.Ftp.ListDirectory;
-            //request.Credentials = new NetworkCredential(param.IDENTIFIANT, param.FTPPWD);
-            //request.Proxy = null;
-            //request.KeepAlive = true;
-            //request.UseBinary = true;
+            String uploadUrl = String.Format("{0}/{1}/", "ftp://" + param.HOTE, param.PATH);
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uploadUrl);
+            request.Method = WebRequestMethods.Ftp.ListDirectory;
+            request.Credentials = new NetworkCredential(param.IDENTIFIANT, param.FTPPWD);
+            request.Proxy = null;
+            request.KeepAlive = true;
+            request.UseBinary = true;
 
             try
             {
                 int IdS = exist.IDPROJET.Value;
                 var SExist = db.OPA_FTP.FirstOrDefault(a => a.IDPROJET == IdS && a.DELETIONDATE == null);
 
-                //try
-                //{ request.GetResponse(); }
-                //catch { return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Configuration FTP non valide. " }, settings)); }
+                try
+                { request.GetResponse(); }
+                catch { return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Configuration FTP non valide. " }, settings)); }
 
                 if (SExist != null)
                 {
