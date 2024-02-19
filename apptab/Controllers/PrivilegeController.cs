@@ -54,6 +54,7 @@ namespace apptab.Controllers
                         MENUPAR7 = db.SI_PRIVILEGE.Any(x => x.IDUSERPRIV == a.ID) ? db.SI_PRIVILEGE.FirstOrDefault(x => x.IDUSERPRIV == a.ID).MENUPAR7 : 0,
                         MENUPAR8 = db.SI_PRIVILEGE.Any(x => x.IDUSERPRIV == a.ID) ? db.SI_PRIVILEGE.FirstOrDefault(x => x.IDUSERPRIV == a.ID).MENUPAR8 : 0,
 
+                        MT0 = db.SI_PRIVILEGE.Any(x => x.IDUSERPRIV == a.ID) ? db.SI_PRIVILEGE.FirstOrDefault(x => x.IDUSERPRIV == a.ID).MT0 : 0,
                         MT1 = db.SI_PRIVILEGE.Any(x => x.IDUSERPRIV == a.ID) ? db.SI_PRIVILEGE.FirstOrDefault(x => x.IDUSERPRIV == a.ID).MT1 : 0,
                         MT2 = db.SI_PRIVILEGE.Any(x => x.IDUSERPRIV == a.ID) ? db.SI_PRIVILEGE.FirstOrDefault(x => x.IDUSERPRIV == a.ID).MT2 : 0,
 
@@ -87,6 +88,7 @@ namespace apptab.Controllers
                         MENUPAR7 = db.SI_PRIVILEGE.Any(x => x.IDUSERPRIV == a.ID) ? db.SI_PRIVILEGE.FirstOrDefault(x => x.IDUSERPRIV == a.ID).MENUPAR7 : 0,
                         MENUPAR8 = db.SI_PRIVILEGE.Any(x => x.IDUSERPRIV == a.ID) ? db.SI_PRIVILEGE.FirstOrDefault(x => x.IDUSERPRIV == a.ID).MENUPAR8 : 0,
 
+                        MT0 = db.SI_PRIVILEGE.Any(x => x.IDUSERPRIV == a.ID) ? db.SI_PRIVILEGE.FirstOrDefault(x => x.IDUSERPRIV == a.ID).MT0 : 0,
                         MT1 = db.SI_PRIVILEGE.Any(x => x.IDUSERPRIV == a.ID) ? db.SI_PRIVILEGE.FirstOrDefault(x => x.IDUSERPRIV == a.ID).MT1 : 0,
                         MT2 = db.SI_PRIVILEGE.Any(x => x.IDUSERPRIV == a.ID) ? db.SI_PRIVILEGE.FirstOrDefault(x => x.IDUSERPRIV == a.ID).MT2 : 0,
 

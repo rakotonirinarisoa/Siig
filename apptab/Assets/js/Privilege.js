@@ -47,6 +47,7 @@ function GetListUser() {
 
             var code = ``;
             $.each(Datas.data, function (k, v) {
+
                 let MENUPAR1N = "", MENUPAR1R = "", MENUPAR1A = "";
                 if (v.MENUPAR1 == 0) MENUPAR1N = "checked";
                 if (v.MENUPAR1 == 1) MENUPAR1R = "checked";
@@ -86,6 +87,11 @@ function GetListUser() {
                 if (v.MENUPAR8 == 0) MENUPAR8N = "checked";
                 if (v.MENUPAR8 == 1) MENUPAR8R = "checked";
                 if (v.MENUPAR8 == 2) MENUPAR8A = "checked";
+
+                let MT0N = "", MT0R = "", MT0A = "";
+                if (v.MT0 == 0) MT0N = "checked";
+                if (v.MT0 == 1) MT0R = "checked";
+                if (v.MT0 == 2) MT0A = "checked";
 
                 let MT1N = "", MT1R = "", MT1A = "";
                 if (v.MT1 == 0) MT1N = "checked";
@@ -226,6 +232,18 @@ function GetListUser() {
                             </div></br>
                             <div class="form-check form-check-inline">
                                 <input type="radio" id="writeMENUPAR8" name="droneMENUPAR8" value="2" ${MENUPAR8A}/><label class="ml-1" for="writeMENUPAR8" style="font-weight:normal">All</label>
+                            </div>
+                        </td>
+
+                        <td text-align:center>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" id="noneMT0" name="droneMT0" value="0" ${MT0N}/><label class="ml-1" for="noneMT0" style="font-weight:normal">None</label>
+                            </div></br>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" id="readMT0" name="droneMT0" value="1" ${MT0R}/><label class="ml-1" for="readMT0" style="font-weight:normal">Read</label>
+                            </div></br>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" id="writeMT0" name="droneMT0" value="2" ${MT0A}/><label class="ml-1" for="writeMT0" style="font-weight:normal">All</label>
                             </div>
                         </td>
 

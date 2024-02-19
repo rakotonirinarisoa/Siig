@@ -2442,6 +2442,7 @@
     <Content Include="Views\Parametre\MotifCreate.cshtml" />
     <Content Include="Views\SuperAdmin\MenuCreate.cshtml" />
     <Content Include="Views\Privilege\List.cshtml" />
+    <Content Include="Views\Traitement\TraitementORDSECOTHER.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

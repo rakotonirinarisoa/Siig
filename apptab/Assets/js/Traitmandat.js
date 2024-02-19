@@ -16,6 +16,7 @@ $(document).ready(() => {
     IsProjet();
 
     GetListLOAD();//Partie ORDSEC
+    GetListLOADOTHER();//Partie ORDSEC
 
     $(`[data-widget="pushmenu"]`).on('click', () => {
         $(`[data-action="SaveV"]`).toggleClass('custom-fixed-btn');
@@ -342,6 +343,172 @@ function GetListLOAD() {
         }
     });
 }
+
+//GetListLOADOTHER//
+function GetListLOADOTHER() {
+    let formData = new FormData();
+    //alert(baseName);
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/GenerationSIIGLOADOTHER',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                //window.location = window.location.origin;
+                ListResult = Datas.data
+                contentpaie = ``;
+                $.each(ListResult, function (k, v) {
+                    contentpaie += `
+                   <tr compteG-id="${v.No}" class="select-text caret">
+                        <td style="font-weight: bold; text-align:center">
+                            <input type="checkbox" name = "checkprod" compteg-ischecked  onchange = "checkdel()"/>
+                        </td>
+                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
+                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalD('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                        </td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-success"></i></div>
+                        </td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalLIAS('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
+                        </td>
+                    </tr>`
+                });
+
+                $('.traitementORDSECOTHER').empty();
+                $('.traitementORDSECOTHER').html(contentpaie);
+
+                new DataTable(`#TBD_PROJET`, {
+                    //dom: 'Bfrtip',
+                    //buttons: ['colvis'],
+                    //colReorder: false,
+
+                    responsive: true,
+                    retrieve: true,
+                    paging: true,
+                    search: true
+                    //destroy:true
+                });
+            }
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+}
+
+//GENERER SIIGOTHER//
+$('[data-action="GenereSIIGOTHER"]').click(function () {
+    let dd = $("#dateD").val();
+    let df = $("#dateF").val();
+    if (!dd || !df) {
+        alert("Veuillez renseigner les dates afin de générer les mandats. ");
+        return;
+    }
+
+    let formData = new FormData();
+    //alert(baseName);
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDSOCIETE);
+
+    formData.append("DateDebut", $('#dateD').val());
+    formData.append("DateFin", $('#dateF').val());
+
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Traitement/GenerationSIIGOTHER',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "success") {
+                //window.location = window.location.origin;
+                ListResult = Datas.data
+                contentpaie = ``;
+                $.each(ListResult, function (k, v) {
+                    contentpaie += `
+                   <tr compteG-id="${v.No}" class="select-text caret">
+                        <td style="font-weight: bold; text-align:center">
+                            <input type="checkbox" name = "checkprod" compteg-ischecked  onchange = "checkdel()"/>
+                        </td>
+                        <td style="font-weight: bold; text-align:center">${v.REF}</td>
+                        <td style="font-weight: bold; text-align:center">${v.OBJ}</td>
+                        <td style="font-weight: bold; text-align:center">${v.TITUL}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATE)}</td>
+                        <td style="font-weight: bold; text-align:center">${v.COMPTE}</td>
+                        <td style="font-weight: bold; text-align:center">${v.PCOP}</td>
+                        <td style="font-weight: bold; text-align:center">${formatCurrency(String(v.MONT).replace(",", "."))}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEDEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATETEF)}</td>
+                        <td style="font-weight: bold; text-align:center">${formatDate(v.DATEBE)}</td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalD('${v.No}')"><i class="fa fa-tags fa-lg text-danger"></i></div>
+                        </td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalF('${v.No}')"><i class="fa fa-tags fa-lg text-success"></i></div>
+                        </td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center">
+                            <div onclick="modalLIAS('${v.No}')"><i class="fa fa-tags fa-lg text-info"></i></div>
+                        </td>
+                    </tr>`
+                });
+
+                $('.traitementORDSECOTHER').empty();
+                $('.traitementORDSECOTHER').html(contentpaie);
+
+                new DataTable(`#TBD_PROJET`, {
+                    //dom: 'Bfrtip',
+                    //buttons: ['colvis'],
+                    //colReorder: false,
+
+                    responsive: true,
+                    retrieve: true,
+                    paging: true,
+                    search: true
+                    //destroy:true
+                });
+            }
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+});
 
 //GENERER SIIG//
 $('[data-action="GenereSIIG"]').click(function () {

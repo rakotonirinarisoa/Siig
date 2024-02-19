@@ -375,3 +375,23 @@ img.chevron.chevron-right {
 .table th, .table td {
     vertical-align: middle;
 }
+
+/*.topnav a:hover {
+    background-color: red;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: orange;
+    color: white;
+}*/
+
+li.active {
+    background-color: red;
+    text-transform: uppercase;
+}
+
+li.active a {
+    color: white;
+    text-transform: uppercase;
+}
