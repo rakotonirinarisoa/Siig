@@ -13,6 +13,7 @@ using apptab.Data.Entities;
 using apptab;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace apptab.Controllers
 {
@@ -270,7 +271,7 @@ namespace apptab.Controllers
                             DATEDEF = x.DATEDEF.Value.Date,
                             DATETEF = x.DATETEF.Value.Date,
                             DATEBE = x.DATEBE.Value.Date,
-                            LIEN = db.SI_USERS.FirstOrDefault(a => a.ID == x.IDUSER).LOGIN,
+                            LIEN = db.SI_USERS.FirstOrDefault(a => a.ID == x.IDUSERCREATE).LOGIN,
                             DATECREATION = x.DATECRE.Value.Date,
                         });
                     }
@@ -326,7 +327,7 @@ namespace apptab.Controllers
                             DATEDEF = x.DATEDEF.Value.Date,
                             DATETEF = x.DATETEF.Value.Date,
                             DATEBE = x.DATEBE.Value.Date,
-                            LIEN = db.SI_USERS.FirstOrDefault(a => a.ID == x.IDUSER).LOGIN,
+                            LIEN = db.SI_USERS.FirstOrDefault(a => a.ID == x.IDUSERCREATE).LOGIN,
                             DATECREATION = x.DATECRE.Value.Date,
                         });
                     }
@@ -412,7 +413,7 @@ namespace apptab.Controllers
                                 DATEBE = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == FF.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE).DATECA,
                                 DATECRE = DateTime.Now,
                                 ETAT = 0,
-                                IDUSER = exist.ID
+                                IDUSERCREATE = exist.ID
                             };
 
                             db.SI_TRAITPROJET.Add(newT);
@@ -461,6 +462,7 @@ namespace apptab.Controllers
                         isModified.ETAT = 1;
                         isModified.DATEVALIDATION = DateTime.Now;
                         isModified.DATEANNUL = null;
+                        isModified.IDUSERVALIDATE = exist.ID;
                         db.SaveChanges();
 
                         return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Traitement avec succès. ", data = "" }, settings));
@@ -594,6 +596,82 @@ namespace apptab.Controllers
             catch (Exception e)
             {
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult GetIsMotif(string IdF)
+        {
+            try
+            {
+                List<DATATRPROJET> list = new List<DATATRPROJET>();
+
+                if (db.SI_MOTIF.Any())
+                {
+                    string[] separators = { "," };
+
+                    var Tomail = db.SI_MOTIF.FirstOrDefault().MOTIFTRAIT;
+                    if (Tomail != null)
+                    {
+                        string listUser = Tomail.ToString();
+                        string[] mailListe = listUser.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                        foreach (var mailto in mailListe)
+                        {
+                            list.Add(new DATATRPROJET
+                            {
+                                REF = mailto
+                            });
+                        }
+                    }
+                }
+
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AnnulationMandat(SI_USERS suser, Guid IdF, string Comm, string Motif)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+
+                if (db.SI_TRAITPROJET.FirstOrDefault(a => a.No == IdF) != null)
+                {
+                    var ismod = db.SI_TRAITPROJET.FirstOrDefault(a => a.No == IdF);
+                    ismod.ETAT = 2;
+                    //ismod.DATECRE = DateTime.Now;
+                    ismod.DATEANNUL = null;
+
+                    db.SaveChanges();
+                }
+
+                var newElemH = new SI_TRAITANNUL()
+                {
+                    No = IdF,
+                    DATEANNUL = DateTime.Now,
+                    MOTIF = Motif,
+                    COMMENTAIRE = Comm,
+                    IDPROJET = IdS,
+                    IDUSER = exist.ID
+                };
+                db.SI_TRAITANNUL.Add(newElemH);
+                db.SaveChanges();
+
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Rejet avec succès. ", data = Comm }, settings));
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
             }
         }
     }

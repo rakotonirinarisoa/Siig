@@ -219,9 +219,6 @@ namespace apptab
         [StringLength(20)]
         public string NUMDECLARATIONFISCAL { get; set; }
 
-        [StringLength(36)]
-        public string TABLEID { get; set; }
-
         [StringLength(20)]
         public string NUMDECLARATIONTMP { get; set; }
 

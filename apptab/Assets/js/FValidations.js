@@ -429,6 +429,10 @@ $('[data-action="GetElementChecked"]').click(function () {
             reglementresult = ``;
             reglementresult = Datas.data;
             console.log(reglementresult);
+            $.each(listid, (k, v) => {
+                $(`[compteG-id="${v}"]`).remove();
+            });
+            
             $.each(listid, function (k, x) {
                 $.each(reglementresult, function (k, v) {
                     if (v != null) {
@@ -453,28 +457,8 @@ $('[data-action="GetElementChecked"]').click(function () {
                                     <td>${v.Status}</td>
                                 </tr>`;
 
-                        } else {
-                            content += `
-                            <tr compteG-id="${v.No}"><td>
-                                    <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                               </td><td>${v.No}</td>
-                                <td>${v.Date}</td>
-                                <td>${v.NoPiece}</td>
-                                <td>${v.Compte}</td>
-                                <td>${v.Libelle}</td>
-                                <td>${v.Montant}</td>
-                                <td>${v.MontantDevise}</td>
-                                <td>${v.Mon}</td>
-                                <td>${v.Rang}</td>
-                                <td>${v.Poste}</td>
-                                <td>${v.FinancementCategorie}</td>
-                                <td>${v.Commune}</td>
-                                <td>${v.Plan6}</td>
-                                <td>${v.Journal}</td>
-                                <td>${v.Marche}</td>
-                                <td>${v.Status}</td>
-                            </tr>`
                         }
+                       
                     }
                 });
                 $('.afb160').empty();
