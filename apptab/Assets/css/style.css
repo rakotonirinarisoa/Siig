@@ -395,3 +395,7 @@ li.active a {
     color: white;
     text-transform: uppercase;
 }
+
+.os-padding {
+    bottom: 8%;
+}

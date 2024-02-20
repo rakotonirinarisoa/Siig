@@ -17,6 +17,7 @@ let reglementresult;
 
 let listEtat;
 let etaCode;
+
 $(document).ready(() => {
 
     User = JSON.parse(sessionStorage.getItem("user"));
