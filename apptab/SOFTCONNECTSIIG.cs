@@ -69,6 +69,8 @@ namespace apptab
         public virtual DbSet<HSI_PARAMETAT> HSI_PARAMETAT { get; set; }
         public virtual DbSet<OPA_VALIDATIONS> OPA_VALIDATIONS { get; set; }
         public virtual DbSet<OPA_HCANCEL> OPA_HCANCEL { get; set; }
+        public virtual DbSet<HSI_SOAS> HSI_SOAS { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OPA_ANOMALIE>()

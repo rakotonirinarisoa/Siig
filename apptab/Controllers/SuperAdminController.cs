@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using Newtonsoft.Json.Schema;
 using apptab.Data;
+using apptab.Models;
 
 namespace apptab.Controllers
 {
@@ -146,7 +147,17 @@ namespace apptab.Controllers
                 db.SI_SOAS.Add(newSociete);
                 //var eeee = db.GetValidationErrors();
                 db.SaveChanges();
+                var Hsoas = db.SI_SOAS.Where(a => a.SOA == societe.SOA).FirstOrDefault();
+                var HnewSociete = new HSI_SOAS()
+                {
+                    IDPARENT = Hsoas.ID,
+                    IDUSER = exist.ID,
+                    SOA = Hsoas.SOA,
+                    DATECREA = DateTime.Now,
 
+                };
+                db.HSI_SOAS.Add(HnewSociete);
+                db.SaveChanges();
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = societe }, settings));
             }
             else
@@ -565,8 +576,16 @@ namespace apptab.Controllers
                             F_del.DELETIONDATE = DateTime.Now;
                             //db.SI_PROSOA.Remove(F_del);
                         }
-
                     }
+                    var Hsoas = new HSI_SOAS()
+                    {
+                        IDPARENT = SOA.ID,
+                        IDUSER = exist.ID,
+                        DELETIONDATE = DateTime.Now,
+                        SOA = SOA.SOA,
+
+                    };
+                    db.HSI_SOAS.Add(Hsoas);
                     db.SaveChanges();
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Suppression avec succès. " }, settings));
                 }
@@ -625,17 +644,41 @@ namespace apptab.Controllers
                 int IDSOA = int.Parse(SOAID);
                 var SOAEXIST = db.SI_SOAS.Where(soaid => soaid.ID == IDSOA && soaid.DELETIONDATE == null).FirstOrDefault();
                 //var SOAupdate = db.SI_SOAS.FirstOrDefault(soaid => soaid.ID == IDSOA);
+                DateTime dt = DateTime.Now;
 
                 if (SOAEXIST != null)
                 {
                     if (SOAEXIST.SOA != SOAID_2)
                     {
-                        SOAEXIST.DELETIONDATE = DateTime.Now;
+                        SOAEXIST.DELETIONDATE = dt;
                         db.SI_SOAS.Add(new SI_SOAS
                         { // SOAupdate.SOA = SOAID_2;
                             SOA = SOAID_2
                         });
-                        //var eeee = db.GetValidationErrors();
+                        var tt = db.HSI_SOAS.Where(a => a.IDPARENT == SOAEXIST.ID && a.DELETIONDATE == null).FirstOrDefault();
+                        if (tt != null)
+                        {
+                            tt.DELETIONDATE = dt;
+                            var HSoas = new HSI_SOAS()
+                            {
+                                IDUSER = exist.ID,
+                                SOA = SOAID_2,
+                                IDPARENT = SOAEXIST.ID,
+                            };
+                            db.HSI_SOAS.Add(HSoas);
+                        }
+                        else
+                        {
+                            var HSoas = new HSI_SOAS()
+                            {
+                                IDUSER = exist.ID,
+                                SOA = SOAID_2,
+                                DATECREA = dt,
+                                IDPARENT = SOAEXIST.ID,
+                            };
+                            db.HSI_SOAS.Add(HSoas);
+                        }
+
                         db.SaveChanges();
                         return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = SOAID_2 }, settings));
                     }
