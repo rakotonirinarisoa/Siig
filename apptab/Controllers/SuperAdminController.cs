@@ -473,8 +473,10 @@ namespace apptab.Controllers
                 if (map.CONNEXION != null) connection.UserID = map.CONNEXION;
                 if (map.CONNEXPWD != null) connection.Password = map.CONNEXPWD;
 
-                if (map.AUTH == 1) connection.IntegratedSecurity = false;
-                else connection.IntegratedSecurity = true;
+                if (map.AUTH != 1)
+                    connection.IntegratedSecurity = true;
+                else
+                    connection.TrustServerCertificate = true;
 
                 String strConn = connection.ToString();
                 SqlConnection sqlConn = new SqlConnection(strConn);

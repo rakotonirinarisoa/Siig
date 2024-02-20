@@ -1063,11 +1063,11 @@ namespace apptab.Controllers
             SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
             if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == param.DEF) == null)
-                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "L'état DEF n'est pas présent sur TOM²PRO. " }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "L'état DEF n'est pas présent sur TOM²PRO. " }, settings));
             if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == param.TEF) == null)
-                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "L'état TEF n'est pas présent sur TOM²PRO. " }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "L'état TEF n'est pas présent sur TOM²PRO. " }, settings));
             if (tom.CPTADMIN_CHAINETRAITEMENT.FirstOrDefault(a => a.NUM == param.BE) == null)
-                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "L'état BE n'est pas présent sur TOM²PRO. " }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "L'état BE n'est pas présent sur TOM²PRO. " }, settings));
 
             try
             {
@@ -1268,7 +1268,7 @@ namespace apptab.Controllers
             try
             {
                 int crpt = exist.IDPROJET.Value;
-                var crpto = db.SI_TYPECRITURE.FirstOrDefault(a => a.DELETIONDATE == null);
+                var crpto = db.SI_TYPECRITURE.FirstOrDefault(a => a.DELETIONDATE == null && a.IDPROJET == crpt);
                 if (crpto != null)
                 {
                     return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
@@ -1293,7 +1293,7 @@ namespace apptab.Controllers
             try
             {
                 int IdS = exist.IDPROJET.Value;
-                var SExist = db.SI_TYPECRITURE.FirstOrDefault(a => a.DELETIONDATE == null);
+                var SExist = db.SI_TYPECRITURE.FirstOrDefault(a => a.DELETIONDATE == null && a.IDPROJET == IdS);
 
                 if (SExist != null)
                 {

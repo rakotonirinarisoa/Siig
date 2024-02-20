@@ -37,15 +37,15 @@ function modalLIAS(id) {
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResult = Datas.data
-                contentpaie = ``;
-                $.each(ListResult, function (k, v) {
-                    contentpaie += `
-                    <tr class="select-text">
-                        <td style="font-weight: bold; text-align:center"><a href="${v.REF}" target="_blank">${v.REF}</a></td>
-                        <td style="font-weight: bold; text-align:center"><a href="${v.OBJ}" target="_blank">${v.OBJ}</a></td>
-                        <td style="font-weight: bold; text-align:center"><a href="${v.TITUL}" target="_blank">${v.TITUL}</a></td>
-                    </tr>
-                    `                });
+                contentpaie = `<tr class="select-text">
+                                    <td style="font-weight: bold; text-align:center"><a href="${ListResult.REF}" target="_blank">${ListResult.REF}</a></td>
+                                    <td style="font-weight: bold; text-align:center"><a href="${ListResult.OBJ}" target="_blank">${ListResult.OBJ}</a></td>
+                                    <td style="font-weight: bold; text-align:center"><a href="${ListResult.TITUL}" target="_blank">${ListResult.TITUL}</a></td>
+                                </tr>`;
+                //$.each(ListResult, function (k, v) {
+                //    contentpaie += `
+                    
+                //    `                });
                 $('.DOCMODAL').empty();
                 $('.DOCMODAL').html(contentpaie);
             }

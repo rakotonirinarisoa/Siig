@@ -225,30 +225,18 @@ $('[data-action="GenereR"]').click(async function () {
 
                 $('.afb160Paie').empty();
                 $('.afb160Paie').html(contentpaie);
-                
-                //$('#TBD_PROJET').DataTable().clear();
-                //$('#TBD_PROJET').DataTable().destroy();
 
                 //new DataTable(`#TBD_PROJET`, {
-                //    dom: 'Bfrtip',
-                //    buttons: ['colvis'],
-                //    colReorder: true,
+                //    //dom: 'Bfrtip',
+                //    //buttons: ['colvis'],
+                //    //colReorder: false,
+                    
                 //    responsive: true,
                 //    retrieve: true,
-                //    paging: true
+                //    paging: true,
+                //    search: true
+                //    //destroy:true
                 //});
-
-                new DataTable(`#TBD_PROJET`, {
-                    //dom: 'Bfrtip',
-                    //buttons: ['colvis'],
-                    //colReorder: false,
-                    
-                    responsive: true,
-                    retrieve: true,
-                    paging: true,
-                    search: true
-                    //destroy:true
-                });
             }
         },
         error: function () {
@@ -325,17 +313,17 @@ function GetListLOAD() {
                 $('.traitementORDSEC').empty();
                 $('.traitementORDSEC').html(contentpaie);
 
-                new DataTable(`#TBD_PROJET`, {
-                    //dom: 'Bfrtip',
-                    //buttons: ['colvis'],
-                    //colReorder: false,
+                //new DataTable(`#TBD_PROJET`, {
+                //    //dom: 'Bfrtip',
+                //    //buttons: ['colvis'],
+                //    //colReorder: false,
 
-                    responsive: true,
-                    retrieve: true,
-                    paging: true,
-                    search: true
-                    //destroy:true
-                });
+                //    responsive: true,
+                //    retrieve: true,
+                //    paging: true,
+                //    search: true
+                //    //destroy:true
+                //});
             }
         },
         error: function () {
@@ -403,17 +391,17 @@ function GetListLOADOTHER() {
                 $('.traitementORDSECOTHER').empty();
                 $('.traitementORDSECOTHER').html(contentpaie);
 
-                new DataTable(`#TBD_PROJET`, {
-                    //dom: 'Bfrtip',
-                    //buttons: ['colvis'],
-                    //colReorder: false,
+                //new DataTable(`#TBD_PROJET`, {
+                //    //dom: 'Bfrtip',
+                //    //buttons: ['colvis'],
+                //    //colReorder: false,
 
-                    responsive: true,
-                    retrieve: true,
-                    paging: true,
-                    search: true
-                    //destroy:true
-                });
+                //    responsive: true,
+                //    retrieve: true,
+                //    paging: true,
+                //    search: true
+                //    //destroy:true
+                //});
             }
         },
         error: function () {
@@ -491,17 +479,17 @@ $('[data-action="GenereSIIGOTHER"]').click(function () {
                 $('.traitementORDSECOTHER').empty();
                 $('.traitementORDSECOTHER').html(contentpaie);
 
-                new DataTable(`#TBD_PROJET`, {
-                    //dom: 'Bfrtip',
-                    //buttons: ['colvis'],
-                    //colReorder: false,
+                //new DataTable(`#TBD_PROJET`, {
+                //    //dom: 'Bfrtip',
+                //    //buttons: ['colvis'],
+                //    //colReorder: false,
 
-                    responsive: true,
-                    retrieve: true,
-                    paging: true,
-                    search: true
-                    //destroy:true
-                });
+                //    responsive: true,
+                //    retrieve: true,
+                //    paging: true,
+                //    search: true
+                //    //destroy:true
+                //});
             }
         },
         error: function () {
@@ -584,17 +572,17 @@ $('[data-action="GenereSIIG"]').click(function () {
                 $('.traitementORDSEC').empty();
                 $('.traitementORDSEC').html(contentpaie);
 
-                new DataTable(`#TBD_PROJET`, {
-                    //dom: 'Bfrtip',
-                    //buttons: ['colvis'],
-                    //colReorder: false,
+                //new DataTable(`#TBD_PROJET`, {
+                //    //dom: 'Bfrtip',
+                //    //buttons: ['colvis'],
+                //    //colReorder: false,
 
-                    responsive: true,
-                    retrieve: true,
-                    paging: true,
-                    search: true
-                    //destroy:true
-                });
+                //    responsive: true,
+                //    retrieve: true,
+                //    paging: true,
+                //    search: true
+                //    //destroy:true
+                //});
             }
         },
         error: function () {
