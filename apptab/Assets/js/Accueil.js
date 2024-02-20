@@ -475,63 +475,10 @@ $('[data-action="GetElementChecked"]').click(function () {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            $.each(listid, function (k, x) {
-                $.each(ListResult, function (k, v) {
-                    if (v != null) {
-                        if (v.No == x) {
-                            validate += `
-                                    <tr compteG-id="${v.No}">
-                                    </td ><td>${v.No}</td>
-                                    <td>${v.Date}</td>
-                                    <td>${v.NoPiece}</td>
-                                    <td>${v.Compte}</td>
-                                    <td>${v.Libelle}</td>
-                                    <td>${v.Montant}</td>
-                                    <td>${v.MontantDevise}</td>
-                                    <td>${v.Mon}</td>
-                                    <td>${v.Rang}</td>
-                                    <td>${v.Poste}</td>
-                                    <td>${v.FinancementCategorie}</td>
-                                    <td>${v.Commune}</td>
-                                    <td>${v.Plan6}</td>
-                                    <td>${v.Journal}</td>
-                                    <td>${v.Marche}</td>
-                                    <td>${v.Status}</td>
-
-                                </tr>`;
-
-                        } else {
-                            content += `
-                            <tr compteG-id="${v.No}"><td>
-                                    <input type="checkbox" name = "checkprod" compteg-ischecked/>
-                               </td><td>${v.No}</td>
-                                <td>${v.Date}</td>
-                                <td>${v.NoPiece}</td>
-                                <td>${v.Compte}</td>
-                                <td>${v.Libelle}</td>
-                                <td>${v.Montant}</td>
-                                <td>${v.MontantDevise}</td>
-                                <td>${v.Mon}</td>
-                                <td>${v.Rang}</td>
-                                <td>${v.Poste}</td>
-                                <td>${v.FinancementCategorie}</td>
-                                <td>${v.Commune}</td>
-                                <td>${v.Plan6}</td>
-                                <td>${v.Journal}</td>
-                                <td>${v.Marche}</td>
-                                <td>${v.Status}</td>
-                            </tr>`
-                        }
-                    }
-                });
-                $.each(listid, (k, v) => {
-                    $(`[compteG-id="${v}"]`).remove();
-                });
-               
-                $('.afb160').empty();
-                $('.afb160').html(content);
-                //$('#afb').html(validate);
+            $.each(listid, (k, v) => {
+                $(`[compteG-id="${v}"]`).remove();
             });
+           
         },
         error: function () {
             alert("Problème de connexion. ");

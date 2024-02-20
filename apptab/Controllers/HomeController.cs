@@ -518,7 +518,6 @@ namespace apptab.Controllers
         [HttpPost]
         public JsonResult GetElementValiderF(string listCompte , SI_USERS suser)
         {
-            
             AFB160 aFB160 = new AFB160();
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));

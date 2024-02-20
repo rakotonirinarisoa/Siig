@@ -675,7 +675,6 @@ $('[data-action="GetElementChecked"]').click(function () {
         success: function (result) {
             var Datas = JSON.parse(result);
             reglementresult = ``;
-
             $.each(listid, (k, v) => {
                 $(`[compteG-id="${v}"]`).remove();
             });
