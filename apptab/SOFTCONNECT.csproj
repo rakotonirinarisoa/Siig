@@ -234,7 +234,9 @@
     <Compile Include="Models\HSI_PROCEDURE.cs" />
     <Compile Include="Models\HSI_PROGRAMME.cs" />
     <Compile Include="Models\HSI_PROSOA.cs" />
+    <Compile Include="Models\HSI_SOAS.cs" />
     <Compile Include="Models\MCOMPTA.cs" />
+    <Compile Include="Models\Model1.cs" />
     <Compile Include="Models\MOP.cs" />
     <Compile Include="Models\OPA_ANOMALIE.cs" />
     <Compile Include="Models\OPA_ANOMALIEBR.cs" />
@@ -2165,7 +2167,6 @@
     <Content Include="Assets\js\Min.js" />
     <Content Include="Assets\js\Act.js" />
     <Content Include="Assets\js\Motif.js" />
-    <Content Include="Assets\js\TeacherValidations.js" />
     <Content Include="Assets\js\TraitmandatDOC.js" />
     <Content Include="Assets\js\TraitmandatANNUL.js" />
     <Content Include="Assets\js\TraitmandatLIAS.js" />

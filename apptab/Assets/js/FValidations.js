@@ -287,11 +287,11 @@ $('[data-action="ChargerJs"]').click(function () {
                     ListResult = Datas.data
                     $.each(ListResult, function (k, v) {
                         content += `
-                    <tr compteG-id="${v.No}">
+                    <tr compteG-id="${v.IDREGLEMENT}">
                         <td>
                             <input type="checkbox" name = "checkprod" compteg-ischecked onchange = "checkdel()"/>
-                        </td><td>${v.No}</td>
-                        <td>${v.DateOrdre}</td>
+                        </td><td>${v.IDREGLEMENT}</td>
+                        <td>${v.dateOrdre}</td>
                         <td>${v.NoPiece}</td>
                         <td>${v.Compte}</td>
                         <td>${v.Libelle}</td>
@@ -353,11 +353,11 @@ $('[data-action="ChargerJs"]').click(function () {
                     content = ``;
                     $.each(ListResult, function (k, v) {
                         content += `
-                    <tr compteG-id="${v.No}">
+                    <tr compteG-id="${v.IDREGLEMENT}">
                         <td>
                             <input type="checkbox" name = "checkprod" compteg-ischecked onchange = "checkdel()"/>
-                        </td><td>${v.No}</td>
-                        <td>${v.Date}</td>
+                        </td><td>${v.IDREGLEMENT}</td>
+                        <td>${v.dateOrdre}</td>
                         <td>${v.NoPiece}</td>
                         <td>${v.Compte}</td>
                         <td>${v.Libelle}</td>
