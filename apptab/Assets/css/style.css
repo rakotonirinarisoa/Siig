@@ -399,3 +399,18 @@ li.active a {
 .os-padding {
     bottom: 8%;
 }
+
+.login-page {
+    background: no-repeat center url('../img/bg.jpg');
+    background-size: cover;
+}
+
+.imageHover:hover .imageHoverLogo {
+    width: 60% !important;
+}
+
+.auth-login {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 1rem;
+}

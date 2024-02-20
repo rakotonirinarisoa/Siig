@@ -132,10 +132,6 @@ namespace apptab.Controllers
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
 
-                decimal MTN = 0;
-                decimal MTNPJ = 0;
-                var PCOP = "";
-
                 //Check si la correspondance des états est OK//
                 var numCaEtapAPP = db.SI_PARAMETAT.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null);
                 if (numCaEtapAPP == null) return Json(JsonConvert.SerializeObject(new { type = "PEtat", msg = "Veuillez paramétrer la correspondance des états. " }, settings));
@@ -151,6 +147,10 @@ namespace apptab.Controllers
                 {
                     foreach (var x in tom.CPTADMIN_FLIQUIDATION.Where(a => a.DATELIQUIDATION >= DateDebut && a.DATELIQUIDATION <= DateFin).OrderBy(a => a.DATELIQUIDATION).ToList())
                     {
+                        decimal MTN = 0;
+                        decimal MTNPJ = 0;
+                        var PCOP = "";
+
                         //Get total MTN dans CPTADMIN_MLIQUIDATION pour vérification du SOMMES MTN M = SOMMES MTN MPJ//
                         if (tom.CPTADMIN_MLIQUIDATION.Any(a => a.IDLIQUIDATION == x.ID))
                         {
@@ -502,7 +502,7 @@ namespace apptab.Controllers
                             REF = x.TYPEPIECE,
                             OBJ = x.RANG.ToString(),
                             TITUL = x.NOMBRE.ToString(),
-                            DATE = x.DATECRE.Value.Date,
+                            //DATE = x.DATECRE.Value.Date,
                             MONT = Math.Round(x.MONTANT.Value, 2).ToString(),
                             LIEN = x.LIEN
                         });
@@ -569,29 +569,30 @@ namespace apptab.Controllers
                 SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
-                List<DATATRPROJET> list = new List<DATATRPROJET>();
+                //List<DATATRPROJET> list = new List<DATATRPROJET>();
+                var newElemH = new DATATRPROJET();
 
-                if (tom.TP_MPIECES_JUSTIFICATIVES.FirstOrDefault(a => a.NUMERO_FICHE == IdF) != null)
+                if (tom.TP_MPIECES_JUSTIFICATIVES.FirstOrDefault(a => a.NUMERO_FICHE == IdF && (a.TYPEPIECE == "DEF" || a.TYPEPIECE == "TEF" || a.TYPEPIECE == "BE")) != null)
                 {
-                    foreach (var x in tom.TP_MPIECES_JUSTIFICATIVES.Where(a => a.NUMERO_FICHE == IdF && (a.TYPEPIECE == "DEF" || a.TYPEPIECE == "TEF" || a.TYPEPIECE == "BE")).ToList())
-                    {
-                        var def = "";
-                        if (x.TYPEPIECE == "DEF") def = x.LIEN;
-                        var tef = "";
-                        if (x.TYPEPIECE == "TEF") tef = x.LIEN;
-                        var be = "";
-                        if (x.TYPEPIECE == "BE") be = x.LIEN;
+                    var def = "";
+                    if (tom.TP_MPIECES_JUSTIFICATIVES.FirstOrDefault(a => a.NUMERO_FICHE == IdF && a.TYPEPIECE == "DEF") != null)
+                        def = tom.TP_MPIECES_JUSTIFICATIVES.FirstOrDefault(a => a.NUMERO_FICHE == IdF && a.TYPEPIECE == "DEF").LIEN;
+                    var tef = "";
+                    if (tom.TP_MPIECES_JUSTIFICATIVES.FirstOrDefault(a => a.NUMERO_FICHE == IdF && a.TYPEPIECE == "TEF") != null)
+                        tef = tom.TP_MPIECES_JUSTIFICATIVES.FirstOrDefault(a => a.NUMERO_FICHE == IdF && a.TYPEPIECE == "TEF").LIEN;
+                    var be = "";
+                    if (tom.TP_MPIECES_JUSTIFICATIVES.FirstOrDefault(a => a.NUMERO_FICHE == IdF && a.TYPEPIECE == "BE") != null)
+                        be = tom.TP_MPIECES_JUSTIFICATIVES.FirstOrDefault(a => a.NUMERO_FICHE == IdF && a.TYPEPIECE == "BE").LIEN;
 
-                        list.Add(new DATATRPROJET
-                        {
-                            REF = def,
-                            OBJ = tef,
-                            TITUL = be
-                        });
-                    }
+                    newElemH = new DATATRPROJET()
+                    {
+                        REF = def,
+                        OBJ = tef,
+                        TITUL = be
+                    };
                 }
 
-                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = newElemH }, settings));
             }
             catch (Exception e)
             {
@@ -707,10 +708,6 @@ namespace apptab.Controllers
 
                 List<DATATRPROJET> list = new List<DATATRPROJET>();
 
-                decimal MTN = 0;
-                decimal MTNPJ = 0;
-                var PCOP = "";
-
                 //Check si la correspondance des états est OK//
                 var numCaEtapAPP = db.SI_PARAMETAT.FirstOrDefault(a => a.IDPROJET == crpt && a.DELETIONDATE == null);
                 if (numCaEtapAPP == null) return Json(JsonConvert.SerializeObject(new { type = "PEtat", msg = "Veuillez paramétrer la correspondance des états. " }, settings));
@@ -726,6 +723,10 @@ namespace apptab.Controllers
                 {
                     foreach (var x in tom.CPTADMIN_FLIQUIDATION.OrderBy(a => a.DATELIQUIDATION).ToList())
                     {
+                        decimal MTN = 0;
+                        decimal MTNPJ = 0;
+                        var PCOP = "";
+
                         //Get total MTN dans CPTADMIN_MLIQUIDATION pour vérification du SOMMES MTN M = SOMMES MTN MPJ//
                         if (tom.CPTADMIN_MLIQUIDATION.Any(a => a.IDLIQUIDATION == x.ID))
                         {
