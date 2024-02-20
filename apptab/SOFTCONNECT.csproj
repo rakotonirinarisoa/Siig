@@ -290,6 +290,7 @@
     <Compile Include="Models\SI_DELAISTRAITEMENT.cs" />
     <Compile Include="Models\SI_GEDLIEN.cs" />
     <Compile Include="Models\SI_PRIVILEGE.cs" />
+    <Compile Include="Models\SI_TYPECRITURE.cs" />
     <Compile Include="SOFTCONNECTOM.cs" />
     <Compile Include="SOFTCONNECTSIIG.cs" />
     <Compile Include="Models\TP_MPIECES_JUSTIFICATIVES.cs" />
@@ -2147,6 +2148,7 @@
     <Content Include="Assets\img\LogoS.png" />
     <Content Include="Assets\js\BonPourPaiement.js" />
     <Content Include="Assets\js\FValidations.js" />
+    <Content Include="Assets\js\TypeC.js" />
     <Content Include="Assets\js\TeacherValidations.js" />
     <Content Include="Assets\js\Crypto.js" />
     <Content Include="Assets\js\DetailCrypto.js" />
@@ -4559,6 +4561,7 @@
     <Content Include="Views\SuperAdmin\MenuCreate.cshtml" />
     <Content Include="Views\Privilege\List.cshtml" />
     <Content Include="Views\Traitement\TraitementORDSECOTHER.cshtml" />
+    <Content Include="Views\Parametre\TypeECreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

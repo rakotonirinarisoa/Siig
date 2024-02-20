@@ -1250,5 +1250,83 @@ namespace apptab.Controllers
                 return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
             }
         }
+
+        //TYPE ECRITURE//
+        public ActionResult TypeECreate()
+        {
+            ViewBag.Controller = "Paramétrage type d'écriture";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DetailsTypeE(SI_USERS suser)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int crpt = exist.IDPROJET.Value;
+                var crpto = db.SI_TYPECRITURE.FirstOrDefault(a => a.DELETIONDATE == null);
+                if (crpto != null)
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "message", data = crpto }, settings));
+                }
+                else
+                {
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez paramétrer le type d'écriture. " }, settings));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = e.Message }, settings));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateTypeE(SI_USERS suser, SI_TYPECRITURE param)
+        {
+            var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
+            if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
+
+            try
+            {
+                int IdS = exist.IDPROJET.Value;
+                var SExist = db.SI_TYPECRITURE.FirstOrDefault(a => a.DELETIONDATE == null);
+
+                if (SExist != null)
+                {
+                    if (SExist.TYPE != param.TYPE)
+                    {
+                        SExist.TYPE = param.TYPE;
+                        SExist.IDUSER = exist.ID;
+                        SExist.CREATIONDATE = DateTime.Now;
+                        db.SaveChanges();
+                    }
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+                else
+                {
+                    var newPara = new SI_TYPECRITURE()
+                    {
+                        TYPE = param.TYPE,
+                        IDPROJET = IdS,
+                        CREATIONDATE = DateTime.Now,
+                        IDUSER = exist.ID
+                    };
+
+                    db.SI_TYPECRITURE.Add(newPara);
+                    db.SaveChanges();
+
+                    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Enregistrement avec succès. ", data = param }, settings));
+                }
+            }
+            catch (Exception)
+            {
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur d'enregistrement de l'information. " }, settings));
+            }
+        }
     }
 }
