@@ -17,6 +17,9 @@ let reglementresult;
 
 let listEtat;
 let etaCode;
+
+var baseName;
+
 $(document).ready(() => {
 
     User = JSON.parse(sessionStorage.getItem("user"));
@@ -29,19 +32,55 @@ $(document).ready(() => {
 
     /*console.log($(`[tab="autre"]`).hide());*/
     
+    GetTypeP();
     GetUR();
-    GetListCodeJournal("2");
+    GetListCodeJournal();
     //GetListCompG();
 });
 
-function GetListCompG(id) {
+function GetTypeP() {
     let formData = new FormData();
 
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDSOCIETE", User.IDSOCIETE);
-    formData.append("baseName", id);
+    $.ajax({
+        type: "POST",
+        url: Origin + '/Home/GetTypeP',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            var Datas = JSON.parse(result);
+            baseName = Datas;
+            console.log(Datas);
+
+            if (Datas.type == "error") {
+                alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
+        },
+        error: function () {
+            alert("Problème de connexion. ");
+        }
+    });
+};
+
+function GetListCompG() {
+    let formData = new FormData();
+
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDSOCIETE", User.IDSOCIETE);
+    //formData.append("baseName", id);
 
     $.ajax({
         type: "POST",
@@ -150,13 +189,13 @@ $(document).on("change", "[auxi-list]", () => {
     FillCompteName();
 });
 
-function GetListCodeJournal(id) {
+function GetListCodeJournal() {
     let formData = new FormData();
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDSOCIETE);
-    formData.append("baseName", id);
+    //formData.append("baseName", id);
 
     $.ajax({
         type: "POST",
@@ -196,7 +235,7 @@ function GetListCodeJournal(id) {
             alert("Problème de connexion. ");
         }
     }).done(function (res) {
-        GetListCompG(id);
+        GetListCompG();
     });
 }
 $(document).on("change", "[codej-list]", () => {
@@ -249,7 +288,6 @@ $('.Checkall').change(function () {
 function checkdel(id) {
     $('.Checkall').prop("checked", false);
 }
-
 $('[data-action="ChargerJs"]').click(function () {
     let formData = new FormData();
     //alert(baseName);
@@ -417,7 +455,7 @@ $('[data-action="GetElementChecked"]').click(function () {
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
     formData.append("listCompte", list);
-    formData.append("baseName", baseName);
+    //formData.append("baseName", baseName);
     formData.append("journal", $('#commercial').val());
     formData.append("devise", false);
     let listid = list.splice(',');
@@ -437,9 +475,6 @@ $('[data-action="GetElementChecked"]').click(function () {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            //reglementresult = ``;
-            //reglementresult = Datas.data;
-            //console.log(reglementresult);
             $.each(listid, function (k, x) {
                 $.each(ListResult, function (k, v) {
                     if (v != null) {
@@ -567,73 +602,7 @@ $('[data-action="GetAnomalieListes"]').click(function () {
 })
 
 function getelementTXT(a) {
-    //var anal = new Array();
-
-    //UXD
-    //var list = "";
-    //$.each($("#afb tr[compteg-id]"), (k, v) => {
-    //    list += $(v).attr("compteg-id") + ",";
-    //});
-
-    //let formData = new FormData();
-    //formData.append("suser.LOGIN", User.LOGIN);
-    //formData.append("suser.PWD", User.PWD);
-    //formData.append("suser.ROLE", User.ROLE);
-    //formData.append("suser.IDSOCIETE", User.IDSOCIETE);
-    //formData.append("list", list);
-
-    //$.ajax({
-    //    type: "POST",
-    //    url: urlOrigin + '/Home/CreateZipFile',
-    //    cache: false,
-    //    contentType: 'application/json; charset=utf-8',
-    //    processData: false,
-    //    data: formData,
-    //    success: function (result) {
-    //        var Datas = JSON.parse(result);
-    //        console.log(Datas);
-    //    },
-    //    error: function () {
-    //        alert("Problème de connexion. ");
-    //    }
-    //});
-    //UXD
-
-
-    //tsy sitonina le ambiny
-    //$("#afb tr").each(function () {
-    //    var row = $(this);
-    //    var ttab = {};
-    //    ttab.Numero = row.find("TD").eq(1).html();
-
-    //    ttab.Datedordre = row.find("TD").eq(2).html();
-
-    //    var txtR = row.find("TD").eq(3).html();
-    //    var repl = /<br>/gi;
-    //    if (txtR) {
-    //        txtR = txtR.replace(repl, '\\n');
-    //        txtR = jQuery('<p>' + txtR + '</p>').text();
-    //    }
-    //    ttab.NumPiece = jQuery('<p>' + txtR + '</p>').text();
-
-    //    ttab.Compte = row.find("TD").eq(4).html();
-    //    ttab.Libelle = row.find("TD").eq(5).html();
-    //    ttab.debit = row.find("TD").eq(6).html();
-    //    ttab.credit = row.find("TD").eq(7).html();
-    //    ttab.Montadevise = row.find("TD").eq(8).html();
-    //    ttab.Mon = row.find("TD").eq(9).html();
-    //    ttab.Rang = row.find("TD").eq(10).html();
-    //    ttab.FinCat = row.find("TD").eq(11).html();
-    //    ttab.Comm = row.find("TD").eq(12).html();
-    //    ttab.Plan6 = row.find("TD").eq(13).html();
-    //    ttab.Journal = row.find("TD").eq(14).html();
-    //    ttab.Marche = row.find("TD").eq(15).html();
-    //    anal.push(ttab);
-    //});
-
-    //anal.shift();
-    //var analY = anal;
-
+   
     let formData = new FormData();
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.ID", User.ID);
@@ -667,7 +636,7 @@ function getelementTXT(a) {
     });
 }
 //$(`[tab="autre"]`).hide();
-var baseName = "2";
+
 $(`[name="options"]`).on("change", (k, v) => {
     
     var baseId = $(k.target).attr("data-id");

@@ -31,6 +31,7 @@ $(document).ready(() => {
     
     GetUR();
     GetListCodeJournal();
+    chargeLoad();
     //GetListCompG();
 });
 
@@ -236,7 +237,135 @@ $('.Checkall').change(function () {
 function checkdel(id) {
     $('.Checkall').prop("checked", false);
 }
+//GetAcceptecritureLoad
+function chargeLoad() {
+    let formData = new FormData();
+    formData.append("suser.LOGIN", User.LOGIN);
+    formData.append("suser.PWD", User.PWD);
+    formData.append("suser.ROLE", User.ROLE);
+    formData.append("suser.IDPROJET", User.IDPROJET);
+    formData.append("ChoixBase", baseName);
+    if (baseName == 2) {
+        //compta
+       
+        $.ajax({
+            type: "POST",
+            url: Origin + '/Home/GetAcceptecritureLoad',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                var Datas = JSON.parse(result);
+                console.log(Datas.data);
 
+                if (Datas.type == "error") {
+                    alert(Datas.msg);
+                    return;
+                }
+                if (Datas.type == "success") {
+                    //window.location = window.location.origin;
+                    ListResult = Datas.data
+                    console.log(ListResult);
+                    $.each(ListResult, function (k, v) {
+                        content += `
+                    <tr compteG-id="${v.IDREGLEMENT}">
+                        <td>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked onchange = "checkdel()"/>
+                        </td><td>${v.IDREGLEMENT}</td>
+                        <td>${v.dateOrdre}</td>
+                        <td>${v.NoPiece}</td>
+                        <td>${v.Compte}</td>
+                        <td>${v.Libelle}</td>
+                        <td>${v.Debit}</td>
+                        <td>${v.Credit}</td>
+                        <td>${v.MontantDevise}</td>
+                        <td>${v.Mon}</td>
+                        <td>${v.Rang}</td>
+                        <td>${v.FinancementCategorie}</td>
+                        <td>${v.Commune}</td>
+                        <td>${v.Plan6}</td>
+                        <td>${v.Journal}</td>
+                        <td>${v.Marche}</td>
+                        <td></td>
+                         <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.No})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
+                    </tr>`
+
+                    });
+                    $('.afb160').empty();
+                    $('.afb160').html(content);
+                }
+
+
+            },
+            error: function () {
+                alert("Problème de connexion. ");
+            }
+        });
+
+    } else {
+        //BR
+      
+
+        $.ajax({
+            type: "POST",
+            url: Origin + '/Home/GetAcceptecriture',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                var Datas = JSON.parse(result);
+                console.log(Datas);
+
+                if (Datas.type == "error") {
+                    alert(Datas.msg);
+                    return;
+                }
+                if (Datas.type == "success") {
+                    //window.location = window.location.origin;
+                    ListResult = Datas.data
+                    content = ``;
+                    $.each(ListResult, function (k, v) {
+                        content += `
+                    <tr compteG-id="${v.IDREGLEMENT}">
+                        <td>
+                            <input type="checkbox" name = "checkprod" compteg-ischecked onchange = "checkdel()"/>
+                        </td><td>${v.IDREGLEMENT}</td>
+                        <td>${v.dateOrdre}</td>
+                        <td>${v.NoPiece}</td>
+                        <td>${v.Compte}</td>
+                        <td>${v.Libelle}</td>
+                        <td>${v.Montant}</td>
+                        <td>${v.MontantDevise}</td>
+                        <td>${v.Mon}</td>
+                        <td>${v.Rang}</td>
+                        <td>${v.Poste}</td>
+                        <td>${v.FinancementCategorie}</td>
+                        <td>${v.Commune}</td>
+                        <td>${v.Plan6}</td>
+                        <td>${v.Journal}</td>
+                        <td>${v.Marche}</td>
+                        <td>${v.Status}</td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.No})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
+                    </tr>`
+
+                    });
+                    $('.afb160').empty();
+                    $('.afb160').html(content);
+
+                }
+
+
+            },
+            error: function () {
+                alert("Problème de connexion. ");
+            }
+        });
+
+        $('.afb160').empty()
+    }
+}
 $('[data-action="ChargerJs"]').click(function () {
     let formData = new FormData();
     formData.append("suser.LOGIN", User.LOGIN);
@@ -266,7 +395,7 @@ $('[data-action="ChargerJs"]').click(function () {
             success: function (result) {
                 var Datas = JSON.parse(result);
                 console.log(Datas.data);
-
+                $('.afb160').html('');
                 if (Datas.type == "error") {
                     alert(Datas.msg);
                     return;
@@ -274,13 +403,16 @@ $('[data-action="ChargerJs"]').click(function () {
                 if (Datas.type == "success") {
                     //window.location = window.location.origin;
                     ListResult = Datas.data
+                    console.log(ListResult);
+                    content = ``;
                     $.each(ListResult, function (k, v) {
                         content += `
-                    <tr compteG-id="${v.No}">
+                    <tr compteG-id="${v.IDREGLEMENT}">
                         <td>
                             <input type="checkbox" name = "checkprod" compteg-ischecked onchange = "checkdel()"/>
-                        </td><td>${v.No}</td>
-                        <td>${v.DateOrdre}</td>
+                        </td>
+                        <td>${v.IDREGLEMENT}</td>
+                        <td>${v.dateOrdre}</td>
                         <td>${v.NoPiece}</td>
                         <td>${v.Compte}</td>
                         <td>${v.Libelle}</td>
@@ -294,11 +426,11 @@ $('[data-action="ChargerJs"]').click(function () {
                         <td>${v.Plan6}</td>
                         <td>${v.Journal}</td>
                         <td>${v.Marche}</td>
-                         <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.No})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
+                         <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.IDREGLEMENT})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
                     </tr>`
 
                     });
-                    $('.afb160').empty();
+                    $('.afb160').html('');
                     $('.afb160').html(content);
                 }
 
@@ -343,11 +475,11 @@ $('[data-action="ChargerJs"]').click(function () {
                     content = ``;
                     $.each(ListResult, function (k, v) {
                         content += `
-                    <tr compteG-id="${v.No}">
+                    <tr compteG-id="${v.IDREGLEMENT}">
                         <td>
                             <input type="checkbox" name = "checkprod" compteg-ischecked onchange = "checkdel()"/>
-                        </td><td>${v.No}</td>
-                        <td>${v.Date}</td>
+                        </td><td>${v.IDREGLEMENT}</td>
+                        <td>${v.dateOrdre}</td>
                         <td>${v.NoPiece}</td>
                         <td>${v.Compte}</td>
                         <td>${v.Libelle}</td>
@@ -362,7 +494,7 @@ $('[data-action="ChargerJs"]').click(function () {
                         <td>${v.Journal}</td>
                         <td>${v.Marche}</td>
                         <td>${v.Status}</td>
-                        <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.No})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.IDREGLEMENT})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
                     </tr>`
 
                     });
@@ -493,22 +625,35 @@ $('[data-action="GetElementChecked"]').click(function () {
 
     let formData = new FormData();
     console.log(list);
+    let listid = list.splice(',');
+
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
     formData.append("suser.IDPROJET", User.IDPROJET);
-    formData.append("listCompte", list);
-    formData.append("baseName", baseName);
-    formData.append("journal", $('#commercial').val());
+
+    let datein = $('#Pdu').val();
+    let dateout = $('#Pau').val();
+    let journal = $('#commercial').val();
+    let comptaG = $('#comptaG').val();
+    let auxi = $('#auxi').val();
+    let dateP = $('#Pay').val();
+    let etat = $('#etat').val();
+
+    formData.append("datein", datein);
+    formData.append("dateout", dateout);
+    formData.append("journal", journal);
+    formData.append("comptaG", comptaG)
+    formData.append("auxi", auxi);
+    formData.append("auxi1", auxi);
+    formData.append("dateP", dateP);
     formData.append("devise", false);
-    let listid = list.splice(',');
-    formData.append("datein", $('#Pdu').val());
-    formData.append("dateout", $('#Pau').val());
-    formData.append("comptaG", $('#comptaG').val());
-    formData.append("auxi", $('#auxi').val());
-    formData.append("auxi1", $('#auxi').val());
-    formData.append("dateP", $('#Pay').val());
-    formData.append("etat", $('#etat').val());
+    formData.append("etat", etat);
+    formData.append("listCompte", listid);
+
+   
+    //ValidationsEcrituresF
+    //tokony io no antsoina
     $.ajax({
         type: "POST",
         url: Origin + '/Home/GetAcceptecritureF',

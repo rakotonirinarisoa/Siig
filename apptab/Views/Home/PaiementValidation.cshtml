@@ -3,17 +3,6 @@
     ViewBag.Title = "PaiementValidation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="btn-group btn-group-toggle mb-3 d-flex flex-wrap" data-toggle="buttons" style="width:100%">
-    @*<label class="btn btn-outline-info">
-        <input type="radio" name="options" id="b_paie" autocomplete="off" checked data-id="1"> PAIE
-    </label>*@
-    <label class="btn btn-outline-warning">
-        <input type="radio" name="options" id="b_compta" autocomplete="off" data-id="2"> COMPTA
-    </label>
-    <label class="btn btn-outline-danger">
-        <input type="radio" name="options" id="b_br" autocomplete="off" data-id="3"> BR
-    </label>
-</div>
 
 <div>
     <div class="form-row">
@@ -90,13 +79,14 @@
         </div>
     </div>
     <div class="form-row mb-3">
-        <div class="input-group mb-3 col-md-9">
-        </div>
-        <div class="mb-3 col col-sm-12 col-md-3">
-            <div class="btn btn-flat bg-gradient-green col-12" data-action="ChargerJs">
-                <i class="fa fa-upload"></i> Charger
+        <div class="input-group mb-3 col">
+            <div class="mb-3 col ">
+                <div class="btn btn-flat bg-gradient-green col-12" data-action="ChargerJs">
+                    <i class="fa fa-upload"></i> Générer
+                </div>
             </div>
         </div>
+        
     </div>
 </div>
 <div class="table-responsive mb-3 OPF" style="max-height:400px" tab="autre">
@@ -129,13 +119,14 @@
     </table>
 </div>
 <div class="form-row mb-3">
-    <div class="input-group mb-3 col-md-9">
-    </div>
-    <div class="mb-3 col col-sm-12 col-md-3">
-        <div class="btn btn-flat bg-gradient-green col-12" data-action="GetElementChecked">
-            <i class="fa fa-upload"></i> Sauvegarder
+    <div class="input-group mb-3 ">
+        <div class="mb-3 col ">
+            <div class="btn btn-flat bg-gradient-green col-12" data-action="GetElementChecked">
+                <i class="fa fa-upload"></i> Sauvegarder pour attente validation
+            </div>
         </div>
     </div>
+   
 </div>
 <script src="~/Assets/js/Accueil.js"></script>
 

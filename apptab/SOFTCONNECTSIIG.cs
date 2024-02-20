@@ -101,6 +101,25 @@ namespace apptab
             modelBuilder.Entity<OPA_REGLEMENTBR>()
                 .Property(e => e.MONTANT)
                 .HasPrecision(18, 0);
+            modelBuilder.Entity<OPA_VALIDATIONS>()
+                .Property(e => e.IDREGLEMENT)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<OPA_VALIDATIONS>()
+                .Property(e => e.Debit)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<OPA_VALIDATIONS>()
+                .Property(e => e.Credit)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<OPA_VALIDATIONS>()
+                .Property(e => e.MontantDevise)
+                .HasPrecision(18, 0);
+            modelBuilder.Entity<OPA_VALIDATIONS>()
+              .Property(e => e.Devise)
+              .IsFixedLength();
+
         }
     }
 }
