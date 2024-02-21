@@ -311,7 +311,7 @@ namespace apptab.Controllers
             var basename = GetTypeP(suser);
             if (basename == null)
             {
-                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "Error", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
             }
             #region comms
             //if (baseName == "1")

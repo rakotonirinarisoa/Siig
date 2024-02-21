@@ -33,7 +33,7 @@ $(document).ready(() => {
     /*console.log($(`[tab="autre"]`).hide());*/
     
     GetTypeP();
-    GetUR();
+    //GetUR();
     GetListCodeJournal();
     //GetListCompG();
 });
@@ -211,7 +211,7 @@ function GetListCodeJournal() {
             }
             if (Datas.type == "login") {
                 alert(Datas.msg);
-                window.location = window.location.origin;
+                //window.location = window.location.origin;
                 return;
             }
             
