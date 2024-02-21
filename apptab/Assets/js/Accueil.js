@@ -211,7 +211,7 @@ function GetListCodeJournal() {
             }
             if (Datas.type == "login") {
                 alert(Datas.msg);
-                window.location = window.location.origin;
+                //window.location = window.location.origin;
                 return;
             }
             
