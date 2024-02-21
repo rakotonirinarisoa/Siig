@@ -88,7 +88,7 @@ function ChargeLoad() {
                         <td>${v.Journal}</td>
                         <td>${v.Marche}</td>
                         <td></td>
-                        <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.IDREGLEMENT})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser('${v.IDREGLEMENT}')"><i class="fa fa-times fa-lg text-dark"</i></div></td>
                     </tr>`
 
                     });
@@ -454,7 +454,7 @@ $('[data-action="ChargerJs"]').click(function () {
                         <td>${v.Journal}</td>
                         <td>${v.Marche}</td>
                         <td></td>
-                        <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser(${v.IDREGLEMENT})"><i class="fa fa-times fa-lg text-dark"</i></div></td>
+                        <td class="elerfr" style="font-weight: bold; text-align:center" ><div onclick="Refuser('${v.IDREGLEMENT}')"><i class="fa fa-times fa-lg text-dark"</i></div></td>
                     </tr>`
 
                     });
