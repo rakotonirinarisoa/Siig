@@ -3,7 +3,7 @@ let Origin;
 
 $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
-    if (User == null || User === "undefined") window.location = "../";
+    if (User == null || User === "undefined") window.location = User.origin;
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
@@ -34,7 +34,6 @@ function GetListInstance() {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -63,7 +62,6 @@ function GetListInstance() {
             $(`input[data-id="${Datas.data.actual.TYPE}"`).click()
         },
         error: function (e) {
-            console.log(e);
             alert("Problème de connexion. ");
         }
     }).done(function (x) {
@@ -91,7 +89,6 @@ function GetDB(id, test) {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -115,7 +112,6 @@ function GetDB(id, test) {
                 $(`#DataBase`).val(Datas.data.mydb);
         },
         error: function (e) {
-            console.log(e);
             alert("Problème de connexion. ");
         }
     });
@@ -141,7 +137,6 @@ $("#save").click(() => {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -157,7 +152,6 @@ $("#save").click(() => {
             window.location.reload();
         },
         error: function (e) {
-            console.log(e);
             alert("Problème de connexion.");
         }
     });

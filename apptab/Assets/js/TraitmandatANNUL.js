@@ -34,6 +34,11 @@ function modalREJET(id) {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
 
             $(`[data-id="MOTIF-list"]`).text("");
 

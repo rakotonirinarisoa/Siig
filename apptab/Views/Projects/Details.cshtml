@@ -28,7 +28,7 @@
         user = JSON.parse(sessionStorage.getItem('user'));
 
         if (!user) {
-            window.location = "../";
+            window.location = User.origin;
         }
 
         originalTitle = $('#title').val();

@@ -3,7 +3,7 @@ let Origin;
 
 $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
-    if (User == null || User === "undefined") window.location = "../";
+    if (User == null || User === "undefined") window.location = User.origin;
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
@@ -120,6 +120,11 @@ function deleteUser(id) {
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             if (Datas.type == "success") {

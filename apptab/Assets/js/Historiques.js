@@ -8,7 +8,7 @@ let ListResultBr;
 $(document).ready(() => {
     
     User = JSON.parse(sessionStorage.getItem("user"));
-    if (User == null || User === "undefined") window.location = "../";
+    if (User == null || User === "undefined") window.location = User.origin;
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
@@ -39,6 +39,11 @@ function GetHistoriques() {
             var Datas = JSON.parse(result);
             //alert(Datas.data)
             if (Datas.type == "error") {
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             ListResult = Datas.data
@@ -160,6 +165,11 @@ $('[data-action="GetElementChecked"]').click(function () {
             var Datas = JSON.parse(result);
             //alert(Datas.data)
             if (Datas.type == "error") {
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             ListResult = Datas.data;

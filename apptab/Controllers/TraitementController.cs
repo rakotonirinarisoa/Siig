@@ -14,6 +14,7 @@ using apptab;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
 
 namespace apptab.Controllers
 {
@@ -570,7 +571,12 @@ namespace apptab.Controllers
                 SOFTCONNECTOM tom = new SOFTCONNECTOM();
 
                 //List<DATATRPROJET> list = new List<DATATRPROJET>();
-                var newElemH = new DATATRPROJET();
+                var newElemH = new DATATRPROJET()
+                {
+                    REF = "",
+                    OBJ = "",
+                    TITUL = ""
+                };
 
                 if (tom.TP_MPIECES_JUSTIFICATIVES.FirstOrDefault(a => a.NUMERO_FICHE == IdF && (a.TYPEPIECE == "DEF" || a.TYPEPIECE == "TEF" || a.TYPEPIECE == "BE")) != null)
                 {
@@ -586,9 +592,9 @@ namespace apptab.Controllers
 
                     newElemH = new DATATRPROJET()
                     {
-                        REF = def,
-                        OBJ = tef,
-                        TITUL = be
+                        REF = String.IsNullOrEmpty(def) ? "" : def,
+                        OBJ = String.IsNullOrEmpty(tef) ? "" : tef,
+                        TITUL = String.IsNullOrEmpty(be) ? "" : be
                     };
                 }
 
@@ -651,7 +657,7 @@ namespace apptab.Controllers
                     var ismod = db.SI_TRAITPROJET.FirstOrDefault(a => a.No == IdF);
                     ismod.ETAT = 2;
                     //ismod.DATECRE = DateTime.Now;
-                    ismod.DATEANNUL = null;
+                    ismod.DATEANNUL = DateTime.Now;
 
                     db.SaveChanges();
                 }
@@ -766,34 +772,37 @@ namespace apptab.Controllers
                             //TEST que F n'est pas encore traité ou F a été annulé// ETAT annulé = 2//
                             if (canBeDEF == false || canBeTEF == false || canBeBE == false)
                             {
-                                var titulaire = "";
-                                if (tom.RTIERS.Any(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE))
-                                    titulaire = tom.RTIERS.FirstOrDefault(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE).NOM;
-
-                                DateTime? DATEDEF = null;
-                                if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF))
-                                    DATEDEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF).DATECA;
-                                DateTime? DATETEF = null;
-                                if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF))
-                                    DATETEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF).DATECA;
-                                DateTime? DATEBE = null;
-                                if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE))
-                                    DATEBE = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE).DATECA;
-
-                                list.Add(new DATATRPROJET
+                                if (!db.SI_TRAITPROJET.Any(a => a.No == x.ID) || db.SI_TRAITPROJET.Any(a => a.No == x.ID && a.ETAT == 2))
                                 {
-                                    No = x.ID,
-                                    REF = x.NUMEROCA,
-                                    OBJ = x.DESCRIPTION,
-                                    TITUL = titulaire,
-                                    MONT = Math.Round(MTN, 2).ToString(),
-                                    COMPTE = x.COGEBENEFICIAIRE,
-                                    DATE = x.DATELIQUIDATION.Value.Date,
-                                    PCOP = PCOP,
-                                    DATEDEF = DATEDEF,
-                                    DATETEF = DATETEF,
-                                    DATEBE = DATEBE
-                                });
+                                    var titulaire = "";
+                                    if (tom.RTIERS.Any(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE))
+                                        titulaire = tom.RTIERS.FirstOrDefault(a => a.COGE == x.COGEBENEFICIAIRE && a.AUXI == x.AUXIBENEFICIAIRE).NOM;
+
+                                    DateTime? DATEDEF = null;
+                                    if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF))
+                                        DATEDEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.DEF).DATECA;
+                                    DateTime? DATETEF = null;
+                                    if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF))
+                                        DATETEF = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.TEF).DATECA;
+                                    DateTime? DATEBE = null;
+                                    if (tom.CPTADMIN_TRAITEMENT.Any(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE))
+                                        DATEBE = tom.CPTADMIN_TRAITEMENT.FirstOrDefault(a => a.NUMEROCA == x.NUMEROCA && a.NUMCAETAPE == numCaEtapAPP.BE).DATECA;
+
+                                    list.Add(new DATATRPROJET
+                                    {
+                                        No = x.ID,
+                                        REF = x.NUMEROCA,
+                                        OBJ = x.DESCRIPTION,
+                                        TITUL = titulaire,
+                                        MONT = Math.Round(MTN, 2).ToString(),
+                                        COMPTE = x.COGEBENEFICIAIRE,
+                                        DATE = x.DATELIQUIDATION.Value.Date,
+                                        PCOP = PCOP,
+                                        DATEDEF = DATEDEF,
+                                        DATETEF = DATETEF,
+                                        DATEBE = DATEBE
+                                    });
+                                }
                             }
                         }
                     }

@@ -28,24 +28,28 @@ function modalLIAS(id) {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResult = Datas.data
-                contentpaie = `<tr class="select-text">
+                contentpaie = ``;
+                if (ListResult.REF != "" || ListResult.OBJ != "" || ListResult.TITUL != "") {
+                    contentpaie += `<tr class="select-text">
                                     <td style="font-weight: bold; text-align:center"><a href="${ListResult.REF}" target="_blank">${ListResult.REF}</a></td>
                                     <td style="font-weight: bold; text-align:center"><a href="${ListResult.OBJ}" target="_blank">${ListResult.OBJ}</a></td>
                                     <td style="font-weight: bold; text-align:center"><a href="${ListResult.TITUL}" target="_blank">${ListResult.TITUL}</a></td>
                                 </tr>`;
-                //$.each(ListResult, function (k, v) {
-                //    contentpaie += `
-                    
-                //    `                });
+                }
+                
                 $('.DOCMODAL').empty();
                 $('.DOCMODAL').html(contentpaie);
             }

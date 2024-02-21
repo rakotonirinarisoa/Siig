@@ -20,7 +20,7 @@ let etaCode;
 $(document).ready(() => {
 
     User = JSON.parse(sessionStorage.getItem("user"));
-    if (User == null || User === "undefined") window.location = "../";
+    if (User == null || User === "undefined") window.location = User.origin;
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
@@ -118,6 +118,8 @@ function GetEtat() {
                 return;
             }
             if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             etaCode = `<option value = "Tous" > Tous</option> `;
@@ -282,6 +284,11 @@ $('[data-action="ChargerJs"]').click(function () {
                     alert(Datas.msg);
                     return;
                 }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
+                    return;
+                }
                 if (Datas.type == "success") {
                     //window.location = window.location.origin;
                     ListResult = Datas.data
@@ -345,6 +352,11 @@ $('[data-action="ChargerJs"]').click(function () {
 
                 if (Datas.type == "error") {
                     alert(Datas.msg);
+                    return;
+                }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
                     return;
                 }
                 if (Datas.type == "success") {
@@ -499,6 +511,11 @@ $('[data-action="GetAnomalieListes"]').click(function () {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResultAnomalie = Datas.data;
@@ -556,6 +573,11 @@ function getelementTXT(a) {
             var Datas = JSON.parse(result);
             alert(Datas.data)
             if (Datas.type == "error") {
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
 
