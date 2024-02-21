@@ -33,7 +33,7 @@ $(document).ready(() => {
     /*console.log($(`[tab="autre"]`).hide());*/
     
     GetTypeP();
-    GetUR();
+    //GetUR();
     GetListCodeJournal();
     //GetListCompG();
 });

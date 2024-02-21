@@ -305,13 +305,12 @@ namespace apptab.Controllers
         [HttpPost]
         public JsonResult GetCODEJournal(/*string baseName,*/SI_USERS suser)
         {
-            
             var exist = db.SI_USERS.FirstOrDefault(a => a.LOGIN == suser.LOGIN && a.PWD == suser.PWD && a.DELETIONDATE == null/* && a.IDSOCIETE == suser.IDSOCIETE*/);
             if (exist == null) return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Problème de connexion. " }, settings));
             var basename = GetTypeP(suser);
             if (basename == null)
             {
-                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
             }
             #region comms
             //if (baseName == "1")
@@ -330,7 +329,7 @@ namespace apptab.Controllers
             int crpt = exist.IDPROJET.Value;
             //Check si le projet est mappé à une base de données TOM²PRO//
             if (db.SI_MAPPAGES.FirstOrDefault(a => a.IDPROJET == crpt) == null)
-                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Le projet n'est pas mappé à une base de données TOM²PRO. " }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Le projet n'est pas mappé à une base de données TOM²PRO. " }, settings));
 
             SOFTCONNECTOM.connex = new Data.Extension().GetCon(crpt);
             SOFTCONNECTOM tom = new SOFTCONNECTOM();
@@ -351,7 +350,7 @@ namespace apptab.Controllers
             var basename = GetTypeP(suser);
             if (basename == null)
             {
-                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
             }
 
             int baseId = int.Parse(basename);
@@ -385,7 +384,7 @@ namespace apptab.Controllers
             var basename = GetTypeP(suser);
             if (basename == null)
             {
-                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
             }
 
             if (string.IsNullOrEmpty(listCompte))
@@ -462,7 +461,7 @@ namespace apptab.Controllers
                         }
                         catch (Exception ex)
                         {
-                            return Json(JsonConvert.SerializeObject(new { type = "Error", msg = "Erreur de connexion", data = ex.Message }, settings));
+                            return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur de connexion", data = ex.Message }, settings));
                             throw;
                         }
                     }
@@ -502,7 +501,7 @@ namespace apptab.Controllers
             var basename = GetTypeP(suser);
             if (basename == null)
             {
-                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
             }
             if (basename == "2")
             {
@@ -529,7 +528,7 @@ namespace apptab.Controllers
             var basename = GetTypeP(suser);
             if (basename == null)
             {
-                return Json(JsonConvert.SerializeObject(new { type = "login", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Veuillez Parametrer le Types D'ecriture avant toutes Opérations." }, settings));
             }
             List<string> list = listCompte.Split(',').ToList();
             List<string> numBR = listCompte.Split(',').ToList();
@@ -561,7 +560,7 @@ namespace apptab.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return Json(JsonConvert.SerializeObject(new { type = "Error", msg = "Erreur de connexion", data = ex.Message }, settings));
+                        return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur de connexion", data = ex.Message }, settings));
                         throw;
                     }
                 }
@@ -646,7 +645,7 @@ namespace apptab.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return Json(JsonConvert.SerializeObject(new { type = "Error", msg = "Erreur de connexion", data = ex.Message }, settings));
+                        return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur de connexion", data = ex.Message }, settings));
                         throw;
                     }
                 }
@@ -714,7 +713,7 @@ namespace apptab.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return Json(JsonConvert.SerializeObject(new { type = "Error", msg = "Erreur de connexion", data = ex.Message }, settings));
+                        return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Erreur de connexion", data = ex.Message }, settings));
                         throw;
                     }
                     if (baseName == "2")
@@ -769,7 +768,7 @@ namespace apptab.Controllers
                 }
                 else
                 {
-                    return Json(JsonConvert.SerializeObject(new { type = "Error", msg = "Motif ET COMMENTAIRE OBLIGATOIR.", data = "" }, settings));
+                    return Json(JsonConvert.SerializeObject(new { type = "error", msg = "Motif ET COMMENTAIRE OBLIGATOIR.", data = "" }, settings));
                 }
 
                 return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succés.", data = "" }, settings));
@@ -796,7 +795,7 @@ namespace apptab.Controllers
             catch (Exception ex)
             {
 
-                return Json(JsonConvert.SerializeObject(new { type = "Error", msg = ex.Message, data = ex.Message }, settings));
+                return Json(JsonConvert.SerializeObject(new { type = "error", msg = ex.Message, data = ex.Message }, settings));
             }
 
 
@@ -988,7 +987,7 @@ namespace apptab.Controllers
                 }
             }
             db.SaveChanges();
-            return Json(JsonConvert.SerializeObject(new { msg = "Success", data = result, datebr = resultBR }));
+            return Json(JsonConvert.SerializeObject(new { msg = "success", data = result, datebr = resultBR }));
         }
         public JsonResult SFTP(string HOTE, string PATH, string USERFTP, string PWDFTP, string SOURCE)
         {
