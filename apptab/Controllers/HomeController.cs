@@ -277,8 +277,9 @@ namespace apptab.Controllers
         {
             var choixBase__ = GetTypeP(suser);
             AFB160 afb160 = new AFB160();
-            var hst = db.OPA_HISTORIQUE.Select(x => x.NUMENREG.ToString()).ToArray();
-            var list = afb160.getListEcritureCompta(journal, datein, dateout, comptaG, auxi, auxi1, dateP, suser).Where(x => !hst.Contains(x.No.ToString())).ToList();
+            //var hst = db.OPA_HISTORIQUE.Select(x => x.NUMENREG.ToString()).ToArray();
+            var hstSiig = db.OPA_VALIDATIONS.Where(x => x.ETAT != 4).Select(x => x.IDREGLEMENT.ToString()).ToArray();
+            var list = afb160.getListEcritureCompta(journal, datein, dateout, comptaG, auxi, auxi1, dateP, suser).Where(x => !hstSiig.Contains(x.No.ToString())).ToList();
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
 
         }
@@ -287,8 +288,10 @@ namespace apptab.Controllers
         {
             var choixBase__ = GetTypeP(suser);
             AFB160 afb160 = new AFB160();
-            var hst = db.OPA_HISTORIQUEBR.Where(x => x.IDSOCIETE == suser.IDPROJET).Select(x => x.NUMENREG.ToString()).ToArray();
-            var list = afb160.getListEcritureBR(journal, datein, dateout, devise, comptaG, auxi, etat, dateP, suser).Where(x => !hst.Contains(x.No.ToString())).ToList();
+            //var hst = db.OPA_HISTORIQUEBR.Where(x => x.IDSOCIETE == suser.IDPROJET).Select(x => x.NUMENREG.ToString()).ToArray();
+            var hstSiig = db.OPA_VALIDATIONS.Where(x => x.ETAT != 4).Select(x => x.IDREGLEMENT.ToString()).ToArray();
+
+            var list = afb160.getListEcritureBR(journal, datein, dateout, devise, comptaG, auxi, etat, dateP, suser).Where(x => !hstSiig.Contains(x.No.ToString())).ToList();
             return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès. ", data = list }, settings));
 
         }
@@ -416,6 +419,7 @@ namespace apptab.Controllers
             //    return Json(JsonConvert.SerializeObject(new { type = "success", msg = "Connexion avec succès.", data = listReg }, settings));
             //}
             #endregion
+            
             OPA_VALIDATIONS avalider = new OPA_VALIDATIONS();
             if (basename == "2")
             {
