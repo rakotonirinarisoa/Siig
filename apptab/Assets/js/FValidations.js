@@ -29,7 +29,7 @@ $(document).ready(() => {
 
     /*console.log($(`[tab="autre"]`).hide());*/
     
-    GetUR();
+    //GetUR();
     GetListCodeJournal();
     //GetListCompG();
 });
