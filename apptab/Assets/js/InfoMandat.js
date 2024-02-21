@@ -3,7 +3,7 @@ let Origin;
 
 $(document).ready(async() => {
     User = JSON.parse(sessionStorage.getItem("user"));
-    if (User == null || User === "undefined") window.location = "../";
+    if (User == null || User === "undefined") window.location = User.origin;
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
@@ -129,6 +129,11 @@ $('#proj').on('change', async () => {
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             if (Datas.type == "success") {
@@ -303,7 +308,11 @@ async function GetListMANDATP() {
                 alert(Datas.msg);
                 return;
             }
-
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResult = Datas.data
@@ -435,6 +444,11 @@ $('[data-action="SearchPROJET"]').click(async function () {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResult = Datas.data
@@ -532,6 +546,11 @@ function deleteUser(id) {
                 GetUsers(undefined);
                 GetListMANDATP();
 
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             else {

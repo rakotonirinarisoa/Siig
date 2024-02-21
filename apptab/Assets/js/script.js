@@ -33,12 +33,12 @@ function GetUR() {
             var Datas = JSON.parse(result);
             /*console.log(Datas)*/
             if (Datas.type == "error") {
-                //alert(Datas.msg);
+                alert(Datas.msg);
                 return;
             }
             if (Datas.type == "login") {
-                //alert(Datas.msg);
-                //window.location = window.location.origin;
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
 

@@ -20,7 +20,7 @@ let etaCode;
 $(document).ready(() => {
 
     User = JSON.parse(sessionStorage.getItem("user"));
-    if (User == null || User === "undefined") window.location = "../";
+    if (User == null || User === "undefined") window.location = User.origin;
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
@@ -56,6 +56,11 @@ function ChargeLoad() {
 
                 if (Datas.type == "error") {
                     alert(Datas.msg);
+                    return;
+                }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
                     return;
                 }
                 if (Datas.type == "success") {
@@ -124,6 +129,11 @@ function ChargeLoad() {
 
                 if (Datas.type == "error") {
                     alert(Datas.msg);
+                    return;
+                }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
                     return;
                 }
                 if (Datas.type == "success") {
@@ -415,6 +425,11 @@ $('[data-action="ChargerJs"]').click(function () {
                     alert(Datas.msg);
                     return;
                 }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
+                    return;
+                }
                 if (Datas.type == "success") {
                     //window.location = window.location.origin;
                     ListResult = Datas.data
@@ -480,6 +495,11 @@ $('[data-action="ChargerJs"]').click(function () {
 
                 if (Datas.type == "error") {
                     alert(Datas.msg);
+                    return;
+                }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
                     return;
                 }
                 if (Datas.type == "success") {
@@ -560,6 +580,11 @@ function modalREJET(id) {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
 
             $(`[data-id="MOTIF-list"]`).text("");
 
@@ -610,6 +635,11 @@ function AcceptRefuser() {
             contentAnomalies = ``;
             if (Datas.type == "error") {
                 alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             if (Datas.type == "success") {
@@ -707,6 +737,11 @@ $('[data-action="GetAnomalieListes"]').click(function () {
             contentAnomalies = ``;
             if (Datas.type == "error") {
                 alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             if (Datas.type == "success") {

@@ -23,9 +23,11 @@ function GetFileUrlOrgF() {
             //urlOrigin = Datas.data,
              
             if (Datas.type == "error") {
+                alert(Datas.msg);
                 return;
             }
             if (Datas.type == "login") {
+                alert(Datas.msg);
                 return;
             }
             
@@ -58,9 +60,11 @@ $(`[login_connect]`).click(() => {
             console.log(Datas);
 
             if (Datas.type == "error") {
-
                 alert(Datas.msg);
-                //alert("Vérifiez vos identifiants");
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
                 return;
             }
 

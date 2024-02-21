@@ -34,6 +34,11 @@ function modalF(id) {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResult = Datas.data

@@ -5,7 +5,7 @@ let table;
 
 $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
-    if (User == null || User === "undefined") window.location = "../";
+    if (User == null || User === "undefined") window.location = User.origin;
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
@@ -42,6 +42,11 @@ function IsProjet() {
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
 
@@ -190,6 +195,11 @@ $('[data-action="GenereR"]').click(async function () {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResult = Datas.data
@@ -273,6 +283,11 @@ function GetListLOAD() {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResult = Datas.data
@@ -354,6 +369,11 @@ function GetListLOADOTHER() {
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             if (Datas.type == "success") {
@@ -444,6 +464,11 @@ $('[data-action="GenereSIIGOTHER"]').click(function () {
                 alert(Datas.msg);
                 return;
             }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
             if (Datas.type == "success") {
                 //window.location = window.location.origin;
                 ListResult = Datas.data
@@ -530,6 +555,11 @@ $('[data-action="GenereSIIG"]').click(function () {
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             if (Datas.type == "success") {

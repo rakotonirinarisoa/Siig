@@ -20,7 +20,7 @@ let etaCode;
 $(document).ready(() => {
 
     User = JSON.parse(sessionStorage.getItem("user"));
-    if (User == null || User === "undefined") window.location = "../";
+    if (User == null || User === "undefined") window.location = User.origin;
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
@@ -53,7 +53,6 @@ function GetListCompG() {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -87,7 +86,7 @@ function GetListCompG() {
 
 function FillAUXI() {
     var list = ListCompteG.filter(x => x.COGE == $(`[compG-list]`).val()).pop();
-    console.log(list);
+
     let code = `<option value="Tous"> Tous</option> `;
     $.each(list.AUXI, function (k, v) {
         code += `
@@ -119,6 +118,8 @@ function GetEtat() {
                 return;
             }
             if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             etaCode = `<option value = "Tous" > Tous</option> `;
@@ -166,7 +167,6 @@ function GetListCodeJournal() {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -211,16 +211,13 @@ $(document).on("click", "[data-target]", function () {
 
         $(`[data-type="switch_tab"]`).each(function (i) {
             if ($(this).hasClass('active')) {
-
-                console.log($(this));
+                
                 $(this).removeClass('active');
                 $(`#${$(this).attr("data-target")}`).hide();
             }
         });
         $(me).addClass("active");
         $(target).show();
-
-
     }
 });
 
@@ -257,16 +254,19 @@ function chargeLoad() {
             processData: false,
             success: function (result) {
                 var Datas = JSON.parse(result);
-                console.log(Datas.data);
 
                 if (Datas.type == "error") {
                     alert(Datas.msg);
                     return;
                 }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
+                    return;
+                }
                 if (Datas.type == "success") {
                     //window.location = window.location.origin;
                     ListResult = Datas.data
-                    console.log(ListResult);
                     $.each(ListResult, function (k, v) {
                         content += `
                     <tr compteG-id="${v.IDREGLEMENT}">
@@ -295,8 +295,6 @@ function chargeLoad() {
                     $('.afb160').empty();
                     $('.afb160').html(content);
                 }
-
-
             },
             error: function () {
                 alert("Problème de connexion. ");
@@ -316,10 +314,14 @@ function chargeLoad() {
             processData: false,
             success: function (result) {
                 var Datas = JSON.parse(result);
-                console.log(Datas);
 
                 if (Datas.type == "error") {
                     alert(Datas.msg);
+                    return;
+                }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
                     return;
                 }
                 if (Datas.type == "success") {
@@ -355,8 +357,6 @@ function chargeLoad() {
                     $('.afb160').html(content);
 
                 }
-
-
             },
             error: function () {
                 alert("Problème de connexion. ");
@@ -394,16 +394,19 @@ $('[data-action="ChargerJs"]').click(function () {
             processData: false,
             success: function (result) {
                 var Datas = JSON.parse(result);
-                console.log(Datas.data);
                 $('.afb160').html('');
                 if (Datas.type == "error") {
                     alert(Datas.msg);
                     return;
                 }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
+                    return;
+                }
                 if (Datas.type == "success") {
                     //window.location = window.location.origin;
                     ListResult = Datas.data
-                    console.log(ListResult);
                     content = ``;
                     $.each(ListResult, function (k, v) {
                         content += `
@@ -463,10 +466,14 @@ $('[data-action="ChargerJs"]').click(function () {
             processData: false,
             success: function (result) {
                 var Datas = JSON.parse(result);
-                console.log(Datas);
 
                 if (Datas.type == "error") {
                     alert(Datas.msg);
+                    return;
+                }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
                     return;
                 }
                 if (Datas.type == "success") {
@@ -543,10 +550,14 @@ function modalREJET(id) {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
 
@@ -593,7 +604,6 @@ function AcceptRefuser() {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             ListResultAnomalie = "";
             contentAnomalies = ``;
@@ -605,7 +615,11 @@ function AcceptRefuser() {
                 $(`[compteG-id="${id}"]`).remove();
                 $('#F-modal').modal('toggle');
             }
-
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
+                return;
+            }
         },
         error: function () {
             alert("Problème de connexion. ");
@@ -622,7 +636,6 @@ $('[data-action="GetElementChecked"]').click(function () {
     });
 
     let formData = new FormData();
-    console.log(list);
     let listid = list.splice(',');
 
     formData.append("suser.LOGIN", User.LOGIN);
@@ -663,7 +676,6 @@ $('[data-action="GetElementChecked"]').click(function () {
             var Datas = JSON.parse(result);
             reglementresult = ``;
             reglementresult = Datas.data;
-            console.log(reglementresult);
             $.each(listid, (k, v) => {
                 $(`[compteG-id="${v}"]`).remove();
             });
@@ -694,12 +706,16 @@ $('[data-action="GetAnomalieListes"]').click(function () {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             ListResultAnomalie = "";
             contentAnomalies = ``;
             if (Datas.type == "error") {
                 alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             if (Datas.type == "success") {

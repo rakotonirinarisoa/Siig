@@ -23,7 +23,7 @@ var baseName;
 $(document).ready(() => {
 
     User = JSON.parse(sessionStorage.getItem("user"));
-    if (User == null || User === "undefined") window.location = "../";
+    if (User == null || User === "undefined") window.location = User.origin;
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
@@ -55,7 +55,6 @@ function GetTypeP() {
         success: function (result) {
             var Datas = JSON.parse(result);
             baseName = Datas;
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -91,7 +90,6 @@ function GetListCompG() {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -126,7 +124,7 @@ function GetListCompG() {
 
 function FillAUXI() {
     var list = ListCompteG.filter(x => x.COGE == $(`[compG-list]`).val()).pop();
-    console.log(list);
+
     let code = `<option value="Tous"> Tous</option> `;
     $.each(list.AUXI, function (k, v) {
         code += `
@@ -206,7 +204,6 @@ function GetListCodeJournal() {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             if (Datas.type == "error") {
                 alert(Datas.msg);
@@ -217,7 +214,7 @@ function GetListCodeJournal() {
                 window.location = window.location.origin;
                 return;
             }
-
+            
             let code = ``;
             ListCodeJournal = Datas.data;
 
@@ -251,8 +248,7 @@ $(document).on("click", "[data-target]", function () {
 
         $(`[data-type="switch_tab"]`).each(function (i) {
             if ($(this).hasClass('active')) {
-
-                console.log($(this));
+                
                 $(this).removeClass('active');
                 $(`#${$(this).attr("data-target")}`).hide();
             }
@@ -321,10 +317,14 @@ $('[data-action="ChargerJs"]').click(function () {
             processData: false,
             success: function (result) {
                 var Datas = JSON.parse(result);
-                console.log("anomalie" + Datas);
 
                 if (Datas.type == "error") {
                     alert(Datas.msg);
+                    return;
+                }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
                     return;
                 }
                 if (Datas.type == "success") {
@@ -390,10 +390,14 @@ $('[data-action="ChargerJs"]').click(function () {
             processData: false,
             success: function (result) {
                 var Datas = JSON.parse(result);
-                console.log(Datas);
 
                 if (Datas.type == "error") {
                     alert(Datas.msg);
+                    return;
+                }
+                if (Datas.type == "login") {
+                    alert(Datas.msg);
+                    window.location = window.location.origin;
                     return;
                 }
                 if (Datas.type == "success") {
@@ -449,7 +453,7 @@ $('[data-action="GetElementChecked"]').click(function () {
     });
 
     let formData = new FormData();
-    console.log(list);
+
     formData.append("suser.LOGIN", User.LOGIN);
     formData.append("suser.PWD", User.PWD);
     formData.append("suser.ROLE", User.ROLE);
@@ -505,12 +509,16 @@ $('[data-action="GetAnomalieListes"]').click(function () {
         processData: false,
         success: function (result) {
             var Datas = JSON.parse(result);
-            console.log(Datas);
 
             ListResultAnomalie = "";
             contentAnomalies = ``;
             if (Datas.type == "error") {
                 alert(Datas.msg);
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
             if (Datas.type == "success") {
@@ -571,6 +579,11 @@ function getelementTXT(a) {
             var Datas = JSON.parse(result);
             alert(Datas.data)
             if (Datas.type == "error") {
+                return;
+            }
+            if (Datas.type == "login") {
+                alert(Datas.msg);
+                window.location = window.location.origin;
                 return;
             }
 

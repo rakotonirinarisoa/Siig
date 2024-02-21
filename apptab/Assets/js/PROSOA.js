@@ -4,7 +4,7 @@ let Origin;
 $(document).ready(() => {
     User = JSON.parse(sessionStorage.getItem("user"));
     console.log(User);
-    if (User == null || User === "undefined") window.location = "../";
+    if (User == null || User === "undefined") window.location = User.origin;
     Origin = User.origin;
 
     $(`[data-id="username"]`).text(User.LOGIN);
